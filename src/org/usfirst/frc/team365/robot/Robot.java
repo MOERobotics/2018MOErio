@@ -12,132 +12,110 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the IterativeRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.properties file in the
- * project.
- */
-public class Robot extends TimedRobot implements PIDOutput {
-	AHRS navX = new AHRS(SPI.Port.kMXP, (byte) 50);
-
-	TalonSRX driveLA = new TalonSRX(12);
-	TalonSRX driveLB = new TalonSRX(13);
-	TalonSRX driveLC = new TalonSRX(14);
-	TalonSRX driveRA = new TalonSRX(1);
-	TalonSRX driveRB = new TalonSRX(2);
-	TalonSRX driveRC = new TalonSRX(3);
+public class Robot extends IterativeRobot {
+	//Motors
+	//TL;DR: Double braces after a new object let you run commands on object immediately after the object is constructed.
+	//Longer answer: Anonymous default constructor for anonymous class implementing given class
+	TalonSRX driveLA = new TalonSRX(12) {{ setNeutralMode(NeutralMode.Brake); }};
+	TalonSRX driveLB = new TalonSRX(13) {{ setNeutralMode(NeutralMode.Brake); }};
+	TalonSRX driveLC = new TalonSRX(14) {{ setNeutralMode(NeutralMode.Brake); }};
+	TalonSRX driveRA = new TalonSRX( 1) {{ setNeutralMode(NeutralMode.Brake); }};
+	TalonSRX driveRB = new TalonSRX( 2) {{ setNeutralMode(NeutralMode.Brake); }};
+	TalonSRX driveRC = new TalonSRX( 3) {{ setNeutralMode(NeutralMode.Brake); }};
 
 	TalonSRX collector = new TalonSRX(0);
 	TalonSRX indexer   = new TalonSRX(5);
 
-	Encoder distanceL = new Encoder(0, 1, false, EncodingType.k1X);
-	Encoder distanceR = new Encoder(2, 3, true, EncodingType.k1X);
+	//Sensors
+	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 50);
+	AnalogInput  readSonar  = new AnalogInput(1);
+	DigitalInput ballSensor = new DigitalInput(7);
+	Encoder      distanceL  = new Encoder(0, 1, false, EncodingType.k1X);
+	Encoder      distanceR  = new Encoder(2, 3,  true, EncodingType.k1X);
 
+	//Joysticks
 	Joystick driveStick = new Joystick(0);
 
-	AnalogInput readSonar = new AnalogInput(1);
-	DigitalInput ballSensor = new DigitalInput(7);
-
+	//Global Variables
+	int autoStep    = 0;
+	int autoRoutine = 0;
 	Timer autoTimer = new Timer();
 
-	PIDController driveStraight;
-	PIDController turnRobot;
+	//PID Controllers
+	double
+		straightP = 0,
+		straightI = 0,
+		straightD = 0;
+	PIDCorrection driveStraightCorrection = new PIDCorrection();
+	PIDController driveStraight = new PIDController(
+			straightP,
+			straightI,
+			straightD,
+			navX,
+			driveStraightCorrection,
+			0.020
+	) {{
+		setInputRange(-180.0, 180.0);
+		setOutputRange(-1.0, 1.0);
+		setContinuous();
+		enable();
+	}};
 
-	double kProp = 0.08;
-	double kInt  = 0.0005;
-	double kDer  = 0.05;
-	double turnProp = 0.05;
-	double startPower;
-	double straightSum;
-	double lastYaw;
-	double lastTime;
-	double turnSum;
-	double lastOffYaw;
-	int autoStep;
-	int onCount;
-	int autoRoutine = 0;
 
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
-	 */
+	double
+		turnP = 0,
+		turnI = 0,
+		turnD = 0;
+	PIDCorrection turnRobotCorrection = new PIDCorrection();
+	PIDController turnRobot  = new PIDController(
+			turnP,
+			turnI,
+			turnD,
+			navX,
+			turnRobotCorrection,
+			0.020
+	) {{
+		setInputRange(-180.0, 180.0);
+		setOutputRange(-0.6, 0.6);
+		setContinuous();
+		enable();
+	}};
+
+
+
+	/**********
+	 * Global *
+	 **********/
+
 	@Override
 	public void robotInit() {
-
 		driveRA.setInverted(true);
 		driveRB.setInverted(true);
 		driveRC.setInverted(true);
 
-		driveLA.setNeutralMode(NeutralMode.Brake);
-		driveLB.setNeutralMode(NeutralMode.Brake);
-		driveLC.setNeutralMode(NeutralMode.Brake);
-		driveRA.setNeutralMode(NeutralMode.Brake);
-		driveRB.setNeutralMode(NeutralMode.Brake);
-		driveRC.setNeutralMode(NeutralMode.Brake);
-
-		driveStraight = new PIDController(
-			kProp, 
-			kInt, 
-			kDer,
-			navX, 
-			this, 
-			0.020
-		);
-		driveStraight.setInputRange(-180.0, 180.0);
-		driveStraight.setOutputRange(-1.0, 1.0);
-		driveStraight.setContinuous();
-
-		turnRobot = new PIDController(
-			turnProp, 
-			0, 
-			0,
-			navX, 
-			this, 
-			0.020
-		);
-		turnRobot.setInputRange(-180.0, 180.0);
-		turnRobot.setOutputRange(-0.6, 0.6);
-		turnRobot.setContinuous();
-
-
+		SmartDashboardUtil.dashboardInit(this);
 	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString line to get the auto name from the text box below the Gyro
-	 *
-	 * <p>You can add additional auto modes by adding additional comparisons to
-	 * the switch structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
-	 */
+	@Override
+	public void robotPeriodic() {
+		SmartDashboardUtil.dashboardPeriodic(this);
+	}
+
+
+	/************
+	 * Disabled *
+	 ************/
+
 	@Override
 	public void disabledInit() {
-		if (driveStraight.isEnabled()) {
-			driveStraight.disable();
-		}
-		if (turnRobot.isEnabled()) {
-			turnRobot.disable();
-		}
+
 		autoTimer.start();
 	}
 
+	@Override
 	public void disabledPeriodic() {
 		if (driveStick.getRawButton(2)) {
 			distanceR.reset();
@@ -145,168 +123,133 @@ public class Robot extends TimedRobot implements PIDOutput {
 			navX.zeroYaw();
 		}
 		if (autoTimer.get() > 0.5) {
-			SmartDashboardPrint.printToSmartDashboard(this);
+			SmartDashboardUtil.printToSmartDashboard(this);
 			autoTimer.reset();
 		}
 		if (driveStick.getRawButton(6)) autoRoutine = 1;
 		if (driveStick.getRawButton(8)) autoRoutine = 2;
 	}
+
+
+
+	/**************
+	 * Autonomous *
+	 **************/
+
+	@Override
 	public void autonomousInit() {
 		autoStep = 1;
+		autoTimer.reset();
+		autoTimer.start();
+		SmartDashboardUtil.getFromSmartDashboard(this); //force update
+		driveStraight.setPID(
+			straightP,
+			straightI,
+			straightD
+		);
+		driveStraight.setPID(
+			turnP,
+			turnI,
+			turnD
+		);
 	}
 
-	/**
-	 * This function is called periodically during autonomous.
-	 */
 	@Override
 	public void autonomousPeriodic() {
 		switch(autoRoutine) {
 		case 1:
 			GoStraightAutonomous.autoGoStraightTest(this);
-		case 2:
-			MiddleStartAutonomous.autoMiddleStart(this);
 		case 3:
-			//this.doNothingRoutine();
 			DoNothingAutonomous.doNothingRoutine(this);
 		}
 
 	}
 
-	/**
-	 * This function is called periodically during operator control.
-	 */
+	/*****************
+	 * Tele-Operated *
+	 *****************/
+
+	@Override
+	public void teleopInit() {
+		SmartDashboardUtil.getFromSmartDashboard(this); //force update
+		driveStraight.setPID(
+			straightP,
+			straightI,
+			straightD
+		);
+		driveStraight.setPID(
+			turnP,
+			turnI,
+			turnD
+		);
+	}
+
 	@Override
 	public void teleopPeriodic() {
-
 		double yJoy = -driveStick.getY();
-		double xJoy = driveStick.getX();
+		double xJoy =  driveStick.getX();
 
 
-		if (driveStick.getRawButton(5))  {
-
-			if (driveStick.getRawButtonPressed(5))
-			{
-				straightSum = 0;
-				distanceR.reset();
-
-				SmartDashboard.putNumber("pressed", straightSum);
+		if (driveStick.getRawButton(6)) {
+			if (driveStick.getRawButtonPressed(6)) {
+				turnRobot.setSetpoint(45);
+				resetPIDController(turnRobot);
 			}
-
-			autoStraight(0,0.4);
-		}
-
-		else if (driveStick.getRawButton(6)) {
-			autoTurnToAngle(45);
-		}
-		else if (driveStick.getRawButton(7))  {
-			if (driveStick.getRawButtonPressed(7))
-			{
-				straightSum = 0;
-				distanceR.reset();
-				//				SmartDashboard.putNumber("pressed", straightSum);
-			}
-			autoStraight(45,0.5);
+			driveRobot(
+				0.0 + (turnRobotCorrection.correctionValue * 0.3),
+				0.0 - (turnRobotCorrection.correctionValue * 0.3)
+			);
 		}
 		else if (driveStick.getRawButton(8)) {
-			autoTurnToAngle(0);
+			if (driveStick.getRawButtonPressed(8)) {
+				turnRobot.setSetpoint(0);
+				resetPIDController(turnRobot);
+			}
+			driveRobot(
+				0.0 + (turnRobotCorrection.correctionValue * 0.3),
+				0.0 - (turnRobotCorrection.correctionValue * 0.3)
+			);
 		}
-		else if (driveStick.getTrigger()) {  //drive robot straight
-			driveRobot(yJoy, yJoy);
-
+		else if (driveStick.getTrigger()) {
+			if (driveStick.getRawButtonPressed(8)) {
+				turnRobot.setSetpoint(0);
+				resetPIDController(turnRobot);
+			}
+			driveRobot(
+				0.3 + (driveStraightCorrection.correctionValue * 0.1),
+				0.3 - (driveStraightCorrection.correctionValue * 0.1)
+			);
 		}
 		else if (driveStick.getRawButton(2)) {  //turn robot left
-			driveRobot(-0.4,0.4);
+			driveRobot(-0.3,0.3);
 		}
 		else if (driveStick.getRawButton(4)) {
-			driveRobot(0.4,-0.4);
+			driveRobot(0.3,-0.3);
 		}
 		else {
 			double left = yJoy + xJoy;
 			double right = yJoy - xJoy;
 			driveRobot(left, right);
 		}
-		//		double loopTime = autoTimer.get() - currentTime;
-		double newAccel = navX.getWorldLinearAccelX();
-
-		if (autoTimer.get() > 0) {
-			SmartDashboardPrint.printToSmartDashboard(this);
-
-		}
 
 	}
-	
 
-	/**
-	 * This function is called periodically during test mode.
-	 */
-	@Override
-	public void testPeriodic() {
+
+	/******************
+	 * Misc Functions *
+	 ******************/
+	static void resetPIDController(PIDController pid) {
+		pid.reset();
+		pid.enable();
 	}
 
-	void driveRobot(double leftP, double rightP) {
-		driveLA.set(ControlMode.PercentOutput, leftP);
-		driveLB.set(ControlMode.PercentOutput, leftP);
-		driveLC.set(ControlMode.PercentOutput, leftP);
-		driveRA.set(ControlMode.PercentOutput, rightP);
-		driveRB.set(ControlMode.PercentOutput, rightP);
-		driveRC.set(ControlMode.PercentOutput, rightP);
-	}
-
-	public void pidWrite(double output) {
-		double rightSide = startPower - output;
-		double leftSide = startPower + output;
-		driveRobot(leftSide,rightSide);
-	}
-	
-
-	void autoStraight(double setYaw, double speed) {
-		double currentYaw = navX.getYaw();
-		double offYaw = setYaw - currentYaw;
-
-		//	if (offYaw > 0.5 || offYaw < -0.5) {
-		if (offYaw < 2 && offYaw > -2) {
-			straightSum = straightSum + kInt * offYaw;
-
-		}
-		//		}
-		//		else offYaw = 0;
-
-		double newPower = kProp * offYaw + straightSum + kDer * (offYaw - lastYaw);
-		if (newPower < -1.0) newPower = -1.0;
-		else if (newPower > 1.0) newPower = 1.0;
-		double leftSide = speed + newPower;
-		double rightSide = speed - newPower;
-		driveRobot(leftSide, rightSide);
-		lastYaw = currentYaw;
-	}
-	
-	
-
-	void autoTurnToAngle(double desiredYaw) {
-		double currentYaw = navX.getYaw();
-		double offYaw = desiredYaw - currentYaw;
-
-		if (offYaw * lastOffYaw <= 0) {
-			turnSum = 0;
-		}
-
-
-		if (offYaw > 1 || offYaw < -1) {
-			//			if (offYaw < 20 && offYaw > -20) {
-			//				if (offYaw > 0) turnSum = turnSum + 0.01;
-			//				else turnSum = turnSum - 0.01;
-			//			}
-			double newPower = 0.05*offYaw + turnSum + kDer*(offYaw - lastOffYaw);
-			if (newPower > 0.6) newPower = 0.6;
-			else if (newPower < -0.6) newPower = -0.6;
-
-			driveRobot(newPower, -newPower);
-
-		}
-		else {
-			driveRobot(0,0);
-		}
-		lastOffYaw = offYaw;
+	void driveRobot(double leftPower, double rightPower) {
+		driveLA.set(ControlMode.PercentOutput,  leftPower);
+		driveLB.set(ControlMode.PercentOutput,  leftPower);
+		driveLC.set(ControlMode.PercentOutput,  leftPower);
+		driveRA.set(ControlMode.PercentOutput, rightPower);
+		driveRB.set(ControlMode.PercentOutput, rightPower);
+		driveRC.set(ControlMode.PercentOutput, rightPower);
 	}
 
 }
