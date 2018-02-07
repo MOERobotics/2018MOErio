@@ -147,7 +147,7 @@ public class Robot extends IterativeRobot {
 			straightI,
 			straightD
 		);
-		driveStraight.setPID(
+		turnRobot.setPID(
 			turnP,
 			turnI,
 			turnD
