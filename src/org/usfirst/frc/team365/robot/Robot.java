@@ -40,9 +40,15 @@ public class Robot extends IterativeRobot {
 	Joystick driveStick = new Joystick(0);
 
 	//Global Variables
-	int autoStep    = 0;
-	int autoRoutine = 0;
-	Timer autoTimer = new Timer();
+	int    autoStep      = 0;
+	int    autoRoutine   = 0;
+	Timer  autoTimer     = new Timer();
+
+	//Output Storage
+	String statusMessage = "We use this to know what the status of the robot is";
+	double
+		driveOutputLeft  = 0.0,
+		driveOutputRight = 0.0;
 
 	//PID Controllers
 	double
@@ -103,6 +109,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotPeriodic() {
 		SmartDashboardUtil.dashboardPeriodic(this);
+		statusMessage = "Everything is good!"; //If this isn't still good when you print it again, we did something bad.
 	}
 
 
@@ -123,10 +130,6 @@ public class Robot extends IterativeRobot {
 			distanceL.reset();
 			navX.zeroYaw();
 		}
-		if (autoTimer.get() > 0.5) {
-			SmartDashboardUtil.printToSmartDashboard(this);
-			autoTimer.reset();
-		}
 		if (driveStick.getRawButton(6)) autoRoutine = 1;
 		if (driveStick.getRawButton(8)) autoRoutine = 2;
 	}
@@ -140,12 +143,16 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autoStep = 1;
+
 		navX.zeroYaw();
 		distanceL.reset();
 		distanceR.reset();
+
 		autoTimer.reset();
 		autoTimer.start();
+
 		SmartDashboardUtil.getFromSmartDashboard(this); //force update
+
 		driveStraight.setPID(
 			straightP,
 			straightI,
@@ -161,12 +168,15 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		switch(autoRoutine) {
-		case 1:
-			GoStraightAutonomous.autoGoStraightTest(this);
-			break;
-		case 3:
-			DoNothingAutonomous.doNothingRoutine(this);
-			break;
+			case 1:
+				GoStraightAutonomous.autoGoStraightTest(this);
+				break;
+			case 3:
+				DoNothingAutonomous.doNothingRoutine(this);
+				break;
+			default:
+				statusMessage = "WARNING: We tried to run an invalid autonomous program!";
+				break;
 		}
 
 	}
@@ -244,12 +254,16 @@ public class Robot extends IterativeRobot {
 	/******************
 	 * Misc Functions *
 	 ******************/
+
+	//blah blah extension functions blah blah use a better language
 	static void resetPIDController(PIDController pid) {
 		pid.reset();
 		pid.enable();
 	}
 
 	void driveRobot(double leftPower, double rightPower) {
+		driveOutputLeft  = leftPower;
+		driveOutputRight = rightPower;
 		driveLA.set(ControlMode.PercentOutput,  leftPower);
 		driveLB.set(ControlMode.PercentOutput,  leftPower);
 		driveLC.set(ControlMode.PercentOutput,  leftPower);

@@ -45,21 +45,24 @@ public class SmartDashboardUtil {
 	}
 
 	static void printToSmartDashboard(Robot ourselves) {
+		SmartDashboard.putString(           "status", ourselves.statusMessage                 );
 		//parts
-		SmartDashboard.putNumber(    "distRight", ourselves.distanceR.getRaw()            );
-		SmartDashboard.putNumber(     "distLeft", ourselves.distanceL.getRaw()            );
+		SmartDashboard.putNumber(        "distRight", ourselves.distanceR.getRaw()            );
+		SmartDashboard.putNumber(         "distLeft", ourselves.distanceL.getRaw()            );
+		SmartDashboard.putNumber(  "driveOutputLeft", ourselves.driveOutputLeft               );
+		SmartDashboard.putNumber( "driveOutputRight", ourselves.driveOutputRight              );
 
 		//navx
-		SmartDashboard.putNumber(          "Yaw", ourselves.navX.getYaw()                 );
-		SmartDashboard.putNumber("accelerationX", ourselves.navX.getWorldLinearAccelX()   );
-		SmartDashboard.putNumber("accelerationY", ourselves.navX.getWorldLinearAccelY()   );
+		SmartDashboard.putNumber(              "Yaw", ourselves.navX.getYaw()                 );
+		SmartDashboard.putNumber(    "accelerationX", ourselves.navX.getWorldLinearAccelX()   );
+		SmartDashboard.putNumber(    "accelerationY", ourselves.navX.getWorldLinearAccelY()   );
 
 		//sensors
-		SmartDashboard.putNumber( "sonarVoltage", ourselves.readSonar.getAverageVoltage() );
+		SmartDashboard.putNumber(     "sonarVoltage", ourselves.readSonar.getAverageVoltage() );
 
 		//auto
-		SmartDashboard.putNumber(  "autoRoutine", ourselves.autoRoutine                   );
-		SmartDashboard.putNumber(     "autoStep", ourselves.autoStep                      );
-		SmartDashboard.putNumber(    "AutoTimer", ourselves.autoTimer.get()               );
+		SmartDashboard.putNumber(      "autoRoutine", ourselves.autoRoutine                   );
+		SmartDashboard.putNumber(         "autoStep", ourselves.autoStep                      );
+		SmartDashboard.putNumber(        "AutoTimer", ourselves.autoTimer.get()               );
 	}
 }
