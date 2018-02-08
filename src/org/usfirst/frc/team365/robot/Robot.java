@@ -46,8 +46,8 @@ public class Robot extends IterativeRobot {
 
 	//PID Controllers
 	double
-		straightP = 0,
-		straightI = 0,
+		straightP = 0.08,
+		straightI = 0.0005,
 		straightD = 0;
 	PIDCorrection driveStraightCorrection = new PIDCorrection();
 	PIDController driveStraight = new PIDController(
@@ -66,9 +66,9 @@ public class Robot extends IterativeRobot {
 
 
 	double
-		turnP = 0,
+		turnP = 0.05,
 		turnI = 0,
-		turnD = 0;
+		turnD = 0.03;
 	PIDCorrection turnRobotCorrection = new PIDCorrection();
 	PIDController turnRobot  = new PIDController(
 			turnP,
@@ -79,11 +79,10 @@ public class Robot extends IterativeRobot {
 			0.020
 	) {{
 		setInputRange(-180.0, 180.0);
-		setOutputRange(-0.6, 0.6);
+		setOutputRange(-1.0, 1.0);
 		setContinuous();
 		enable();
 	}};
-
 
 
 	/**********
@@ -95,7 +94,7 @@ public class Robot extends IterativeRobot {
 		driveRA.setInverted(true);
 		driveRB.setInverted(true);
 		driveRC.setInverted(true);
-
+		turnRobot.setAbsoluteTolerance(3);
 		SmartDashboardUtil.dashboardInit(this);
 	}
 
@@ -139,28 +138,22 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autoStep = 1;
+		navX.zeroYaw();
+		resetEncoders();
 		autoTimer.reset();
 		autoTimer.start();
 		SmartDashboardUtil.getFromSmartDashboard(this); //force update
-		driveStraight.setPID(
-			straightP,
-			straightI,
-			straightD
-		);
-		driveStraight.setPID(
-			turnP,
-			turnI,
-			turnD
-		);
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 		switch(autoRoutine) {
 		case 1:
-			GoStraightAutonomous.autoGoStraightTest(this);
+			RightSwitchThenCube.run(this);
+			break;
 		case 3:
 			DoNothingAutonomous.doNothingRoutine(this);
+			break;
 		}
 
 	}
@@ -172,16 +165,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		SmartDashboardUtil.getFromSmartDashboard(this); //force update
-		driveStraight.setPID(
-			straightP,
-			straightI,
-			straightD
-		);
-		driveStraight.setPID(
-			turnP,
-			turnI,
-			turnD
-		);
 	}
 
 	@Override
@@ -251,5 +234,52 @@ public class Robot extends IterativeRobot {
 		driveRB.set(ControlMode.PercentOutput, rightPower);
 		driveRC.set(ControlMode.PercentOutput, rightPower);
 	}
+	
+	
+	/******************
+	 * Vasista's Auto Simplificatorator *
+	 ******************/
+	
+		int turnOnTargetCount = 0;
+		
+		public void goStraight(double ticks, double setPoint, double power) {
+			if (Math.abs(getEncoderMax())> ticks) {
+				driveRobot(0,0);
+				driveStraight.reset();
+				resetEncoders();
+				autoStep++;
+			} else {
+					driveStraight.setSetpoint(setPoint);
+					driveStraight.enable();
+
+				driveRobot(power + driveStraightCorrection.correctionValue, power - driveStraightCorrection.correctionValue);
+			}
+		}
+		
+		public void turnToAngle(double angle, double maxPower) {
+			if (turnRobot.onTarget()) {
+				turnOnTargetCount++;
+			}
+			if (turnOnTargetCount > 3) {
+				resetEncoders();
+				driveRobot(0,0);
+				turnOnTargetCount = 0;
+				autoStep++;
+				turnRobot.reset();
+			} else {
+				turnRobot.setSetpoint(angle);
+				turnRobot.enable();
+				driveRobot(turnRobotCorrection.correctionValue * Math.abs(maxPower), -turnRobotCorrection.correctionValue* Math.abs(maxPower));
+			}
+		}
+		
+		public void resetEncoders() {
+			distanceL.reset();
+			distanceR.reset();
+		}
+		
+		public double getEncoderMax() {
+			return (distanceL.getRaw() + distanceR.getRaw()) / 2.0;
+		}
 
 }
