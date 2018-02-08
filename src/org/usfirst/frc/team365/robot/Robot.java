@@ -46,8 +46,8 @@ public class Robot extends IterativeRobot {
 
 	//PID Controllers
 	double
-		straightP = 0,
-		straightI = 0,
+		straightP = 0.08,
+		straightI = 0.0005,
 		straightD = 0;
 	PIDCorrection driveStraightCorrection = new PIDCorrection();
 	PIDController driveStraight = new PIDController(
@@ -66,9 +66,9 @@ public class Robot extends IterativeRobot {
 
 
 	double
-		turnP = 0,
+		turnP = 0.05,
 		turnI = 0,
-		turnD = 0;
+		turnD = 0.03;
 	PIDCorrection turnRobotCorrection = new PIDCorrection();
 	PIDController turnRobot  = new PIDController(
 			turnP,
@@ -159,8 +159,10 @@ public class Robot extends IterativeRobot {
 		switch(autoRoutine) {
 		case 1:
 			GoStraightAutonomous.autoGoStraightTest(this);
+			break;
 		case 3:
 			DoNothingAutonomous.doNothingRoutine(this);
+			break;
 		}
 
 	}
