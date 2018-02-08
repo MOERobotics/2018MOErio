@@ -239,6 +239,8 @@ public class Robot extends IterativeRobot {
 	/******************
 	 * Vasista's Auto Simplificatorator *
 	 ******************/
+	public static final double INCHES_TO_ENCTICKS = 110;
+	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
 	
 		int turnOnTargetCount = 0;
 		
@@ -271,6 +273,10 @@ public class Robot extends IterativeRobot {
 				turnRobot.enable();
 				driveRobot(turnRobotCorrection.correctionValue * Math.abs(maxPower), -turnRobotCorrection.correctionValue* Math.abs(maxPower));
 			}
+		}
+		
+		public void turnToAngle(double angle) {
+			turnToAngle(angle, 1);
 		}
 		
 		public void resetEncoders() {
