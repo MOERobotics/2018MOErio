@@ -79,7 +79,8 @@ public class Robot extends IterativeRobot {
 			0.020
 	) {{
 		setInputRange(-180.0, 180.0);
-		setOutputRange(-0.6, 0.6);
+		setOutputRange(-1.0, 1.0);
+		setAbsoluteTolerance(3);
 		setContinuous();
 		enable();
 	}};
@@ -139,6 +140,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autoStep = 1;
+		navX.zeroYaw();
+		distanceL.reset();
+		distanceR.reset();
 		autoTimer.reset();
 		autoTimer.start();
 		SmartDashboardUtil.getFromSmartDashboard(this); //force update
