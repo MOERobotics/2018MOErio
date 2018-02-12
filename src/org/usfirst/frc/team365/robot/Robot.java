@@ -126,12 +126,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		if (driveStick.getRawButton(2)) {
-			distanceR.reset();
-			distanceL.reset();
+			resetEncoders();
 			navX.zeroYaw();
 		}
 		if (driveStick.getRawButton(6)) autoRoutine = 1;
 		if (driveStick.getRawButton(8)) autoRoutine = 2;
+		if (driveStick.getRawButton(10)) autoRoutine = 3;
+		if (driveStick.getRawButton(12)) autoRoutine = 4;
 	}
 
 
@@ -145,8 +146,7 @@ public class Robot extends IterativeRobot {
 		autoStep = 1;
 		
 		navX.zeroYaw();
-		distanceL.reset();
-		distanceR.reset();
+		resetEncoders();
 
 		autoTimer.reset();
 		autoTimer.start();
