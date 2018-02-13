@@ -43,7 +43,10 @@ public class Robot extends IterativeRobot {
 	int    autoStep      = 0;
 	int    autoRoutine   = 0;
 	Timer  autoTimer     = new Timer();
+	int autoLoopCounter = 0;
 
+	double startPower = .5;
+	
 	//Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
 	double
@@ -142,6 +145,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
+		autoLoopCounter = 0;
+		
 		autoStep = 1;
 
 		navX.zeroYaw();
@@ -167,6 +172,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+		autoLoopCounter ++;
 		switch(autoRoutine) {
 			case 1:
 				GoStraightAutonomous.autoGoStraightTest(this);
