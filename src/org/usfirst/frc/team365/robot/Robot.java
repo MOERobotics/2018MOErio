@@ -123,12 +123,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		if (driveStick.getRawButton(2)) {
-			distanceR.reset();
-			distanceL.reset();
+			resetEncoders();
 			navX.zeroYaw();
 		}
 		if (driveStick.getRawButton(6)) autoRoutine = 1;
 		if (driveStick.getRawButton(8)) autoRoutine = 2;
+		if (driveStick.getRawButton(10)) autoRoutine = 3;
+		if (driveStick.getRawButton(12)) autoRoutine = 4;
 	}
 
 
@@ -140,26 +141,15 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autoStep = 1;
-
+		
 		navX.zeroYaw();
-		distanceL.reset();
-		distanceR.reset();
+		resetEncoders();
 
 		autoTimer.reset();
 		autoTimer.start();
 
 		SmartDashboardUtil.getFromSmartDashboard(this); //force update
 
-		driveStraight.setPID(
-			straightP,
-			straightI,
-			straightD
-		);
-		turnRobot.setPID(
-			turnP,
-			turnI,
-			turnD
-		);
 	}
 
 	@Override
@@ -185,16 +175,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		SmartDashboardUtil.getFromSmartDashboard(this); //force update
-		driveStraight.setPID(
-			straightP,
-			straightI,
-			straightD
-		);
-		turnRobot.setPID(
-			turnP,
-			turnI,
-			turnD
-		);
 	}
 
 	@Override
@@ -271,5 +251,58 @@ public class Robot extends IterativeRobot {
 		elevatorOutput = power;
 		elevator.set(ControlMode.PercentOutput, power);
 	}
+	
+	
+	/******************
+	 * Vasista's Auto Simplificatorator *
+	 ******************/
+	public static final double INCHES_TO_ENCTICKS = 110;
+	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
+	
+		int turnOnTargetCount = 0;
+		
+		public void goStraight(double ticks, double setPoint, double power) {
+			if (Math.abs(getEncoderMax())> ticks) {
+				driveRobot(0,0);
+				driveStraight.reset();
+				resetEncoders();
+				autoStep++;
+			} else {
+					driveStraight.setSetpoint(setPoint);
+					driveStraight.enable();
+
+				driveRobot(power + driveStraightCorrection.correctionValue, power - driveStraightCorrection.correctionValue);
+			}
+		}
+		
+		public void turnToAngle(double angle, double maxPower) {
+			if (turnRobot.onTarget()) {
+				turnOnTargetCount++;
+			}
+			if (turnOnTargetCount > 3) {
+				resetEncoders();
+				driveRobot(0,0);
+				turnOnTargetCount = 0;
+				autoStep++;
+				turnRobot.reset();
+			} else {
+				turnRobot.setSetpoint(angle);
+				turnRobot.enable();
+				driveRobot(turnRobotCorrection.correctionValue * Math.abs(maxPower), -turnRobotCorrection.correctionValue* Math.abs(maxPower));
+			}
+		}
+		
+		public void turnToAngle(double angle) {
+			turnToAngle(angle, 1);
+		}
+		
+		public void resetEncoders() {
+			distanceL.reset();
+			distanceR.reset();
+		}
+		
+		public double getEncoderMax() {
+			return (distanceL.getRaw() + distanceR.getRaw()) / 2.0;
+		}
 
 }
