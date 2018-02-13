@@ -258,51 +258,51 @@ public class Robot extends IterativeRobot {
 	 ******************/
 	public static final double INCHES_TO_ENCTICKS = 110;
 	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
-	
-		int turnOnTargetCount = 0;
-		
-		public void goStraight(double ticks, double setPoint, double power) {
-			if (Math.abs(getEncoderMax())> ticks) {
-				driveRobot(0,0);
-				driveStraight.reset();
-				resetEncoders();
-				autoStep++;
-			} else {
-					driveStraight.setSetpoint(setPoint);
-					driveStraight.enable();
 
-				driveRobot(power + driveStraightCorrection.correctionValue, power - driveStraightCorrection.correctionValue);
-			}
+	int turnOnTargetCount = 0;
+
+	public void goStraight(double ticks, double setPoint, double power) {
+		if (Math.abs(getEncoderMax())> ticks) {
+			driveRobot(0,0);
+			driveStraight.reset();
+			resetEncoders();
+			autoStep++;
+		} else {
+				driveStraight.setSetpoint(setPoint);
+				driveStraight.enable();
+
+			driveRobot(power + driveStraightCorrection.correctionValue, power - driveStraightCorrection.correctionValue);
 		}
-		
-		public void turnToAngle(double angle, double maxPower) {
-			if (turnRobot.onTarget()) {
-				turnOnTargetCount++;
-			}
-			if (turnOnTargetCount > 3) {
-				resetEncoders();
-				driveRobot(0,0);
-				turnOnTargetCount = 0;
-				autoStep++;
-				turnRobot.reset();
-			} else {
-				turnRobot.setSetpoint(angle);
-				turnRobot.enable();
-				driveRobot(turnRobotCorrection.correctionValue * Math.abs(maxPower), -turnRobotCorrection.correctionValue* Math.abs(maxPower));
-			}
+	}
+
+	public void turnToAngle(double angle, double maxPower) {
+		if (turnRobot.onTarget()) {
+			turnOnTargetCount++;
 		}
-		
-		public void turnToAngle(double angle) {
-			turnToAngle(angle, 1);
+		if (turnOnTargetCount > 3) {
+			resetEncoders();
+			driveRobot(0,0);
+			turnOnTargetCount = 0;
+			autoStep++;
+			turnRobot.reset();
+		} else {
+			turnRobot.setSetpoint(angle);
+			turnRobot.enable();
+			driveRobot(turnRobotCorrection.correctionValue * Math.abs(maxPower), -turnRobotCorrection.correctionValue* Math.abs(maxPower));
 		}
-		
-		public void resetEncoders() {
-			distanceL.reset();
-			distanceR.reset();
-		}
-		
-		public double getEncoderMax() {
-			return (distanceL.getRaw() + distanceR.getRaw()) / 2.0;
-		}
+	}
+
+	public void turnToAngle(double angle) {
+		turnToAngle(angle, 1);
+	}
+
+	public void resetEncoders() {
+		distanceL.reset();
+		distanceR.reset();
+	}
+
+	public double getEncoderMax() {
+		return (distanceL.getRaw() + distanceR.getRaw()) / 2.0;
+	}
 
 }
