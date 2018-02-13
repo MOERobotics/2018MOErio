@@ -19,25 +19,19 @@ public class Robot extends IterativeRobot {
 	//Motors
 	//TL;DR: Double braces after a new object let you run commands on object immediately after the object is constructed.
 	//Longer answer: Anonymous default constructor for anonymous class implementing given class
-	TalonSRX driveLA = new TalonSRX(12) {{ setNeutralMode(NeutralMode.Brake); }};
-	TalonSRX driveLB = new TalonSRX(13) {{ setNeutralMode(NeutralMode.Brake); }};
-	TalonSRX driveLC = new TalonSRX(14) {{ setNeutralMode(NeutralMode.Brake); }};
-	TalonSRX driveRA = new TalonSRX( 1) {{ setNeutralMode(NeutralMode.Brake); }};
-	TalonSRX driveRB = new TalonSRX( 2) {{ setNeutralMode(NeutralMode.Brake); }};
-	TalonSRX driveRC = new TalonSRX( 3) {{ setNeutralMode(NeutralMode.Brake); }};
-
-	TalonSRX collector = new TalonSRX(0);
-	TalonSRX indexer   = new TalonSRX(5);
+	private TalonSRX driveLA  = new TalonSRX( 0) {{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX driveLB  = new TalonSRX(15) {{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX driveRA  = new TalonSRX( 1) {{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX driveRB  = new TalonSRX(14) {{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX elevator = new TalonSRX( 2) {{ setNeutralMode(NeutralMode.Brake); }};
 
 	//Sensors
 	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 50);
-	AnalogInput  readSonar  = new AnalogInput(1);
-	DigitalInput ballSensor = new DigitalInput(7);
 	Encoder      distanceL  = new Encoder(0, 1, false, EncodingType.k1X);
 	Encoder      distanceR  = new Encoder(2, 3,  true, EncodingType.k1X);
 
 	//Joysticks
-	Joystick driveStick = new Joystick(0);
+	private Joystick driveStick = new Joystick(0);
 
 	//Global Variables
 	int    autoStep      = 0;
@@ -48,7 +42,10 @@ public class Robot extends IterativeRobot {
 	String statusMessage = "We use this to know what the status of the robot is";
 	double
 		driveOutputLeft  = 0.0,
-		driveOutputRight = 0.0;
+		driveOutputRight = 0.0,
+		elevatorOutput   = 0.0;
+
+
 
 	//PID Controllers
 	double
@@ -99,10 +96,10 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-		driveRA.setInverted(true);
-		driveRB.setInverted(true);
-		driveRC.setInverted(true);
+		driveLA.setInverted(true);
+		driveLB.setInverted(true);
 
+		System.out.println("Itsa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
 	}
 
@@ -202,8 +199,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		double yJoy = -driveStick.getY();
-		double xJoy =  driveStick.getX();
+		double yJoy = driveStick.getY();
+		double xJoy = driveStick.getX();
 
 
 		if (driveStick.getRawButton(6)) {
@@ -243,8 +240,8 @@ public class Robot extends IterativeRobot {
 			driveRobot(0.3,-0.3);
 		}
 		else {
-			double left = yJoy + xJoy;
-			double right = yJoy - xJoy;
+			double left  = yJoy - xJoy;
+			double right = yJoy + xJoy;
 			driveRobot(left, right);
 		}
 
@@ -266,10 +263,13 @@ public class Robot extends IterativeRobot {
 		driveOutputRight = rightPower;
 		driveLA.set(ControlMode.PercentOutput,  leftPower);
 		driveLB.set(ControlMode.PercentOutput,  leftPower);
-		driveLC.set(ControlMode.PercentOutput,  leftPower);
 		driveRA.set(ControlMode.PercentOutput, rightPower);
 		driveRB.set(ControlMode.PercentOutput, rightPower);
-		driveRC.set(ControlMode.PercentOutput, rightPower);
+	}
+
+	void driveElevator(double power) {
+		elevatorOutput = power;
+		elevator.set(ControlMode.PercentOutput, power);
 	}
 
 }
