@@ -51,14 +51,13 @@ public class SmartDashboardUtil {
 		SmartDashboard.putNumber(         "distLeft", ourselves.distanceL.getRaw()            );
 		SmartDashboard.putNumber(  "driveOutputLeft", ourselves.driveOutputLeft               );
 		SmartDashboard.putNumber( "driveOutputRight", ourselves.driveOutputRight              );
+		SmartDashboard.putNumber(   "elevatorOutput", ourselves.elevatorOutput                );
+		SmartDashboard.putString(    "shifterStatus", ourselves.shifterStatus                 );
 
 		//navx
 		SmartDashboard.putNumber(              "Yaw", ourselves.navX.getYaw()                 );
 		SmartDashboard.putNumber(    "accelerationX", ourselves.navX.getWorldLinearAccelX()   );
 		SmartDashboard.putNumber(    "accelerationY", ourselves.navX.getWorldLinearAccelY()   );
-
-		//sensors
-		SmartDashboard.putNumber(     "sonarVoltage", ourselves.readSonar.getAverageVoltage() );
 
 		//auto
 		SmartDashboard.putNumber(      "autoRoutine", ourselves.autoRoutine                   );

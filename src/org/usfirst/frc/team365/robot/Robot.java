@@ -25,6 +25,9 @@ public class Robot extends IterativeRobot {
 	private TalonSRX driveRB  = new TalonSRX(14) {{ setNeutralMode(NeutralMode.Brake); }};
 	private TalonSRX elevator = new TalonSRX( 2) {{ setNeutralMode(NeutralMode.Brake); }};
 
+	//Solenoids
+	private DoubleSolenoid shifter = new DoubleSolenoid(0,1);
+
 	//Sensors
 	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 50);
 	Encoder      distanceL  = new Encoder(0, 1, false, EncodingType.k1X);
@@ -40,6 +43,8 @@ public class Robot extends IterativeRobot {
 
 	//Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
+	String shifterStatus = DoubleSolenoid.Value.kOff.name();
+
 	double
 		driveOutputLeft  = 0.0,
 		driveOutputRight = 0.0,
@@ -54,12 +59,12 @@ public class Robot extends IterativeRobot {
 		straightD = 0;
 	PIDCorrection driveStraightCorrection = new PIDCorrection();
 	PIDController driveStraight = new PIDController(
-			straightP,
-			straightI,
-			straightD,
-			navX,
-			driveStraightCorrection,
-			0.020
+		straightP,
+		straightI,
+		straightD,
+		navX,
+		driveStraightCorrection,
+		0.020
 	) {{
 		setInputRange(-180.0, 180.0);
 		setOutputRange(-1.0, 1.0);
@@ -74,12 +79,12 @@ public class Robot extends IterativeRobot {
 		turnD = 0.03;
 	PIDCorrection turnRobotCorrection = new PIDCorrection();
 	PIDController turnRobot  = new PIDController(
-			turnP,
-			turnI,
-			turnD,
-			navX,
-			turnRobotCorrection,
-			0.020
+		turnP,
+		turnI,
+		turnD,
+		navX,
+		turnRobotCorrection,
+		0.020
 	) {{
 		setInputRange(-180.0, 180.0);
 		setOutputRange(-1.0, 1.0);
@@ -250,6 +255,16 @@ public class Robot extends IterativeRobot {
 	void driveElevator(double power) {
 		elevatorOutput = power;
 		elevator.set(ControlMode.PercentOutput, power);
+	}
+
+	void shiftIntoDrive() {
+		shifter.set(DoubleSolenoid.Value.kForward);
+		shifterStatus = DoubleSolenoid.Value.kForward.name();
+	}
+
+	void shiftIntoClimb() {
+		shifter.set(DoubleSolenoid.Value.kReverse);
+		shifterStatus = DoubleSolenoid.Value.kReverse.name();
 	}
 	
 	
