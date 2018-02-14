@@ -15,6 +15,7 @@ public class RightLeftScaleCube {
 			switch (us.autoStep)
 			{
 			case 1:
+				Robot.resetPIDController(us.driveStraight);
 				us.distanceR.reset();
 				us.distanceL.reset();
 				us.startPower = 0.7;
@@ -26,10 +27,14 @@ public class RightLeftScaleCube {
 				if(us.distanceR.getRaw() > 22668)
 				{
 					us.driveStraight.disable();
+					us.driveRobot(0, 0);
 					us.autoStep = 3;
+				} else {
+					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
 				}
 				break;
 			case 3:
+				Robot.resetPIDController(us.turnRobot);
 				us.turnRobot.setSetpoint(-90);
 				us.turnRobot.setAbsoluteTolerance(2);
 				us.startPower = 0;
@@ -44,10 +49,13 @@ public class RightLeftScaleCube {
 					{
 						us.turnRobot.disable();
 						us.autoStep = 5;
-					}
+					} 
+				}else {
+					us.driveRobot(us.turnRobotCorrection.correctionValue,-us.turnRobotCorrection.correctionValue );
 				}
 				break;
 			case 5:
+				Robot.resetPIDController(us.driveStraight);
 				us.distanceR.reset();
 				us.distanceL.reset();
 				us.startPower = 0.5;
@@ -60,9 +68,12 @@ public class RightLeftScaleCube {
 				{
 					us.driveStraight.disable();
 					us.autoStep = 8;
+				} else {
+					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
 				}
 				break;
 			case 8:
+				Robot.resetPIDController(us.turnRobot);
 				us.turnRobot.setSetpoint(0);
 				us.turnRobot.setAbsoluteTolerance(2);
 				us.startPower = 0;
@@ -79,8 +90,12 @@ public class RightLeftScaleCube {
 						us.autoStep = 10;
 					}
 				}
+				else {
+					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
+				}
 				break;
 			case 10:
+				Robot.resetPIDController(us.driveStraight);
 				us.distanceR.reset();
 				us.distanceL.reset();
 				us.startPower = 0.4;
@@ -93,6 +108,8 @@ public class RightLeftScaleCube {
 				{
 					us.driveStraight.disable();
 					us.autoStep = 14;
+				}else {
+					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
 				}
 				break;
 	/*		case 12:
@@ -130,6 +147,7 @@ public class RightLeftScaleCube {
 				}
 				break;
 			case 16:
+				Robot.resetPIDController(us.driveStraight);
 				us.distanceR.reset();
 				us.distanceL.reset();
 				us.startPower = -0.4;
@@ -142,9 +160,12 @@ public class RightLeftScaleCube {
 				{
 					us.driveStraight.disable();
 					us.autoStep = 19;
+				}else {
+					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
 				}
 				break;
 			case 19:
+				Robot.resetPIDController(us.turnRobot);
 				us.turnRobot.setSetpoint(180);
 				us.turnRobot.setAbsoluteTolerance(2);
 				us.startPower = 0;
@@ -159,10 +180,14 @@ public class RightLeftScaleCube {
 					{
 						us.turnRobot.disable();
 						us.autoStep = 21;
-					}
+					} 
+				}
+				else {
+					us.driveRobot(us.turnRobotCorrection.correctionValue,-us.turnRobotCorrection.correctionValue );
 				}
 				break;
 			case 21:
+				Robot.resetPIDController(us.driveStraight);
 				us.distanceR.reset();
 				us.distanceL.reset();
 				us.startPower = 0.4;
