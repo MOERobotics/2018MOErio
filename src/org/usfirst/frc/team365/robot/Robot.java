@@ -159,7 +159,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		switch(autoRoutine) {
 			case 1:
-				GoStraightAutonomous.autoGoStraightTest(this);
+				RightSwitchThenCube.run(this);
 				break;
 			case 3:
 				DoNothingAutonomous.doNothingRoutine(this);
