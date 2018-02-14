@@ -42,8 +42,16 @@ public class Robot extends IterativeRobot {
 	//Global Variables
 	int    autoStep      = 0;
 	int    autoRoutine   = 0;
+	
 	Timer  autoTimer     = new Timer();
 	int autoLoopCounter = 0;
+	int onCount;
+	double kProp = 0.08;
+	double kInt = 0.0005;
+	double turnProp = 0.06;
+	double kDer = 0;
+	double PIDCorrection = 0;
+	Encoder distanceRight = new Encoder(2,3, true,EncodingType.k1X);
 
 	double startPower = .5;
 	
