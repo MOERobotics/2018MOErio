@@ -11,6 +11,19 @@ public class RightLeftScaleCube {
 		 * Forward:  3 inches ==> 6 feet ==> 60 inches ==> 6480 pulses
 		 * Right (90)
 		 */
+		/*
+		 * public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
+		public static final double FEET = 12 * INCHES;
+		
+		switch(us.autoStep) {
+		case 1: us.goStraight(18 * FEET, 0, .7); break;
+		case 2: us.turnToAngle(-90, .8); break;
+		case 3: us.goStraight(15 * FEET, -90, .7); break;
+		case 4: us.turnToAngle(0,.8); break;
+		case 5: us.goStraight(6 * FEET, 0, .8); break;
+		case 6: us.turnToAngle(90, .8); break;
+		}*/
+		
 		{
 			switch (us.autoStep)
 			{
