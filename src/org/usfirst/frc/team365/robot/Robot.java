@@ -82,9 +82,9 @@ public class Robot extends IterativeRobot {
 
 	int autoLoopCounter = 0;
 	int onCount;
-	double kProp = 0.08;
-	double kInt = 0.0005;
-	double turnProp = 0.06;
+	double kProp = 0.05;
+	double kInt = 0.0003;
+	double turnProp = 0.04;
 	double kDer = 0;
 	double PIDCorrection = 0;
 
@@ -92,6 +92,7 @@ public class Robot extends IterativeRobot {
 
 	// Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
+
 	double driveOutputLeft = 0.0, driveOutputRight = 0.0;
 
 	// PID Controllers
