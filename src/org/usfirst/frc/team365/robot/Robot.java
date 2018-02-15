@@ -195,6 +195,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+
 		autoLoopCounter++;
 		switch (autoRoutine) {
 		case 1:
@@ -212,6 +213,7 @@ public class Robot extends IterativeRobot {
 		default:
 			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
 			break;
+
 		}
 
 	}
