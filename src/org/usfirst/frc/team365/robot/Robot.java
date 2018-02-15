@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Robot extends IterativeRobot {
@@ -62,6 +63,7 @@ public class Robot extends IterativeRobot {
 	TalonSRX collector = new TalonSRX(0);
 	TalonSRX indexer = new TalonSRX(5);
 
+	
 	// Sensors
 	AHRS navX = new AHRS(SPI.Port.kMXP, (byte) 50);
 	AnalogInput readSonar = new AnalogInput(1);
@@ -76,6 +78,8 @@ public class Robot extends IterativeRobot {
 	int autoStep = 0;
 	int autoRoutine = 0;
 	Timer autoTimer = new Timer();
+	Timer autoPauseTimer = new Timer();
+	
 	int autoLoopCounter = 0;
 
 	double startPower = .5;
@@ -85,7 +89,7 @@ public class Robot extends IterativeRobot {
 	double driveOutputLeft = 0.0, driveOutputRight = 0.0;
 
 	// PID Controllers
-	double straightP = 0.08, straightI = 0.0005, straightD = 0;
+	double straightP = 0.06, straightI = 0.0003, straightD = .01;
 	PIDCorrection driveStraightCorrection = new PIDCorrection();
 	PIDController driveStraight = new PIDController(straightP, straightI, straightD, navX, driveStraightCorrection,
 			0.020) {
@@ -93,7 +97,7 @@ public class Robot extends IterativeRobot {
 			setInputRange(-180.0, 180.0);
 			setOutputRange(-1.0, 1.0);
 			setContinuous();
-			enable();
+			disable();
 		}
 	};
 
@@ -105,7 +109,7 @@ public class Robot extends IterativeRobot {
 			setOutputRange(-1.0, 1.0);
 			setAbsoluteTolerance(3);
 			setContinuous();
-			enable();
+			disable();
 		}
 	};
 
@@ -171,6 +175,12 @@ public class Robot extends IterativeRobot {
 		autoTimer.reset();
 		autoTimer.start();
 
+		autoPauseTimer.reset();
+		autoPauseTimer.start();
+		
+		driveStraight.reset();
+		turnRobot.reset();
+		
 		SmartDashboardUtil.getFromSmartDashboard(this); // force update
 
 	}
@@ -276,6 +286,8 @@ public class Robot extends IterativeRobot {
 			driveRobot(0, 0);
 			driveStraight.reset();
 			resetEncoders();
+			autoPauseTimer.reset();
+			autoPauseTimer.start();
 			autoStep++;
 		} else {
 			driveStraight.setSetpoint(setPoint);
@@ -295,6 +307,8 @@ public class Robot extends IterativeRobot {
 			turnOnTargetCount = 0;
 			autoStep++;
 			turnRobot.reset();
+			autoPauseTimer.reset();
+			autoPauseTimer.start();
 		} else {
 			turnRobot.setSetpoint(angle);
 			turnRobot.enable();
@@ -319,6 +333,15 @@ public class Robot extends IterativeRobot {
 
 	public double getStraightPower() {
 		return (driveOutputLeft + driveOutputRight) / 2.;
+	}
+	
+	
+	public void pause(double seconds) {
+		if(autoPauseTimer.get() > seconds) {
+			autoStep++;
+			autoPauseTimer.reset();
+			autoPauseTimer.start();
+		}
 	}
 	
 	/**
