@@ -46,9 +46,9 @@ public class Robot extends IterativeRobot {
 	Timer  autoTimer     = new Timer();
 	int autoLoopCounter = 0;
 	int onCount;
-	double kProp = 0.08;
-	double kInt = 0.0005;
-	double turnProp = 0.06;
+	double kProp = 0.05;
+	double kInt = 0.0003;
+	double turnProp = 0.04;
 	double kDer = 0;
 	double PIDCorrection = 0;
 
@@ -62,8 +62,8 @@ public class Robot extends IterativeRobot {
 
 	//PID Controllers
 	double
-		straightP = 0.08,
-		straightI = 0.0005,
+		straightP = 0.05,
+		straightI = 0.0003,
 		straightD = 0;
 	PIDCorrection driveStraightCorrection = new PIDCorrection();
 	PIDController driveStraight = new PIDController(
@@ -82,7 +82,7 @@ public class Robot extends IterativeRobot {
 
 
 	double
-		turnP = 0.05,
+		turnP = 0.04,
 		turnI = 0,
 		turnD = 0.03;
 	PIDCorrection turnRobotCorrection = new PIDCorrection();
