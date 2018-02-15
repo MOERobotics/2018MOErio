@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class CenterRightSwitchAutonomous {
 	static double startPower = 0;
 	static int onCount = 0;
-	static void CenterRightSwitchAutonomous(Robot ourselves) {
+	static void run(Robot ourselves) {
 			switch(ourselves.autoStep) {
 			case 1:
 				ourselves.distanceR.reset();
