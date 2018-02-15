@@ -165,7 +165,7 @@ public class Robot extends IterativeRobot {
 		autoLoopCounter ++;
 		switch(autoRoutine) {
 			case 1:
-				RightLeftScaleCube.run(this);
+				CenterLeftSwitchThenCube.run(this);
 				break;
 			case 3:
 				DoNothingAutonomous.doNothingRoutine(this);
