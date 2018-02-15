@@ -79,8 +79,14 @@ public class Robot extends IterativeRobot {
 	int autoRoutine = 0;
 	Timer autoTimer = new Timer();
 	Timer autoPauseTimer = new Timer();
-	
+
 	int autoLoopCounter = 0;
+	int onCount;
+	double kProp = 0.08;
+	double kInt = 0.0005;
+	double turnProp = 0.06;
+	double kDer = 0;
+	double PIDCorrection = 0;
 
 	double startPower = .5;
 
@@ -149,6 +155,7 @@ public class Robot extends IterativeRobot {
 			resetEncoders();
 			navX.zeroYaw();
 		}
+
 		if (driveStick.getRawButton(6))
 			autoRoutine = 1;
 		if (driveStick.getRawButton(8))
@@ -196,6 +203,9 @@ public class Robot extends IterativeRobot {
 			RightSwitchThenCube.run(this);
 			break;
 		case 3:
+			Right_Switch_Cube_Plus.run(this);
+			break;
+		case 4:
 			DoNothingAutonomous.doNothingRoutine(this);
 			break;
 		default:
