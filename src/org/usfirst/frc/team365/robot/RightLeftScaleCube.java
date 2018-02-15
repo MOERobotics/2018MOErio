@@ -48,6 +48,7 @@ public class RightLeftScaleCube {
 					if (us.autoLoopCounter > 0)
 					{
 						us.turnRobot.disable();
+						us.driveRobot(0, 0);
 						us.autoStep = 5;
 					} 
 				}else {
@@ -67,6 +68,7 @@ public class RightLeftScaleCube {
 				if(us.distanceR.getRaw() > 19440)
 				{
 					us.driveStraight.disable();
+					us.driveRobot(0, 0);
 					us.autoStep = 8;
 				} else {
 					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
@@ -87,6 +89,7 @@ public class RightLeftScaleCube {
 					if (us.autoLoopCounter > 0)
 					{
 						us.turnRobot.disable();
+						us.driveRobot(0, 0);
 						us.autoStep = 10;
 					}
 				}
@@ -107,6 +110,7 @@ public class RightLeftScaleCube {
 				if(us.distanceR.getRaw() > 4200)
 				{
 					us.driveStraight.disable();
+					us.driveRobot(0, 0);
 					us.autoStep = 14;
 				}else {
 					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
@@ -159,6 +163,7 @@ public class RightLeftScaleCube {
 				if(us.distanceR.getRaw() < -3500)
 				{
 					us.driveStraight.disable();
+					us.driveRobot(0, 0);
 					us.autoStep = 19;
 				}else {
 					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
@@ -179,6 +184,7 @@ public class RightLeftScaleCube {
 					if (us.autoLoopCounter > 0)
 					{
 						us.turnRobot.disable();
+						us.driveRobot(0, 0);
 						us.autoStep = 21;
 					} 
 				}
@@ -199,6 +205,7 @@ public class RightLeftScaleCube {
 				if(us.distanceR.getRaw() > 2500)
 				{
 					us.driveStraight.disable();
+					us.driveRobot(0, 0);
 					us.autoStep = 23;
 				} else {
 					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
