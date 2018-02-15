@@ -15,7 +15,7 @@ public class CenterLeftSwitchThenCube
 			
 		case 2:
 			//turnToAngle(navx setPoint, maxPower)
-			us.turnToAngle(-55, 1);
+			us.turnToAngle(-52, 1);
 			break;
 			
 		case 3:
