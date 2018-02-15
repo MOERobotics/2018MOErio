@@ -51,7 +51,6 @@ public class Robot extends IterativeRobot {
 	double turnProp = 0.06;
 	double kDer = 0;
 	double PIDCorrection = 0;
-	Encoder distanceRight = new Encoder(2,3, true,EncodingType.k1X);
 
 	double startPower = .5;
 	
@@ -143,6 +142,7 @@ public class Robot extends IterativeRobot {
 		}
 		if (driveStick.getRawButton(6)) autoRoutine = 1;
 		if (driveStick.getRawButton(8)) autoRoutine = 2;
+		if(driveStick.getRawButton(9) ) autoRoutine = 3;
 	}
 
 
@@ -185,9 +185,11 @@ public class Robot extends IterativeRobot {
 			case 1:
 				GoStraightAutonomous.autoGoStraightTest(this);
 				break;
-			case 3:
+			case 2:
 				DoNothingAutonomous.doNothingRoutine(this);
 				break;
+			case 3:
+				Right_Switch_Cube_Plus.run(this);
 			default:
 				statusMessage = "WARNING: We tried to run an invalid autonomous program!";
 				break;

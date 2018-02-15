@@ -1,28 +1,32 @@
 package org.usfirst.frc.team365.robot;
 
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class Right_Switch_Cube_Plus {
 static void run(Robot robot) {
 	switch(robot.autoStep) {
 	case 1:
 		robot.distanceR.reset ();
-		robot.startPower = 0.9;
+		robot.startPower = 0.8;
 		/*robot.kProp = SmartDashboard.getNumber("robot.kProp", 0);
 		robot.kInt = SmartDashboard.getNumber("robot.kInt", 0);
 		robot.kDer = SmartDashboard.getNumber("robot.kDer", 0); */
 
 		//robot.driveStraight.setPID(robot.kProp, robot.kInt, robot.kDer); 
 		robot.driveStraight.setSetpoint(0);
+		Robot.resetPIDController(robot.driveStraight);
 		robot.driveStraight.enable();
 		robot.autoStep = 2;
 		break;
 	case 2:
-		if (robot.distanceRight.getRaw() >32500) {
+		if (robot.distanceR.getRaw() >30500) {
 			robot.driveStraight.disable();
 			robot.autoStep = 3;
 			robot.driveRobot (0.0,0.0);
 		} else {
-			double rightSide = robot.startPower - robot.PIDCorrection;
-			double leftSide = robot.startPower + robot.PIDCorrection;
+			double rightSide = robot.startPower - robot.driveStraightCorrection.correctionValue;
+			double leftSide = robot.startPower + robot.driveStraightCorrection.correctionValue;
 			robot.driveRobot(leftSide,rightSide);
 		}
 		break;
@@ -32,6 +36,9 @@ static void run(Robot robot) {
 
 		robot.turnRobot.setSetpoint(-90.0);
 		robot.turnRobot.setAbsoluteTolerance(3.0);
+		Robot.resetPIDController(robot.turnRobot);
+		robot.turnRobot.reset();
+		
 		robot.turnRobot.enable();
 		robot.startPower = 0;
 		robot.onCount = 0;
@@ -48,8 +55,8 @@ static void run(Robot robot) {
 
 			}
 		}else {
-			double rightSide = robot.startPower - robot.PIDCorrection;
-			double leftSide = robot.startPower + robot.PIDCorrection;
+			double rightSide = robot.startPower - robot.turnRobotCorrection.correctionValue;
+			double leftSide = robot.startPower + robot.turnRobotCorrection.correctionValue;
 			robot.driveRobot(leftSide,rightSide);
 			//					robot.onCount=0;
 		}
@@ -60,7 +67,7 @@ static void run(Robot robot) {
 		if (robot.autoTimer.get()>1) {
 
 
-			robot.distanceRight.reset();
+			robot.distanceR.reset();
 			robot.autoStep = 6;
 		}
 		else {
@@ -78,13 +85,13 @@ static void run(Robot robot) {
 		robot.autoStep = 7;
 		break;
 	case 7: 
-		if (robot.distanceRight.getRaw() >200.5) {
+		if (robot.distanceR.getRaw() >200.5) {
 			robot.driveStraight.disable();
 			robot.autoStep = 8;
 			robot.driveRobot (0.0,0.0);
 		} else {
-			double rightSide = robot.startPower - robot.PIDCorrection;
-			double leftSide = robot.startPower + robot.PIDCorrection;
+			double rightSide = robot.startPower - robot.driveStraightCorrection.correctionValue;
+			double leftSide = robot.startPower + robot.driveStraightCorrection.correctionValue;
 			robot.driveRobot(leftSide,rightSide);
 		}
 		break;
@@ -103,17 +110,17 @@ static void run(Robot robot) {
 		robot.driveStraight.setSetpoint(-90.0);
 		robot.startPower = -0.4;
 		robot.driveStraight.enable();
-		robot.distanceRight.reset();
+		robot.distanceR.reset();
 		robot.autoStep = 10;
 		break;
 	case 10:
-		if (robot.distanceRight.getRaw() <-137.5) {
+		if (robot.distanceR.getRaw() <-137.5) {
 			robot.driveStraight.disable();
 			robot.autoStep = 11;
 			robot.driveRobot (0.0,0.0);
 		} else {
-			double rightSide = robot.startPower - robot.PIDCorrection;
-			double leftSide = robot.startPower + robot.PIDCorrection;
+			double rightSide = robot.startPower - robot.driveStraightCorrection.correctionValue;
+			double leftSide = robot.startPower + robot.driveStraightCorrection.correctionValue;
 			robot.driveRobot(leftSide,rightSide);
 		}
 		break;
@@ -136,8 +143,8 @@ static void run(Robot robot) {
 
 			}
 		}else {
-			double rightSide = robot.startPower - robot.PIDCorrection;
-			double leftSide = robot.startPower + robot.PIDCorrection;
+			double rightSide = robot.startPower - robot.turnRobotCorrection.correctionValue;
+			double leftSide = robot.startPower + robot.turnRobotCorrection.correctionValue;
 			robot.driveRobot(leftSide,rightSide);
 			//					robot.onCount=0;
 		}
@@ -154,19 +161,19 @@ static void run(Robot robot) {
 		robot.driveStraight.setSetpoint(-180.0);
 		robot.startPower = 0.5;
 		robot.driveStraight.enable();
-		robot.distanceRight.reset();
+		robot.distanceR.reset();
 		robot.autoStep = 15;
 		break;
 
 
 	case 15:
-		if (robot.distanceRight.getRaw() >8000) {
+		if (robot.distanceR.getRaw() >8000) {
 			robot.driveStraight.disable();
 			robot.autoStep = 16;
 			robot.driveRobot (0.0,0.0);
 		} else {
-			double rightSide = robot.startPower - robot.PIDCorrection;
-			double leftSide = robot.startPower + robot.PIDCorrection;
+			double rightSide = robot.startPower - robot.driveStraightCorrection.correctionValue;
+			double leftSide = robot.startPower + robot.driveStraightCorrection.correctionValue;
 			robot.driveRobot(leftSide,rightSide);
 		}
 		break;
@@ -196,8 +203,8 @@ static void run(Robot robot) {
 
 			}
 		}else {
-			double rightSide = robot.startPower - robot.PIDCorrection;
-			double leftSide = robot.startPower + robot.PIDCorrection;
+			double rightSide = robot.startPower - robot.turnRobotCorrection.correctionValue;
+			double leftSide = robot.startPower + robot.turnRobotCorrection.correctionValue;
 			robot.driveRobot(leftSide,rightSide);
 			//					robot.onCount=0;
 		}
@@ -207,19 +214,19 @@ static void run(Robot robot) {
 		robot.driveStraight.setSetpoint(-90.0);
 		robot.startPower = 0.5;
 		robot.driveStraight.enable();
-		robot.distanceRight.reset();
+		robot.distanceR.reset();
 		robot.autoStep = 20;
 		break;
 
 
 	case 20:
-		if (robot.distanceRight.getRaw() > 5000) {
+		if (robot.distanceR.getRaw() > 5000) {
 			robot.driveStraight.disable();
 			robot.autoStep = 21;
 			robot.driveRobot (0.0,0.0);
 		} else {
-			double rightSide = robot.startPower - robot.PIDCorrection;
-			double leftSide = robot.startPower + robot.PIDCorrection;
+			double rightSide = robot.startPower - robot.driveStraightCorrection.correctionValue;
+			double leftSide = robot.startPower + robot.driveStraightCorrection.correctionValue;
 			robot.driveRobot(leftSide,rightSide);
 		}
 		break;
@@ -241,8 +248,8 @@ static void run(Robot robot) {
 
 			}
 		}else {
-			double rightSide = robot.startPower - robot.PIDCorrection;
-			double leftSide = robot.startPower + robot.PIDCorrection;
+			double rightSide = robot.startPower - robot.turnRobotCorrection.correctionValue;
+			double leftSide = robot.startPower + robot.turnRobotCorrection.correctionValue;
 			robot.driveRobot(leftSide,rightSide);
 			//					robot.onCount=0;
 		}
@@ -252,19 +259,19 @@ static void run(Robot robot) {
 		robot.driveStraight.setSetpoint(-180.0);
 		robot.startPower = 0.5;
 		robot.driveStraight.enable();
-		robot.distanceRight.reset();
+		robot.distanceR.reset();
 		robot.autoStep = 24;
 		break;
 
 
 	case 24:
-		if (robot.distanceRight.getRaw() >1500) {
+		if (robot.distanceR.getRaw() >1500) {
 			robot.driveStraight.disable();
 			robot.autoStep = 25;
 			robot.driveRobot (0.0,0.0);
 		} else {
-			double rightSide = robot.startPower - robot.PIDCorrection;
-			double leftSide = robot.startPower + robot.PIDCorrection;
+			double rightSide = robot.startPower - robot.turnRobotCorrection.correctionValue;
+			double leftSide = robot.startPower + robot.turnRobotCorrection.correctionValue;
 			robot.driveRobot(leftSide,rightSide);
 		}
 		break;
