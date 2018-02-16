@@ -89,7 +89,7 @@ public class Robot extends IterativeRobot {
 	double driveOutputLeft = 0.0, driveOutputRight = 0.0;
 
 	// PID Controllers
-	double straightP = 0.06, straightI = 0.0003, straightD = .01;
+	double straightP = 0.04, straightI = 0.0003, straightD = .01;
 	PIDCorrection driveStraightCorrection = new PIDCorrection();
 	PIDController driveStraight = new PIDController(straightP, straightI, straightD, navX, driveStraightCorrection,
 			0.020) {
@@ -101,7 +101,7 @@ public class Robot extends IterativeRobot {
 		}
 	};
 
-	double turnP = 0.05, turnI = 0, turnD = 0.03;
+	double turnP = 0.04, turnI = 0, turnD = 0.02;
 	PIDCorrection turnRobotCorrection = new PIDCorrection();
 	PIDController turnRobot = new PIDController(turnP, turnI, turnD, navX, turnRobotCorrection, 0.020) {
 		{
