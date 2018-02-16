@@ -22,18 +22,21 @@ public class CenterRightSwitchAutonomous {
 			robot.goStraight(9 * INCHES, 0, .5);
 			break;
 		case 6:
-			robot.goStraight(48 * INCHES, 0, -.5);
+			robot.pause(1.0);
 			break;
 		case 7:
-			robot.turnToAngle(-90);
+			robot.goStraight(48 * INCHES, 0, -.5);
 			break;
 		case 8:
-			robot.goStraight(58 * INCHES, -90, .4);
+			robot.turnToAngle(-90);
 			break;
 		case 9:
-			robot.turnToAngle(0);
+			robot.goStraight(58 * INCHES, -90, .4);
 			break;
 		case 10:
+			robot.turnToAngle(0);
+			break;
+		case 11:
 			robot.goStraight(9 * INCHES, 0, .5);
 			break;
 		}
