@@ -1,3 +1,5 @@
+package org.usfirst.frc.team365.robot;
+
 public class CenterRightSwitchAutonomous2 {
 	static double startPower = 0;
 	static int onCount = 0;

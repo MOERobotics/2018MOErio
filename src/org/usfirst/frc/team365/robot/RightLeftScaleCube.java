@@ -11,6 +11,19 @@ public class RightLeftScaleCube {
 		 * Forward:  3 inches ==> 6 feet ==> 60 inches ==> 6480 pulses
 		 * Right (90)
 		 */
+		/*
+		 * public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
+		public static final double FEET = 12 * INCHES;
+		
+		switch(us.autoStep) {
+		case 1: us.goStraight(18 * FEET, 0, .7); break;
+		case 2: us.turnToAngle(-90, .8); break;
+		case 3: us.goStraight(15 * FEET, -90, .7); break;
+		case 4: us.turnToAngle(0,.8); break;
+		case 5: us.goStraight(6 * FEET, 0, .8); break;
+		case 6: us.turnToAngle(90, .8); break;
+		}*/
+		
 		{
 			switch (us.autoStep)
 			{
@@ -48,6 +61,7 @@ public class RightLeftScaleCube {
 					if (us.autoLoopCounter > 0)
 					{
 						us.turnRobot.disable();
+						us.driveRobot(0, 0);
 						us.autoStep = 5;
 					} 
 				}else {
@@ -67,6 +81,7 @@ public class RightLeftScaleCube {
 				if(us.distanceR.getRaw() > 19440)
 				{
 					us.driveStraight.disable();
+					us.driveRobot(0, 0);
 					us.autoStep = 8;
 				} else {
 					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
@@ -87,6 +102,7 @@ public class RightLeftScaleCube {
 					if (us.autoLoopCounter > 0)
 					{
 						us.turnRobot.disable();
+						us.driveRobot(0, 0);
 						us.autoStep = 10;
 					}
 				}
@@ -107,6 +123,7 @@ public class RightLeftScaleCube {
 				if(us.distanceR.getRaw() > 4200)
 				{
 					us.driveStraight.disable();
+					us.driveRobot(0, 0);
 					us.autoStep = 14;
 				}else {
 					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
@@ -159,6 +176,7 @@ public class RightLeftScaleCube {
 				if(us.distanceR.getRaw() < -3500)
 				{
 					us.driveStraight.disable();
+					us.driveRobot(0, 0);
 					us.autoStep = 19;
 				}else {
 					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
@@ -179,6 +197,7 @@ public class RightLeftScaleCube {
 					if (us.autoLoopCounter > 0)
 					{
 						us.turnRobot.disable();
+						us.driveRobot(0, 0);
 						us.autoStep = 21;
 					} 
 				}
@@ -199,6 +218,7 @@ public class RightLeftScaleCube {
 				if(us.distanceR.getRaw() > 2500)
 				{
 					us.driveStraight.disable();
+					us.driveRobot(0, 0);
 					us.autoStep = 23;
 				} else {
 					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
