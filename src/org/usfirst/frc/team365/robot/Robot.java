@@ -79,13 +79,20 @@ public class Robot extends IterativeRobot {
 	int autoRoutine = 0;
 	Timer autoTimer = new Timer();
 	Timer autoPauseTimer = new Timer();
-	
+
 	int autoLoopCounter = 0;
+	int onCount;
+	double kProp = 0.05;
+	double kInt = 0.0003;
+	double turnProp = 0.04;
+	double kDer = 0;
+	double PIDCorrection = 0;
 
 	double startPower = .5;
 
 	// Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
+
 	double driveOutputLeft = 0.0, driveOutputRight = 0.0;
 
 	// PID Controllers
@@ -149,6 +156,7 @@ public class Robot extends IterativeRobot {
 			resetEncoders();
 			navX.zeroYaw();
 		}
+
 		if (driveStick.getRawButton(6))
 			autoRoutine = 1;
 		if (driveStick.getRawButton(8))
@@ -187,6 +195,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+
 		autoLoopCounter++;
 		switch (autoRoutine) {
 		case 1:
@@ -196,11 +205,15 @@ public class Robot extends IterativeRobot {
 			RightSwitchThenCube.run(this);
 			break;
 		case 3:
+			Right_Switch_Cube_Plus.run(this);
+			break;
+		case 4:
 			DoNothingAutonomous.doNothingRoutine(this);
 			break;
 		default:
 			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
 			break;
+
 		}
 
 	}
