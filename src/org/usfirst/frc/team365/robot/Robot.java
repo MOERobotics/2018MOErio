@@ -82,13 +82,21 @@ public class Robot extends IterativeRobot {
 
 	int autoLoopCounter = 0;
 	int onCount;
-	double kProp = 0.05;
+	double kProp = 0.04;
 	double kInt = 0.0003;
-	double turnProp = 0.04;
+
 	double kDer = 0;
+	double turnProp = 0.04;
+	
+	
+	
 	double PIDCorrection = 0;
 
 	double startPower = .5;
+	
+	double turnSum = 0;
+	double lastOffYaw = 0;
+	boolean newPID = true;
 
 	// Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
@@ -96,7 +104,7 @@ public class Robot extends IterativeRobot {
 	double driveOutputLeft = 0.0, driveOutputRight = 0.0;
 
 	// PID Controllers
-	double straightP = 0.06, straightI = 0.0003, straightD = .01;
+	double straightP = 0.04, straightI = 0.0003, straightD = .00;
 	PIDCorrection driveStraightCorrection = new PIDCorrection();
 	PIDController driveStraight = new PIDController(straightP, straightI, straightD, navX, driveStraightCorrection,
 			0.020) {
@@ -108,7 +116,7 @@ public class Robot extends IterativeRobot {
 		}
 	};
 
-	double turnP = 0.05, turnI = 0, turnD = 0.03;
+	double turnP = 0.04, turnI = 0, turnD = 0.00;
 	PIDCorrection turnRobotCorrection = new PIDCorrection();
 	PIDController turnRobot = new PIDController(turnP, turnI, turnD, navX, turnRobotCorrection, 0.020) {
 		{
@@ -181,10 +189,10 @@ public class Robot extends IterativeRobot {
 		resetEncoders();
 
 		autoTimer.reset();
-		autoTimer.start();
+//		autoTimer.start();
 
 		autoPauseTimer.reset();
-		autoPauseTimer.start();
+//		autoPauseTimer.start();
 		
 		driveStraight.reset();
 		turnRobot.reset();
@@ -233,27 +241,9 @@ public class Robot extends IterativeRobot {
 		double yJoy = -driveStick.getY();
 		double xJoy = driveStick.getX();
 
-		if (driveStick.getRawButton(6)) {
-			if (driveStick.getRawButtonPressed(6)) {
-				turnRobot.setSetpoint(45);
-				resetPIDController(turnRobot);
-			}
-			driveRobot(0.0 + (turnRobotCorrection.correctionValue * 0.3),
-					0.0 - (turnRobotCorrection.correctionValue * 0.3));
-		} else if (driveStick.getRawButton(8)) {
-			if (driveStick.getRawButtonPressed(8)) {
-				turnRobot.setSetpoint(0);
-				resetPIDController(turnRobot);
-			}
-			driveRobot(0.0 + (turnRobotCorrection.correctionValue * 0.3),
-					0.0 - (turnRobotCorrection.correctionValue * 0.3));
-		} else if (driveStick.getTrigger()) {
-			if (driveStick.getRawButtonPressed(8)) {
-				turnRobot.setSetpoint(0);
-				resetPIDController(turnRobot);
-			}
-			driveRobot(0.3 + (driveStraightCorrection.correctionValue * 0.1),
-					0.3 - (driveStraightCorrection.correctionValue * 0.1));
+	
+		if (driveStick.getTrigger()) {
+			driveRobot(yJoy,yJoy);
 		} else if (driveStick.getRawButton(2)) { // turn robot left
 			driveRobot(-0.3, 0.3);
 		} else if (driveStick.getRawButton(4)) {
@@ -310,6 +300,41 @@ public class Robot extends IterativeRobot {
 					power - driveStraightCorrection.correctionValue);
 		}
 	}
+	
+	void autoPIDStraight(double ticks, double setPoint, double power) {
+		double currentYaw = navX.getYaw();
+		double offYaw = setPoint - currentYaw;
+		
+
+		
+//   initialize needed value for first loop		
+		if (newPID) {
+			driveStraight.reset();
+			newPID = false;
+			driveRobot(0,0);
+			resetEncoders();
+			driveStraight.setSetpoint(setPoint);
+			driveStraight.enable();
+			
+		}
+		
+		else if (Math.abs(getEncoderMax()) > ticks) {
+			driveRobot(0, 0);
+			driveStraight.reset();
+//			resetEncoders();
+			autoPauseTimer.reset();
+//			autoPauseTimer.start();
+			autoStep++;
+			newPID = true;
+		}
+		
+		else {
+			driveRobot(power + driveStraightCorrection.correctionValue,
+					power - driveStraightCorrection.correctionValue);
+		}
+		
+
+	}
 
 	public void turnToAngle(double angle, double maxPower) {
 		if (turnRobot.onTarget()) {
@@ -330,6 +355,57 @@ public class Robot extends IterativeRobot {
 					-turnRobotCorrection.correctionValue * Math.abs(maxPower));
 		}
 	}
+	
+	void autoPIDTurn(double desiredYaw) {
+		double currentYaw = navX.getYaw();
+		double offYaw = desiredYaw - currentYaw;
+		
+//   if driving near 180 need to correct offYaw				
+		if (offYaw > 180) offYaw = offYaw - 360;
+		else if (offYaw < -180) offYaw = offYaw + 360;
+		
+//   initialize values during first loop		
+		if (newPID) {
+			turnSum = 0;
+			newPID = false;
+			lastOffYaw = offYaw;
+			onCount = 0;
+//			driveRobot(0,0);
+		}
+		
+//   re-zero the error sum when turn past yaw setpoint
+		if (offYaw * lastOffYaw <= 0) {
+			turnSum = 0;
+		}
+
+//  determine if within yaw tolerance
+		if (offYaw > 3 || offYaw < -3) {     
+//  only add to error sum when close to target value			
+			if (offYaw < 20 && offYaw > -20) {   
+				if (offYaw > 0) turnSum = turnSum + 0.01;
+				else turnSum = turnSum - 0.01;
+			}
+//  calculate new correction value			
+			double newPower = turnP*offYaw + turnSum + turnD*(offYaw - lastOffYaw);
+			
+//  limit output power
+			if (newPower > 0.5) newPower = 0.5;
+			else if (newPower < -0.5) newPower = -0.5;
+			driveRobot(newPower, -newPower);
+		}
+//  if robot is within yaw tolerance stop robot and increase onCount
+		else {			
+			onCount++;
+			if (onCount > 3) {
+				autoStep++;
+				driveRobot(0,0);
+				newPID = true;
+			}
+			
+		}
+		lastOffYaw = offYaw;
+	}
+	
 
 
 	public void turnToAngle(double angle) {
