@@ -53,7 +53,11 @@ public class Robot extends IterativeRobot {
 		driveOutputRight = 0.0,
 		elevatorOutput   = 0.0;
 
-
+	//GameData Storage
+	String gameData = "";
+	boolean switchLeft;
+	boolean scaleLeft;
+	boolean oppSwitchLeft;
 
 	//PID Controllers
 	double
@@ -148,6 +152,11 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		switchLeft = gameData.charAt(0) == 'L';
+		scaleLeft = gameData.charAt(0) == 'L';
+		oppSwitchLeft = gameData.charAt(0) == 'L';
+		
 		autoStep = 1;
 		
 		navX.zeroYaw();
