@@ -29,7 +29,7 @@ public class Robot extends IterativeRobot {
 	private DoubleSolenoid shifter = new DoubleSolenoid(0,1);
 
 	//Sensors
-	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 50);
+	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 20);
 	Encoder      distanceL  = new Encoder(0, 1, false, EncodingType.k1X);
 	Encoder      distanceR  = new Encoder(2, 3,  true, EncodingType.k1X);
 
@@ -39,8 +39,11 @@ public class Robot extends IterativeRobot {
 	//Global Variables
 	int    autoStep      = 0;
 	int    autoRoutine   = 0;
+	int    autoLoopCounter = 0;
 	Timer  autoTimer     = new Timer();
 
+	
+	
 	//Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
 	String shifterStatus = DoubleSolenoid.Value.kOff.name();
@@ -271,7 +274,7 @@ public class Robot extends IterativeRobot {
 	/******************
 	 * Vasista's Auto Simplificatorator *
 	 ******************/
-	public static final double INCHES_TO_ENCTICKS = 110;
+	public static final double INCHES_TO_ENCTICKS = 42.7;
 	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
 
 	int turnOnTargetCount = 0;
