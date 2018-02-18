@@ -76,7 +76,7 @@ public class Robot extends IterativeRobot {
 		setInputRange(-180.0, 180.0);
 		setOutputRange(-1.0, 1.0);
 		setContinuous();
-		enable();
+		disable();
 	}};
 
 
@@ -97,7 +97,7 @@ public class Robot extends IterativeRobot {
 		setOutputRange(-1.0, 1.0);
 		setAbsoluteTolerance(3);
 		setContinuous();
-		enable();
+		disable();
 	}};
 
 
