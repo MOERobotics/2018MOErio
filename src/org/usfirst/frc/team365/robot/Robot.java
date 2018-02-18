@@ -42,7 +42,7 @@ public class Robot extends IterativeRobot {
 	int    autoLoopCounter = 0;
 	Timer  autoTimer     = new Timer();
 
-	
+	boolean newPID = true;
 	
 	//Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
@@ -208,46 +208,32 @@ public class Robot extends IterativeRobot {
 		double xJoy = driveStick.getX();
 
 
-		if (driveStick.getRawButton(6)) {
-			if (driveStick.getRawButtonPressed(6)) {
-				turnRobot.setSetpoint(45);
-				resetPIDController(turnRobot);
+		if(driveStick.getTrigger()) {
+			driveRobot(yJoy, yJoy);
+			/*if(newPID) {
+				
+			driveStraight.reset();
+			driveStraight.setSetpoint(navX.getYaw());
+			driveStraight.enable();
+			newPID = false;
 			}
-			driveRobot(
-				0.0 + (turnRobotCorrection.correctionValue * 0.3),
-				0.0 - (turnRobotCorrection.correctionValue * 0.3)
-			);
-		}
-		else if (driveStick.getRawButton(8)) {
-			if (driveStick.getRawButtonPressed(8)) {
-				turnRobot.setSetpoint(0);
-				resetPIDController(turnRobot);
-			}
-			driveRobot(
-				0.0 + (turnRobotCorrection.correctionValue * 0.3),
-				0.0 - (turnRobotCorrection.correctionValue * 0.3)
-			);
-		}
-		else if (driveStick.getTrigger()) {
-			if (driveStick.getRawButtonPressed(8)) {
-				turnRobot.setSetpoint(0);
-				resetPIDController(turnRobot);
-			}
-			driveRobot(
-				0.3 + (driveStraightCorrection.correctionValue * 0.1),
-				0.3 - (driveStraightCorrection.correctionValue * 0.1)
-			);
+			
+			driveRobot(yJoy + driveStraightCorrection.correctionValue, yJoy - driveStraightCorrection.correctionValue);
+			*/
 		}
 		else if (driveStick.getRawButton(2)) {  //turn robot left
 			driveRobot(-0.3,0.3);
+			newPID = true;
 		}
 		else if (driveStick.getRawButton(4)) {
 			driveRobot(0.3,-0.3);
+			newPID = true;
 		}
 		else {
-			double left  = yJoy - xJoy;
-			double right = yJoy + xJoy;
+			double left  = yJoy + xJoy;
+			double right = yJoy - xJoy;
 			driveRobot(left, right);
+			newPID = true;
 		}
 
 	}
