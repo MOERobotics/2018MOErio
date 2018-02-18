@@ -107,6 +107,7 @@ public class Robot extends TimedRobot {
 
 	// PID Controllers
 	double straightP = 0.04, straightI = 0.0004, straightD = .00;
+	
 	PIDCorrection driveStraightCorrection = new PIDCorrection();
 	PIDController driveStraight = new PIDController(straightP, straightI, straightD, navX, driveStraightCorrection,
 			0.020) {
@@ -175,6 +176,8 @@ public class Robot extends TimedRobot {
 			autoRoutine = 3;
 		if (driveStick.getRawButton(12))
 			autoRoutine = 4;
+		if (driveStick.getRawButton(11))
+			autoRoutine = 5;
 	}
 
 	/**************
@@ -217,8 +220,10 @@ public class Robot extends TimedRobot {
 			Right_Switch_Cube_Plus.run(this);
 			break;
 		case 4:
+			RightScaleSwitch.run(this);
+			//CenterLeftSwitchThenCube.run(this);
+		case 5:
 			GoStraightAutonomous.autoGoStraightTurnTest(this);
-//			DoNothingAutonomous.doNothingRoutine(this);
 			break;
 		default:
 			statusMessage = "WARNING: We tried to run an invalid autonomous program!";

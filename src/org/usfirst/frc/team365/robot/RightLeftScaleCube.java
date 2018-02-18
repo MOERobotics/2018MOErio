@@ -1,7 +1,11 @@
 package org.usfirst.frc.team365.robot;
 
 public class RightLeftScaleCube {
-	public static void run(Robot us)
+	
+	public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
+	public static final double FEET = 12 * INCHES;
+	
+	static void run(Robot us)
 	{
 		/**
 		 * Forward: 9 inches ==> 18 feet ==> 216 inches ==> 22668 pulses
@@ -11,20 +15,40 @@ public class RightLeftScaleCube {
 		 * Forward:  3 inches ==> 6 feet ==> 60 inches ==> 6480 pulses
 		 * Right (90)
 		 */
-		/*
-		 * public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
-		public static final double FEET = 12 * INCHES;
 		
-		switch(us.autoStep) {
-		case 1: us.goStraight(18 * FEET, 0, .7); break;
-		case 2: us.turnToAngle(-90, .8); break;
-		case 3: us.goStraight(15 * FEET, -90, .7); break;
-		case 4: us.turnToAngle(0,.8); break;
-		case 5: us.goStraight(6 * FEET, 0, .8); break;
-		case 6: us.turnToAngle(90, .8); break;
-		}*/
-		
+		switch (us.autoStep)
 		{
+		case 1: 
+			us.goStraight(22668, 0, 0.7);
+			break;
+		case 2:
+			us.turnToAngle(-90, 0.8);
+			break;
+		case 3:
+			us.goStraight(19440, -90, 0.5);
+			break;
+		case 4:
+			us.turnToAngle(0, 0.8);
+			break;
+		case 5:
+			us.goStraight(4200, 0, 0.4);
+			break;
+		case 6:
+			us.pause(1);
+		case 7:
+			us.goStraight(4000, 0, -0.4);
+			break;
+		case 8:
+			us.turnToAngle(180, 0.8);
+			break;
+		case 9:
+			us.goStraight(1500, 180, 0.4);
+			break;
+		case 10:
+			us.driveRobot(0, 0);
+			break;	
+		}
+		/*{
 			switch (us.autoStep)
 			{
 			case 1:
@@ -94,6 +118,7 @@ public class RightLeftScaleCube {
 				us.startPower = 0;
 				us.turnRobot.enable();
 				us.autoStep = 9;
+				us.autoLoopCounter = 0;
 				break;
 			case 9: 
 				if(us.turnRobot.onTarget())
@@ -107,7 +132,7 @@ public class RightLeftScaleCube {
 					}
 				}
 				else {
-					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
+					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue, us.startPower - us.driveStraightCorrection.correctionValue );
 				}
 				break;
 			case 10:
@@ -129,25 +154,6 @@ public class RightLeftScaleCube {
 					us.driveRobot(us.startPower + us.driveStraightCorrection.correctionValue,us.startPower - us.driveStraightCorrection.correctionValue );
 				}
 				break;
-	/*		case 12:
-				us.turnRobot.setSetpoint(90);
-				us.turnRobot.setAbsoluteTolerance(2);
-				us.startPower = 0;
-				us.turnRobot.enable();
-				us.autoStep = 13;
-				break;
-			case 13:
-				if(us.turnRobot.onTarget())
-				{
-					us.autoLoopCounter++;
-					if (us.autoLoopCounter > 0)
-					{
-						us.turnRobot.disable();
-						us.autoStep = 14;
-					}
-				}
-				break;
-				*/
 			case 14:
 				us.driveRobot(0,0);
 				us.autoStep = 15;
@@ -189,6 +195,7 @@ public class RightLeftScaleCube {
 				us.startPower = 0;
 				us.turnRobot.enable();
 				us.autoStep = 20;
+				us.autoLoopCounter = 0;
 				break;
 			case 20:
 				if(us.turnRobot.onTarget())
@@ -230,6 +237,7 @@ public class RightLeftScaleCube {
 				
 			}
 		}
+		*/
 	}
 
 }
