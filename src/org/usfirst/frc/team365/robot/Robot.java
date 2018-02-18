@@ -15,7 +15,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 
-public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
 	//Motors
 	//TL;DR: Double braces after a new object let you run commands on object immediately after the object is constructed.
 	//Longer answer: Anonymous default constructor for anonymous class implementing given class
