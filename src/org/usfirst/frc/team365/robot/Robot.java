@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
 	private DoubleSolenoid shifter = new DoubleSolenoid(0,1);
 
 	//Sensors
-	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 50);
+	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 20);
 	Encoder      distanceL  = new Encoder(0, 1, false, EncodingType.k1X);
 	Encoder      distanceR  = new Encoder(2, 3,  true, EncodingType.k1X);
 
@@ -39,8 +39,11 @@ public class Robot extends TimedRobot {
 	//Global Variables
 	int    autoStep      = 0;
 	int    autoRoutine   = 0;
+	int    autoLoopCounter = 0;
 	Timer  autoTimer     = new Timer();
 
+	boolean newPID = true;
+	
 	//Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
 	String shifterStatus = DoubleSolenoid.Value.kOff.name();
@@ -50,7 +53,11 @@ public class Robot extends TimedRobot {
 		driveOutputRight = 0.0,
 		elevatorOutput   = 0.0;
 
-
+	//GameData Storage
+	String gameData = "";
+	boolean switchLeft;
+	boolean scaleLeft;
+	boolean oppSwitchLeft;
 
 	//PID Controllers
 	double
@@ -69,7 +76,7 @@ public class Robot extends TimedRobot {
 		setInputRange(-180.0, 180.0);
 		setOutputRange(-1.0, 1.0);
 		setContinuous();
-		enable();
+		disable();
 	}};
 
 
@@ -90,7 +97,7 @@ public class Robot extends TimedRobot {
 		setOutputRange(-1.0, 1.0);
 		setAbsoluteTolerance(3);
 		setContinuous();
-		enable();
+		disable();
 	}};
 
 
@@ -145,6 +152,13 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		switchLeft = gameData.charAt(0) == 'L';
+		scaleLeft = gameData.charAt(0) == 'L';
+		oppSwitchLeft = gameData.charAt(0) == 'L';
+		
+		autoLoopCounter = 0;
+		
 		autoStep = 1;
 		
 		navX.zeroYaw();
@@ -153,12 +167,18 @@ public class Robot extends TimedRobot {
 		autoTimer.reset();
 		autoTimer.start();
 
+		driveStraight.reset();
+		turnRobot.reset();
+		
 		SmartDashboardUtil.getFromSmartDashboard(this); //force update
 
 	}
 
 	@Override
 	public void autonomousPeriodic() {
+		
+		autoLoopCounter++;
+		
 		switch(autoRoutine) {
 			case 1:
 				GoStraightAutonomous.autoGoStraightTest(this);
@@ -188,46 +208,32 @@ public class Robot extends TimedRobot {
 		double xJoy = driveStick.getX();
 
 
-		if (driveStick.getRawButton(6)) {
-			if (driveStick.getRawButtonPressed(6)) {
-				turnRobot.setSetpoint(45);
-				resetPIDController(turnRobot);
+		if(driveStick.getTrigger()) {
+			driveRobot(yJoy, yJoy);
+			/*if(newPID) {
+				
+			driveStraight.reset();
+			driveStraight.setSetpoint(navX.getYaw());
+			driveStraight.enable();
+			newPID = false;
 			}
-			driveRobot(
-				0.0 + (turnRobotCorrection.correctionValue * 0.3),
-				0.0 - (turnRobotCorrection.correctionValue * 0.3)
-			);
-		}
-		else if (driveStick.getRawButton(8)) {
-			if (driveStick.getRawButtonPressed(8)) {
-				turnRobot.setSetpoint(0);
-				resetPIDController(turnRobot);
-			}
-			driveRobot(
-				0.0 + (turnRobotCorrection.correctionValue * 0.3),
-				0.0 - (turnRobotCorrection.correctionValue * 0.3)
-			);
-		}
-		else if (driveStick.getTrigger()) {
-			if (driveStick.getRawButtonPressed(8)) {
-				turnRobot.setSetpoint(0);
-				resetPIDController(turnRobot);
-			}
-			driveRobot(
-				0.3 + (driveStraightCorrection.correctionValue * 0.1),
-				0.3 - (driveStraightCorrection.correctionValue * 0.1)
-			);
+			
+			driveRobot(yJoy + driveStraightCorrection.correctionValue, yJoy - driveStraightCorrection.correctionValue);
+			*/
 		}
 		else if (driveStick.getRawButton(2)) {  //turn robot left
 			driveRobot(-0.3,0.3);
+			newPID = true;
 		}
 		else if (driveStick.getRawButton(4)) {
 			driveRobot(0.3,-0.3);
+			newPID = true;
 		}
 		else {
-			double left  = yJoy - xJoy;
-			double right = yJoy + xJoy;
+			double left  = yJoy + xJoy;
+			double right = yJoy - xJoy;
 			driveRobot(left, right);
+			newPID = true;
 		}
 
 	}
@@ -256,7 +262,19 @@ public class Robot extends TimedRobot {
 		elevatorOutput = power;
 		elevator.set(ControlMode.PercentOutput, power);
 	}
-
+	
+	//elevator direction needs to be determined
+	//elevatorToPos(double setPoint); needs to be written
+	void elevatorUp(double power) {
+		driveElevator(power);
+	}
+	
+	void elevatorDown(double power) {
+		driveElevator(-power);
+	}
+	
+	
+	
 	void shiftIntoDrive() {
 		shifter.set(DoubleSolenoid.Value.kForward);
 		shifterStatus = DoubleSolenoid.Value.kForward.name();
@@ -271,44 +289,69 @@ public class Robot extends TimedRobot {
 	/******************
 	 * Vasista's Auto Simplificatorator *
 	 ******************/
-	public static final double INCHES_TO_ENCTICKS = 110;
+	public static final double INCHES_TO_ENCTICKS = 42.7;
 	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
 
 	int turnOnTargetCount = 0;
 
 	public void goStraight(double ticks, double setPoint, double power) {
-		if (Math.abs(getEncoderMax())> ticks) {
-			driveRobot(0,0);
-			driveStraight.reset();
+		if (newPID) {
 			resetEncoders();
-			autoStep++;
-		} else {
-				driveStraight.setSetpoint(setPoint);
-				driveStraight.enable();
+			driveStraight.reset();
+			driveStraight.setSetpoint(setPoint);
+			driveStraight.enable();
+			newPID = false;
+		}
 
-			driveRobot(power + driveStraightCorrection.correctionValue, power - driveStraightCorrection.correctionValue);
+		if (Math.abs(getEncoderMax()) > ticks) {
+			driveRobot(0, 0);
+			driveStraight.reset();
+			autoTimer.reset();
+			autoStep++;
+			newPID = true;
+		} else {
+			driveRobot(power + driveStraightCorrection.correctionValue,
+					power - driveStraightCorrection.correctionValue);
 		}
 	}
 
+	public void turnToAngle(double angle, double maxPower, double tolerance) {
+		if (newPID) {
+			turnRobot.setAbsoluteTolerance(tolerance);
+		}
+		turnToAngle(angle, maxPower);
+	}
+
 	public void turnToAngle(double angle, double maxPower) {
+		if (newPID) {
+			resetEncoders();
+			turnRobot.reset();
+			turnRobot.setSetpoint(angle);
+			turnRobot.setOutputRange(-Math.abs(maxPower), Math.abs(maxPower));
+			turnRobot.enable();
+			turnOnTargetCount = 0;
+			newPID = false;
+		}
+
 		if (turnRobot.onTarget()) {
 			turnOnTargetCount++;
 		}
+
 		if (turnOnTargetCount > 3) {
 			resetEncoders();
-			driveRobot(0,0);
+			driveRobot(0, 0);
 			turnOnTargetCount = 0;
-			autoStep++;
 			turnRobot.reset();
+			autoTimer.reset();
+			autoStep++;
+			newPID = true;
 		} else {
-			turnRobot.setSetpoint(angle);
-			turnRobot.enable();
-			driveRobot(turnRobotCorrection.correctionValue * Math.abs(maxPower), -turnRobotCorrection.correctionValue* Math.abs(maxPower));
+			driveRobot(turnRobotCorrection.correctionValue, -turnRobotCorrection.correctionValue);
 		}
 	}
 
 	public void turnToAngle(double angle) {
-		turnToAngle(angle, 1);
+		turnToAngle(angle, .6);
 	}
 
 	public void resetEncoders() {
@@ -317,7 +360,144 @@ public class Robot extends TimedRobot {
 	}
 
 	public double getEncoderMax() {
-		return (distanceL.getRaw() + distanceR.getRaw()) / 2.0;
+		return distanceL.getRaw() > distanceR.getRaw() ? distanceL.getRaw() : distanceR.getRaw();
+	}
+
+	public double getStraightPower() {
+		return (driveOutputLeft + driveOutputRight) / 2.0;
+	}
+
+	public void pause(double seconds) {
+		if (autoTimer.get() > seconds) {
+			autoStep++;
+			autoTimer.reset();
+		}
+	}
+
+	public void halfTurnLeft(double angle, double power) {
+		if (Math.abs(navX.getYaw() - angle) < 3) {
+			driveRobot(0, 0);
+			autoStep++;
+		} else {
+			driveRobot(0, power);
+		}
+	}
+
+	public void halfTurnRight(double angle, double power) {
+		if (Math.abs(navX.getYaw() - angle) < 3) {
+			driveRobot(0, 0);
+			autoStep++;
+		} else {
+			driveRobot(power, 0);
+		}
+	}
+
+	/**
+	 * 
+	 * Below is a modification to goStraight that will ramp up and ramp down the
+	 * speed of the bot to minimize tipping. The 4 doubles at the start of
+	 * goStraightSS need to be tweaked for goodness - especially the last 2.
+	 */
+
+	
+	public void goStraightSS(double ticks, double setPoint, double maxPower) {
+		double deltaSpeedIncrease = .01;
+		double deltaSpeedDecrease = .01;
+		double distAwayFromTargetToStartBraking = 24 * INCHES_TO_ENCTICKS;
+		double maxOKBrakingPower = .3;
+
+		if (newPID) {
+			resetEncoders();
+			driveStraight.reset();
+			driveStraight.setSetpoint(setPoint);
+			driveStraight.enable();
+			newPID = false;
+		}
+
+		if (Math.abs(getEncoderMax()) > ticks) {
+			driveRobot(0, 0);
+			driveStraight.reset();
+			autoTimer.reset();
+			autoStep++;
+			newPID = true;
+		} else {
+			if (ticks - Math.abs(getEncoderMax()) < distAwayFromTargetToStartBraking
+					&& getStraightPower() > maxOKBrakingPower) {
+				driveRobot(getStraightPower() - deltaSpeedDecrease + driveStraightCorrection.correctionValue,
+						getStraightPower() - deltaSpeedDecrease - driveStraightCorrection.correctionValue);
+			}
+
+			else if (getStraightPower() < maxPower) {
+				driveRobot(getStraightPower() + deltaSpeedIncrease + driveStraightCorrection.correctionValue,
+						getStraightPower() + deltaSpeedIncrease - driveStraightCorrection.correctionValue);
+			} else {
+				driveRobot(maxPower + driveStraightCorrection.correctionValue,
+						maxPower - driveStraightCorrection.correctionValue);
+			}
+		}
+
+	}
+
+	double turnSum = 0;
+	double offYaw = 0;
+	double lastOffYaw = 0;
+	
+	public void autoPIDTurn(double desiredYaw) {
+		double currentYaw = navX.getYaw();
+		double offYaw = desiredYaw - currentYaw;
+
+		// if driving near 180 need to correct offYaw
+		if (offYaw > 180)
+			offYaw = offYaw - 360;
+		else if (offYaw < -180)
+			offYaw = offYaw + 360;
+
+		// initialize values during first loop
+		if (newPID) {
+			turnSum = 0;
+			newPID = false;
+			lastOffYaw = offYaw;
+			turnOnTargetCount = 0;
+			driveRobot(0, 0);
+		} else {
+
+			// re-zero the error sum when turn past yaw setpoint
+			if (offYaw * lastOffYaw <= 0) {
+				turnSum = 0;
+			}
+
+			// determine if within yaw tolerance
+			if (offYaw > 2 || offYaw < -2) {
+				// only add to error sum when close to target value
+				if (offYaw < 20 && offYaw > -20) {
+					if (offYaw > 0)
+						turnSum = turnSum + 0.01;
+					else
+						turnSum = turnSum - 0.01;
+				}
+				// calculate new correction value
+				double newPower = turnP * offYaw + turnSum + turnD * (offYaw - lastOffYaw);
+
+				// limit output power
+				if (newPower > 0.6)
+					newPower = 0.6;
+				else if (newPower < -0.6)
+					newPower = -0.6;
+				driveRobot(newPower, -newPower);
+			}
+			// if robot is within yaw tolerance stop robot and increase onCount
+			else {
+				turnOnTargetCount++;
+				if (turnOnTargetCount > 3) {
+					turnOnTargetCount = 0;
+					autoStep++;
+					driveRobot(0, 0);
+					newPID = true;
+				}
+
+			}
+			lastOffYaw = offYaw;
+		}
 	}
 
 }
