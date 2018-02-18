@@ -21,7 +21,7 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 2:
-			us.goStraight(7.6 * FEET, -52.0, 0.5);
+			us.goStraight(7.45 * FEET, -52.0, 0.6);
 			break;
 			
 		case 3:	
@@ -34,8 +34,8 @@ public class CenterLeftSwitchThenCube
 				us.driveRobot(0.6, 0);
 			break;
 			
-		case 4: //program skips this step? check please
-			us.goStraight(1 * FEET, 0, 0.5);
+		case 4: 
+			us.goStraight(1.5 * FEET, 0, 0.6);
 			us.autoTimer.reset();
 			break;
 			
@@ -50,23 +50,23 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 6:
-			us.goStraight(4 * FEET, 0, -0.5);
+			us.goStraight(4 * FEET, 0, -0.6);
 			break;
 			
 		case 7: 
-			us.turnToAngle(90, 1);
+			us.turnToAngle(90, 0.6);
 			break;
 			
 		case 8:
-			us.goStraight(4.167 * FEET, 90, 0.5);
+			us.goStraight(4.5 * FEET, 90, 0.6);
 			break;
 		
 		case 9:
-			us.turnToAngle(0, 1);
+			us.turnToAngle(0, 0.6);
 			break;
 			
 		case 10:
-			us.goStraight(.8 * FEET, 0, 0.5);
+			us.goStraight(1.2 * FEET, 0, 0.6);
 			break;
 
 			
