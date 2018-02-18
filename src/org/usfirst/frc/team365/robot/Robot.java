@@ -176,6 +176,9 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+		
+		autoLoopCounter++;
+		
 		switch(autoRoutine) {
 			case 1:
 				GoStraightAutonomous.autoGoStraightTest(this);
