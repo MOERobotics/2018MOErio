@@ -21,9 +21,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 
-public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
 	// Motors
 	// TL;DR: Double braces after a new object let you run commands on object
 	// immediately after the object is constructed.
@@ -97,6 +98,7 @@ public class Robot extends IterativeRobot {
 	double turnSum = 0;
 	double lastOffYaw = 0;
 	boolean newPID = true;
+	double rampUpPower = 0;
 
 	// Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
@@ -104,7 +106,7 @@ public class Robot extends IterativeRobot {
 	double driveOutputLeft = 0.0, driveOutputRight = 0.0;
 
 	// PID Controllers
-	double straightP = 0.04, straightI = 0.0003, straightD = .00;
+	double straightP = 0.04, straightI = 0.0004, straightD = .00;
 	PIDCorrection driveStraightCorrection = new PIDCorrection();
 	PIDController driveStraight = new PIDController(straightP, straightI, straightD, navX, driveStraightCorrection,
 			0.020) {
@@ -116,12 +118,12 @@ public class Robot extends IterativeRobot {
 		}
 	};
 
-	double turnP = 0.04, turnI = 0, turnD = 0.00;
+	double turnP = 0.04, turnI = 0, turnD = 0.02;
 	PIDCorrection turnRobotCorrection = new PIDCorrection();
 	PIDController turnRobot = new PIDController(turnP, turnI, turnD, navX, turnRobotCorrection, 0.020) {
 		{
 			setInputRange(-180.0, 180.0);
-			setOutputRange(-1.0, 1.0);
+			setOutputRange(-0.6, 0.6);
 			setAbsoluteTolerance(3);
 			setContinuous();
 			disable();
@@ -189,14 +191,13 @@ public class Robot extends IterativeRobot {
 		resetEncoders();
 
 		autoTimer.reset();
-//		autoTimer.start();
+		//		autoTimer.start();
 
 		autoPauseTimer.reset();
-//		autoPauseTimer.start();
-		
+		//		autoPauseTimer.start();
 		driveStraight.reset();
 		turnRobot.reset();
-		
+
 		SmartDashboardUtil.getFromSmartDashboard(this); // force update
 
 	}
@@ -216,7 +217,8 @@ public class Robot extends IterativeRobot {
 			Right_Switch_Cube_Plus.run(this);
 			break;
 		case 4:
-			DoNothingAutonomous.doNothingRoutine(this);
+			GoStraightAutonomous.autoGoStraightTurnTest(this);
+//			DoNothingAutonomous.doNothingRoutine(this);
 			break;
 		default:
 			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
@@ -285,7 +287,7 @@ public class Robot extends IterativeRobot {
 	int turnOnTargetCount = 0;
 
 	public void goStraight(double ticks, double setPoint, double power) {
-		if (Math.abs(getEncoderMax()) > ticks) {
+		if (getEncoderMax() > ticks) {
 			driveRobot(0, 0);
 			driveStraight.reset();
 			resetEncoders();
@@ -301,14 +303,15 @@ public class Robot extends IterativeRobot {
 	}
 	
 	void autoPIDStraight(double ticks, double setPoint, double power) {
-		double currentYaw = navX.getYaw();
-		double offYaw = setPoint - currentYaw;
+//		double currentYaw = navX.getYaw();
+//		double offYaw = setPoint - currentYaw;
 		
 
 		
 //   initialize needed value for first loop		
 		if (newPID) {
-			driveStraight.reset();
+//			driveStraight.reset();
+			rampUpPower = 0.4;
 			newPID = false;
 			driveRobot(0,0);
 			resetEncoders();
@@ -317,7 +320,8 @@ public class Robot extends IterativeRobot {
 			
 		}
 		
-		else if (Math.abs(getEncoderMax()) > ticks) {
+		
+			else if (getEncoderMax() > ticks) {
 			driveRobot(0, 0);
 			driveStraight.reset();
 //			resetEncoders();
@@ -328,6 +332,12 @@ public class Robot extends IterativeRobot {
 		}
 		
 		else {
+			rampUpPower = rampUpPower + 0.06;
+			if (rampUpPower < power) {
+				driveRobot(rampUpPower + driveStraightCorrection.correctionValue,  rampUpPower - driveStraightCorrection.correctionValue);
+				rampUpPower = power;
+			}
+			else if (getEncoderMax() > ticks - 600) power = 0.4;
 			driveRobot(power + driveStraightCorrection.correctionValue,
 					power - driveStraightCorrection.correctionValue);
 		}
@@ -346,7 +356,7 @@ public class Robot extends IterativeRobot {
 			autoStep++;
 			turnRobot.reset();
 			autoPauseTimer.reset();
-			autoPauseTimer.start();
+//			autoPauseTimer.start();
 		} else {
 			turnRobot.setSetpoint(angle);
 			turnRobot.enable();
@@ -369,8 +379,9 @@ public class Robot extends IterativeRobot {
 			newPID = false;
 			lastOffYaw = offYaw;
 			onCount = 0;
-//			driveRobot(0,0);
-		}
+			driveRobot(0,0);
+		}		
+		else {
 		
 //   re-zero the error sum when turn past yaw setpoint
 		if (offYaw * lastOffYaw <= 0) {
@@ -378,7 +389,7 @@ public class Robot extends IterativeRobot {
 		}
 
 //  determine if within yaw tolerance
-		if (offYaw > 3 || offYaw < -3) {     
+		if (offYaw > 2 || offYaw < -2) {     
 //  only add to error sum when close to target value			
 			if (offYaw < 20 && offYaw > -20) {   
 				if (offYaw > 0) turnSum = turnSum + 0.01;
@@ -388,8 +399,8 @@ public class Robot extends IterativeRobot {
 			double newPower = turnP*offYaw + turnSum + turnD*(offYaw - lastOffYaw);
 			
 //  limit output power
-			if (newPower > 0.5) newPower = 0.5;
-			else if (newPower < -0.5) newPower = -0.5;
+			if (newPower > 0.6) newPower = 0.6;
+			else if (newPower < -0.6) newPower = -0.6;
 			driveRobot(newPower, -newPower);
 		}
 //  if robot is within yaw tolerance stop robot and increase onCount
@@ -403,6 +414,7 @@ public class Robot extends IterativeRobot {
 			
 		}
 		lastOffYaw = offYaw;
+		}
 	}
 	
 
@@ -416,8 +428,17 @@ public class Robot extends IterativeRobot {
 		distanceR.reset();
 	}
 
-	public double getEncoderMax() {
-		return (distanceL.getRaw() + distanceR.getRaw()) / 2.0;
+	public int getEncoderMax() {
+		int distL = Math.abs(distanceL.getRaw());
+		int distR = Math.abs(distanceR.getRaw());
+		if (distL > 50 && distR > 50) {
+			return (distL + distR)/2;
+		}
+		if (distL > distR)  {
+			return distL;
+		}
+		else return distR;
+//		return (distanceL.getRaw() + distanceR.getRaw()) / 2.0;
 	}
 
 	public double getStraightPower() {
@@ -429,7 +450,7 @@ public class Robot extends IterativeRobot {
 		if(autoPauseTimer.get() > seconds) {
 			autoStep++;
 			autoPauseTimer.reset();
-			autoPauseTimer.start();
+//			autoPauseTimer.start();
 		}
 	}
 	
