@@ -22,9 +22,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 
-public class Robot extends IterativeRobot {
+public class Robot extends TimedRobot {
 	// Motors
 	// TL;DR: Double braces after a new object let you run commands on object
 	// immediately after the object is constructed.
@@ -82,13 +83,22 @@ public class Robot extends IterativeRobot {
 
 	int autoLoopCounter = 0;
 	int onCount;
-	double kProp = 0.05;
+	double kProp = 0.04;
 	double kInt = 0.0003;
-	double turnProp = 0.04;
+
 	double kDer = 0;
+	double turnProp = 0.04;
+	
+	
+	
 	double PIDCorrection = 0;
 
 	double startPower = .5;
+	
+	double turnSum = 0;
+	double lastOffYaw = 0;
+	boolean newPID = true;
+	double rampUpPower = 0;
 
 	
 	//GameData Stuff
@@ -120,7 +130,7 @@ public class Robot extends IterativeRobot {
 	PIDController turnRobot = new PIDController(turnP, turnI, turnD, navX, turnRobotCorrection, 0.020) {
 		{
 			setInputRange(-180.0, 180.0);
-			setOutputRange(-1.0, 1.0);
+			setOutputRange(-0.6, 0.6);
 			setAbsoluteTolerance(3);
 			setContinuous();
 			disable();
@@ -172,6 +182,8 @@ public class Robot extends IterativeRobot {
 			autoRoutine = 3;
 		if (driveStick.getRawButton(12))
 			autoRoutine = 4;
+		if (driveStick.getRawButton(11))
+			autoRoutine = 5;
 	}
 
 	/**************
@@ -218,7 +230,11 @@ public class Robot extends IterativeRobot {
 			Right_Switch_Cube_Plus.run(this);
 			break;
 		case 4:
-			DoNothingAutonomous.doNothingRoutine(this);
+			RightScaleSwitch.run(this);
+			break;
+			//CenterLeftSwitchThenCube.run(this);
+		case 5:
+			GoStraightAutonomous.autoGoStraightTurnTest(this);
 			break;
 		default:
 			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
