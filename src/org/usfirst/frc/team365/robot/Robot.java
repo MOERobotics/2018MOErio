@@ -15,6 +15,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -78,7 +79,6 @@ public class Robot extends IterativeRobot {
 	int autoStep = 0;
 	int autoRoutine = 0;
 	Timer autoTimer = new Timer();
-	Timer autoPauseTimer = new Timer();
 
 	int autoLoopCounter = 0;
 	int onCount;
@@ -90,6 +90,13 @@ public class Robot extends IterativeRobot {
 
 	double startPower = .5;
 
+	
+	//GameData Stuff
+	String gameData = "";
+	boolean switchLeft;
+	boolean scaleLeft;
+	boolean oppSwitchLeft;
+	
 	// Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
 
@@ -173,6 +180,11 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		switchLeft = gameData.charAt(0)=='L';
+		scaleLeft = gameData.charAt(0)=='L';
+		oppSwitchLeft = gameData.charAt(0)=='L';
+		
 		autoLoopCounter = 0;
 
 		autoStep = 1;
@@ -183,8 +195,6 @@ public class Robot extends IterativeRobot {
 		autoTimer.reset();
 		autoTimer.start();
 
-		autoPauseTimer.reset();
-		autoPauseTimer.start();
 		
 		driveStraight.reset();
 		turnRobot.reset();
@@ -232,27 +242,9 @@ public class Robot extends IterativeRobot {
 		double yJoy = -driveStick.getY();
 		double xJoy = driveStick.getX();
 
-		if (driveStick.getRawButton(6)) {
-			if (driveStick.getRawButtonPressed(6)) {
-				turnRobot.setSetpoint(45);
-				resetPIDController(turnRobot);
-			}
-			driveRobot(0.0 + (turnRobotCorrection.correctionValue * 0.3),
-					0.0 - (turnRobotCorrection.correctionValue * 0.3));
-		} else if (driveStick.getRawButton(8)) {
-			if (driveStick.getRawButtonPressed(8)) {
-				turnRobot.setSetpoint(0);
-				resetPIDController(turnRobot);
-			}
-			driveRobot(0.0 + (turnRobotCorrection.correctionValue * 0.3),
-					0.0 - (turnRobotCorrection.correctionValue * 0.3));
-		} else if (driveStick.getTrigger()) {
-			if (driveStick.getRawButtonPressed(8)) {
-				turnRobot.setSetpoint(0);
-				resetPIDController(turnRobot);
-			}
-			driveRobot(0.3 + (driveStraightCorrection.correctionValue * 0.1),
-					0.3 - (driveStraightCorrection.correctionValue * 0.1));
+	
+		if (driveStick.getTrigger()) {
+			driveRobot(yJoy,yJoy);
 		} else if (driveStick.getRawButton(2)) { // turn robot left
 			driveRobot(-0.3, 0.3);
 		} else if (driveStick.getRawButton(4)) {
@@ -293,46 +285,68 @@ public class Robot extends IterativeRobot {
 	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
 
 	int turnOnTargetCount = 0;
-
-	public void goStraight(double ticks, double setPoint, double power) {
+	
+	boolean newPID = true;
+	
+	public void goStraight(double ticks, double setPoint, double power) {	
+		if (newPID) {
+			resetEncoders();
+			driveStraight.reset();
+			driveStraight.setSetpoint(setPoint);
+			driveStraight.enable();
+			newPID = false;
+		}
+		
 		if (Math.abs(getEncoderMax()) > ticks) {
 			driveRobot(0, 0);
 			driveStraight.reset();
-			resetEncoders();
-			autoPauseTimer.reset();
-			autoPauseTimer.start();
+			autoTimer.reset();
 			autoStep++;
-		} else {
-			driveStraight.setSetpoint(setPoint);
-			driveStraight.enable();
+			newPID = true;
+		}
+		else {
 			driveRobot(power + driveStraightCorrection.correctionValue,
 					power - driveStraightCorrection.correctionValue);
 		}
 	}
+	
 
 	public void turnToAngle(double angle, double maxPower) {
+		if (newPID) {
+			resetEncoders();
+			turnRobot.reset();
+			turnRobot.setI(0);
+			turnRobot.setSetpoint(angle);
+			turnRobot.setOutputRange(-Math.abs(maxPower), Math.abs(maxPower));
+			turnRobot.enable();
+			newPID = false;
+		}
+		
+		if(Math.abs(navX.getYaw() - angle) < 20) {
+			turnRobot.setI(.003);
+		}
+		
 		if (turnRobot.onTarget()) {
 			turnOnTargetCount++;
+			resetPIDController(turnRobot);
 		}
+		
 		if (turnOnTargetCount > 3) {
 			resetEncoders();
 			driveRobot(0, 0);
 			turnOnTargetCount = 0;
-			autoStep++;
 			turnRobot.reset();
-			autoPauseTimer.reset();
-			autoPauseTimer.start();
+			autoTimer.reset();
+			autoStep++;
+			newPID = true;
 		} else {
-			turnRobot.setSetpoint(angle);
-			turnRobot.enable();
-			driveRobot(turnRobotCorrection.correctionValue * Math.abs(maxPower),
-					-turnRobotCorrection.correctionValue * Math.abs(maxPower));
+			driveRobot(turnRobotCorrection.correctionValue,
+					-turnRobotCorrection.correctionValue);
 		}
 	}
 
-
 	public void turnToAngle(double angle) {
-		turnToAngle(angle, 1);
+		turnToAngle(angle, .6);
 	}
 
 	public void resetEncoders() {
@@ -341,22 +355,41 @@ public class Robot extends IterativeRobot {
 	}
 
 	public double getEncoderMax() {
-		return (distanceL.getRaw() + distanceR.getRaw()) / 2.0;
+		return distanceL.getRaw()>distanceR.getRaw()?distanceL.getRaw():distanceR.getRaw();
 	}
 
 	public double getStraightPower() {
-		return (driveOutputLeft + driveOutputRight) / 2.;
+		return (driveOutputLeft + driveOutputRight) / 2.0;
 	}
 	
 	
 	public void pause(double seconds) {
-		if(autoPauseTimer.get() > seconds) {
+		if(autoTimer.get() > seconds) {
 			autoStep++;
-			autoPauseTimer.reset();
-			autoPauseTimer.start();
+			autoTimer.reset();
 		}
 	}
 	
+	public void halfTurnLeft(double angle, double power) {
+		if(Math.abs(navX.getYaw() - angle) < 3) {
+			driveRobot(0,0);
+			autoStep++;
+		} else {
+			driveRobot(0, power);
+		}
+	}
+	
+	public void halfTurnRight(double angle, double power) {
+		if(Math.abs(navX.getYaw() - angle) < 3) {
+			driveRobot(0,0);
+			autoStep++;
+		} else {
+			driveRobot(power, 0);
+		}
+	}
+	
+	//UNTESTED BELOW
+	//DONT MERGE THIS STUFF --> BELOW
 	/**
 	 * 
 	 * Below is a modification to goStraight that will ramp up and ramp down the speed of the bot to minimize tipping.
