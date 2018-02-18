@@ -262,7 +262,19 @@ public class Robot extends IterativeRobot {
 		elevatorOutput = power;
 		elevator.set(ControlMode.PercentOutput, power);
 	}
-
+	
+	//elevator direction needs to be determined
+	//elevatorToPos(double setPoint); needs to be written
+	void elevatorUp(double power) {
+		driveElevator(power);
+	}
+	
+	void elevatorDown(double power) {
+		driveElevator(-power);
+	}
+	
+	
+	
 	void shiftIntoDrive() {
 		shifter.set(DoubleSolenoid.Value.kForward);
 		shifterStatus = DoubleSolenoid.Value.kForward.name();
