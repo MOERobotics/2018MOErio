@@ -157,6 +157,8 @@ public class Robot extends IterativeRobot {
 		scaleLeft = gameData.charAt(0) == 'L';
 		oppSwitchLeft = gameData.charAt(0) == 'L';
 		
+		autoLoopCounter = 0;
+		
 		autoStep = 1;
 		
 		navX.zeroYaw();
@@ -165,6 +167,9 @@ public class Robot extends IterativeRobot {
 		autoTimer.reset();
 		autoTimer.start();
 
+		driveStraight.reset();
+		turnRobot.reset();
+		
 		SmartDashboardUtil.getFromSmartDashboard(this); //force update
 
 	}
