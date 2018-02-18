@@ -208,7 +208,8 @@ public class Robot extends IterativeRobot {
 			Right_Switch_Cube_Plus.run(this);
 			break;
 		case 4:
-			DoNothingAutonomous.doNothingRoutine(this);
+			RightScaleSwitch.run(this);
+			//CenterLeftSwitchThenCube.run(this);
 			break;
 		default:
 			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
