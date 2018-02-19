@@ -8,12 +8,16 @@ public class RightLeftScaleCube {
 	static void run(Robot us)
 	{
 		/**
-		 * Forward: 9 inches ==> 18 feet ==> 216 inches ==> 22668 pulses
+		 * Forward: 210 inches
 		 * Left (-90)
-		 * Forward: 8 inches ==> 15 feet ==> 180 inches ==> 19440 pulses
+		 * Forward: 180 inches
 		 * Right (0)
-		 * Forward:  3 inches ==> 6 feet ==> 60 inches ==> 6480 pulses
-		 * Right (90)
+		 * Forward: 39 inches 
+		 * Backwards (0)
+		 * Backward: 37 inches
+		 * Turn (180)
+		 * Forward: 14 inches
+		 * 
 		 */
 		
 		switch (us.autoStep)
