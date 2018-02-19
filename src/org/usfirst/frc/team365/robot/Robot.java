@@ -24,8 +24,8 @@ public class Robot extends TimedRobot {
 	private TalonSRX driveRA  = new TalonSRX( 1) 	{{ setNeutralMode(NeutralMode.Brake); }};
 	private TalonSRX driveRB  = new TalonSRX(14) 	{{ setNeutralMode(NeutralMode.Brake); }};
 	private TalonSRX elevator = new TalonSRX( 2) 	{{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX grabberL = new TalonSRX(3)	 	{{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX grabberR = new TalonSRX(12) 	{{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX rolliesL = new TalonSRX(3)	 	{{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX rolliesR = new TalonSRX(12) 	{{ setNeutralMode(NeutralMode.Brake); }};
 	private TalonSRX grabberRotate = new TalonSRX(4){{ setNeutralMode(NeutralMode.Brake); }};
 
 	//Solenoids
@@ -118,7 +118,8 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		driveLA.setInverted(true);
 		driveLB.setInverted(true);
-
+		rolliesL.setInverted(true);
+		
 		System.out.println("Itsa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
 	}
