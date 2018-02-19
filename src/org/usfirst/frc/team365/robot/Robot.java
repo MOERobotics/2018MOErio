@@ -19,15 +19,23 @@ public class Robot extends TimedRobot {
 	//Motors
 	//TL;DR: Double braces after a new object let you run commands on object immediately after the object is constructed.
 	//Longer answer: Anonymous default constructor for anonymous class implementing given class
-	private TalonSRX driveLA  = new TalonSRX( 0) {{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX driveLB  = new TalonSRX(15) {{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX driveRA  = new TalonSRX( 1) {{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX driveRB  = new TalonSRX(14) {{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX elevator = new TalonSRX( 2) {{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX driveLA  = new TalonSRX( 0) 	{{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX driveLB  = new TalonSRX(15) 	{{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX driveRA  = new TalonSRX( 1) 	{{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX driveRB  = new TalonSRX(14) 	{{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX elevator = new TalonSRX( 2) 	{{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX grabberL = new TalonSRX(3)	 	{{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX grabberR = new TalonSRX(12) 	{{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX grabberRotate = new TalonSRX(4){{ setNeutralMode(NeutralMode.Brake); }};
 
 	//Solenoids
-	private DoubleSolenoid shifter = new DoubleSolenoid(0,1);
-
+	private DoubleSolenoid mouseTrap = new DoubleSolenoid(0,1);
+	private Solenoid shifter = new Solenoid(2);
+	private Solenoid grabberClaw = new Solenoid(3);
+	
+	//Servos
+	private Servo armDeployer = new Servo(0);
+	
 	//Sensors
 	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 20);
 	Encoder      distanceL  = new Encoder(0, 1, false, EncodingType.k1X);
@@ -276,13 +284,13 @@ public class Robot extends TimedRobot {
 	
 	
 	void shiftIntoDrive() {
-		shifter.set(DoubleSolenoid.Value.kForward);
-		shifterStatus = DoubleSolenoid.Value.kForward.name();
+		shifter.set(false);
+		shifterStatus = "drive";
 	}
 
 	void shiftIntoClimb() {
-		shifter.set(DoubleSolenoid.Value.kReverse);
-		shifterStatus = DoubleSolenoid.Value.kReverse.name();
+		shifter.set(true);
+		shifterStatus = "climb";
 	}
 	
 	
