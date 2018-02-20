@@ -12,15 +12,15 @@ public class GoStraightAutonomous {
 		switch(ourselves.autoStep) {
 		case 1:
 //			ourselves.goStraight(10000, 0, 0.6);
-			ourselves.autoPIDStraight(13000,0,0.7);
+//			ourselves.autoPIDStraight(13000,0,0.7);
 			break;
 		case 2:
 //			ourselves.turnToAngle(90.0, 0.7);
-			ourselves.autoPIDTurn(90.0);
+//			ourselves.autoPIDTurn(90.0);
 			break;
 		case 3:
 //			ourselves.goStraight(8000, 90, 0.6);
-			ourselves.autoPIDStraight(6000, 90, 0.6);
+//			ourselves.autoPIDStraight(6000, 90, 0.6);
 			break;
 		case 4:
 			ourselves.driveRobot(0, 0);
