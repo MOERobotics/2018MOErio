@@ -14,101 +14,118 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 public class Robot extends TimedRobot {
-	//Motors
-	//TL;DR: Double braces after a new object let you run commands on object immediately after the object is constructed.
-	//Longer answer: Anonymous default constructor for anonymous class implementing given class
-	private TalonSRX driveLA  = new TalonSRX( 0) 	{{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX driveLB  = new TalonSRX(15) 	{{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX driveRA  = new TalonSRX( 1) 	{{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX driveRB  = new TalonSRX(14) 	{{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX elevator = new TalonSRX( 2) 	{{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX rolliesL = new TalonSRX(3)	 	{{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX rolliesR = new TalonSRX(12) 	{{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX grabberRotate = new TalonSRX(4){{ setNeutralMode(NeutralMode.Brake); }};
+	// Motors
+	// TL;DR: Double braces after a new object let you run commands on object
+	// immediately after the object is constructed.
+	// Longer answer: Anonymous default constructor for anonymous class implementing
+	// given class
+	private TalonSRX driveLA = new TalonSRX(0) {
+		{
+			setNeutralMode(NeutralMode.Brake);
+		}
+	};
+	private TalonSRX driveLB = new TalonSRX(15) {
+		{
+			setNeutralMode(NeutralMode.Brake);
+		}
+	};
+	private TalonSRX driveRA = new TalonSRX(1) {
+		{
+			setNeutralMode(NeutralMode.Brake);
+		}
+	};
+	private TalonSRX driveRB = new TalonSRX(14) {
+		{
+			setNeutralMode(NeutralMode.Brake);
+		}
+	};
+	private TalonSRX elevator = new TalonSRX(2) {
+		{
+			setNeutralMode(NeutralMode.Brake);
+		}
+	};
+	private TalonSRX rollieL = new TalonSRX(3) {
+		{
+			setNeutralMode(NeutralMode.Brake);
+		}
+	};
+	private TalonSRX rollieR = new TalonSRX(12) {
+		{
+			setNeutralMode(NeutralMode.Brake);
+		}
+	};
+	private TalonSRX grabberRotator = new TalonSRX(4) {
+		{
+			setNeutralMode(NeutralMode.Brake);
+		}
+	};
 
-	//Solenoids
-	private DoubleSolenoid mouseTrap = new DoubleSolenoid(0,1);
+	// Solenoids
+	private DoubleSolenoid mouseTrap = new DoubleSolenoid(0, 1);
 	private Solenoid shifter = new Solenoid(2);
 	private Solenoid grabberClaw = new Solenoid(3);
-	
-	//Servos
+
+	// Servos
 	private Servo armDeployer = new Servo(0);
-	
-	//Sensors
-	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 20);
-	Encoder      distanceL  = new Encoder(0, 1, false, EncodingType.k1X);
-	Encoder      distanceR  = new Encoder(2, 3,  true, EncodingType.k1X);
 
-	//Joysticks
-	private Joystick driveStick = new Joystick(0);
+	// Sensors
+	AHRS navX = new AHRS(SPI.Port.kMXP, (byte) 20);
+	Encoder driveLeftEncoder = new Encoder(0, 1, false, EncodingType.k1X);
+	Encoder driveRightEncoder = new Encoder(2, 3, true, EncodingType.k1X);
+	Encoder elevatorEncoder = new Encoder(4, 5, true, EncodingType.k2X);
+	Encoder grabberRotateEncoder = new Encoder(8, 9, true, EncodingType.k2X);
 
-	//Global Variables
-	int    autoStep      = 0;
-	int    autoRoutine   = 0;
-	int    autoLoopCounter = 0;
-	Timer  autoTimer     = new Timer();
+	// Joysticks
+	private Joystick driveController = new Joystick(0);
+	private XboxController functionController = new XboxController(2);
+
+	// Global Variables
+	int autoStep = 0;
+	int autoRoutine = 0;
+	int autoLoopCounter = 0;
+	Timer autoTimer = new Timer();
 
 	boolean newPID = true;
-	
-	//Output Storage
+
+	// Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
-	String shifterStatus = DoubleSolenoid.Value.kOff.name();
+	String shifterStatus = "drive";
 
-	double
-		driveOutputLeft  = 0.0,
-		driveOutputRight = 0.0,
-		elevatorOutput   = 0.0;
+	double driveOutputLeft = 0.0, driveOutputRight = 0.0, elevatorOutput = 0.0, rolliesOutput = 0.0, grabberRotatorOutput = 0.0;
 
-	//GameData Storage
+	// GameData Storage
 	String gameData = "";
 	boolean switchLeft;
 	boolean scaleLeft;
 	boolean oppSwitchLeft;
 
-	//PID Controllers
-	double
-		straightP = 0.08,
-		straightI = 0.0005,
-		straightD = 0;
+	// PID Controllers
+	double straightP = 0.08, straightI = 0.0005, straightD = 0;
 	PIDCorrection driveStraightCorrection = new PIDCorrection();
-	PIDController driveStraight = new PIDController(
-		straightP,
-		straightI,
-		straightD,
-		navX,
-		driveStraightCorrection,
-		0.020
-	) {{
-		setInputRange(-180.0, 180.0);
-		setOutputRange(-1.0, 1.0);
-		setContinuous();
-		disable();
-	}};
+	PIDController driveStraight = new PIDController(straightP, straightI, straightD, navX, driveStraightCorrection,
+			0.020) {
+		{
+			setInputRange(-180.0, 180.0);
+			setOutputRange(-1.0, 1.0);
+			setContinuous();
+			disable();
+		}
+	};
 
-
-	double
-		turnP = 0.05,
-		turnI = 0,
-		turnD = 0.03;
+	double turnP = 0.05, turnI = 0, turnD = 0.03;
 	PIDCorrection turnRobotCorrection = new PIDCorrection();
-	PIDController turnRobot  = new PIDController(
-		turnP,
-		turnI,
-		turnD,
-		navX,
-		turnRobotCorrection,
-		0.020
-	) {{
-		setInputRange(-180.0, 180.0);
-		setOutputRange(-1.0, 1.0);
-		setAbsoluteTolerance(3);
-		setContinuous();
-		disable();
-	}};
-
-
+	PIDController turnRobot = new PIDController(turnP, turnI, turnD, navX, turnRobotCorrection, 0.020) {
+		{
+			setInputRange(-180.0, 180.0);
+			setOutputRange(-1.0, 1.0);
+			setAbsoluteTolerance(3);
+			setContinuous();
+			disable();
+		}
+	};
 
 	/**********
 	 * Global *
@@ -118,8 +135,8 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		driveLA.setInverted(true);
 		driveLB.setInverted(true);
-		rolliesL.setInverted(true);
-		
+		rollieL.setInverted(true);
+
 		System.out.println("Itsa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
 	}
@@ -127,9 +144,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		SmartDashboardUtil.dashboardPeriodic(this);
-		statusMessage = "Everything is good!"; //If this isn't still good when you print it again, we did something bad.
+		statusMessage = "Everything is good!"; // If this isn't still good when you print it again, we did something
+												// bad.
 	}
-
 
 	/************
 	 * Disabled *
@@ -143,17 +160,19 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		if (driveStick.getRawButton(2)) {
+		if (driveController.getRawButton(2)) {
 			resetEncoders();
 			navX.zeroYaw();
 		}
-		if (driveStick.getRawButton(6)) autoRoutine = 1;
-		if (driveStick.getRawButton(8)) autoRoutine = 2;
-		if (driveStick.getRawButton(10)) autoRoutine = 3;
-		if (driveStick.getRawButton(12)) autoRoutine = 4;
+		if (driveController.getRawButton(6))
+			autoRoutine = 1;
+		if (driveController.getRawButton(8))
+			autoRoutine = 2;
+		if (driveController.getRawButton(10))
+			autoRoutine = 3;
+		if (driveController.getRawButton(12))
+			autoRoutine = 4;
 	}
-
-
 
 	/**************
 	 * Autonomous *
@@ -165,11 +184,11 @@ public class Robot extends TimedRobot {
 		switchLeft = gameData.charAt(0) == 'L';
 		scaleLeft = gameData.charAt(0) == 'L';
 		oppSwitchLeft = gameData.charAt(0) == 'L';
-		
+
 		autoLoopCounter = 0;
-		
+
 		autoStep = 1;
-		
+
 		navX.zeroYaw();
 		resetEncoders();
 
@@ -178,26 +197,26 @@ public class Robot extends TimedRobot {
 
 		driveStraight.reset();
 		turnRobot.reset();
-		
-		SmartDashboardUtil.getFromSmartDashboard(this); //force update
+
+		SmartDashboardUtil.getFromSmartDashboard(this); // force update
 
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		
+
 		autoLoopCounter++;
-		
-		switch(autoRoutine) {
-			case 1:
-				GoStraightAutonomous.autoGoStraightTest(this);
-				break;
-			case 3:
-				DoNothingAutonomous.doNothingRoutine(this);
-				break;
-			default:
-				statusMessage = "WARNING: We tried to run an invalid autonomous program!";
-				break;
+
+		switch (autoRoutine) {
+		case 1:
+		//	GoStraightAutonomous.autoGoStraightTest(this);
+			break;
+		case 3:
+			DoNothingAutonomous.doNothingRoutine(this);
+			break;
+		default:
+			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
+			break;
 		}
 
 	}
@@ -208,61 +227,94 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		SmartDashboardUtil.getFromSmartDashboard(this); //force update
+		SmartDashboardUtil.getFromSmartDashboard(this); // force update
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		double yJoy = driveStick.getY();
-		double xJoy = driveStick.getX();
+		double yJoy = -driveController.getY();
+		double xJoy = driveController.getX();
 
-
-		if(driveStick.getTrigger()) {
+		if (driveController.getTrigger()) {
 			driveRobot(yJoy, yJoy);
-			/*if(newPID) {
-				
-			driveStraight.reset();
-			driveStraight.setSetpoint(navX.getYaw());
-			driveStraight.enable();
-			newPID = false;
-			}
-			
-			driveRobot(yJoy + driveStraightCorrection.correctionValue, yJoy - driveStraightCorrection.correctionValue);
-			*/
-		}
-		else if (driveStick.getRawButton(2)) {  //turn robot left
-			driveRobot(-0.3,0.3);
+			/*
+			 * if(newPID) {
+			 * 
+			 * driveStraight.reset(); driveStraight.setSetpoint(navX.getYaw());
+			 * driveStraight.enable(); newPID = false; }
+			 * 
+			 * driveRobot(yJoy + driveStraightCorrection.correctionValue, yJoy -
+			 * driveStraightCorrection.correctionValue);
+			 */
+		} else if (driveController.getRawButton(2)) { // turn robot left
+			driveRobot(-0.3, 0.3);
 			newPID = true;
-		}
-		else if (driveStick.getRawButton(4)) {
-			driveRobot(0.3,-0.3);
+		} else if (driveController.getRawButton(4)) {
+			driveRobot(0.3, -0.3);
 			newPID = true;
-		}
-		else {
-			double left  = yJoy + xJoy;
+		} else {
+			double left = yJoy + xJoy;
 			double right = yJoy - xJoy;
 			driveRobot(left, right);
 			newPID = true;
 		}
 
-	}
+		// xbox controller stuffs
 
+		// grabber claw
+		if (functionController.getAButton()) {
+			openGrabber();
+		} else if (functionController.getXButton()) {
+			closeGrabber();
+		}
+
+		// grabber rotation
+		if (functionController.getBButton()) {
+			rotateGrabber(-.4);
+		} else if (functionController.getYButton()) {
+			rotateGrabber(.4);
+		}
+
+		// grabber rollies
+		if (functionController.getBumper(Hand.kLeft)) {
+			driveRollies(-.5);
+		} else if (functionController.getBumper(Hand.kRight)) {
+			driveRollies(.5);
+		}
+
+		// elevator
+		//this takes whichever Trigger value is greater and runs with that
+		driveElevator(functionController.getTriggerAxis(Hand.kLeft) > functionController.getTriggerAxis(Hand.kRight)
+				? -functionController.getTriggerAxis(Hand.kLeft)
+				: functionController.getTriggerAxis(Hand.kRight));
+
+		// testingservo
+
+		if (functionController.getBackButton()) {
+			armDeployer.set(0);
+		} else if (functionController.getStartButton()) {
+			armDeployer.set(180);
+		} else {
+			armDeployer.set(90);
+		}
+
+	}
 
 	/******************
 	 * Misc Functions *
 	 ******************/
 
-	//blah blah extension functions blah blah use a better language
+	// blah blah extension functions blah blah use a better language
 	static void resetPIDController(PIDController pid) {
 		pid.reset();
 		pid.enable();
 	}
 
 	void driveRobot(double leftPower, double rightPower) {
-		driveOutputLeft  = leftPower;
+		driveOutputLeft = leftPower;
 		driveOutputRight = rightPower;
-		driveLA.set(ControlMode.PercentOutput,  leftPower);
-		driveLB.set(ControlMode.PercentOutput,  leftPower);
+		driveLA.set(ControlMode.PercentOutput, leftPower);
+		driveLB.set(ControlMode.PercentOutput, leftPower);
 		driveRA.set(ControlMode.PercentOutput, rightPower);
 		driveRB.set(ControlMode.PercentOutput, rightPower);
 	}
@@ -271,19 +323,24 @@ public class Robot extends TimedRobot {
 		elevatorOutput = power;
 		elevator.set(ControlMode.PercentOutput, power);
 	}
-	
-	//elevator direction needs to be determined
-	//elevatorToPos(double setPoint); needs to be written
-	void elevatorUp(double power) {
-		driveElevator(power);
+
+	void rotateGrabber(double power) {
+		grabberRotator.set(ControlMode.PercentOutput, power);
 	}
-	
-	void elevatorDown(double power) {
-		driveElevator(-power);
+
+	void openGrabber() {
+		grabberClaw.set(true);
 	}
-	
-	
-	
+
+	void closeGrabber() {
+		grabberClaw.set(false);
+	}
+
+	void driveRollies(double power) {
+		rollieL.set(ControlMode.PercentOutput, power);
+		rollieR.set(ControlMode.PercentOutput, power);
+	}
+
 	void shiftIntoDrive() {
 		shifter.set(false);
 		shifterStatus = "drive";
@@ -293,8 +350,7 @@ public class Robot extends TimedRobot {
 		shifter.set(true);
 		shifterStatus = "climb";
 	}
-	
-	
+
 	/******************
 	 * Vasista's Auto Simplificatorator *
 	 ******************/
@@ -364,12 +420,13 @@ public class Robot extends TimedRobot {
 	}
 
 	public void resetEncoders() {
-		distanceL.reset();
-		distanceR.reset();
+		driveLeftEncoder.reset();
+		driveRightEncoder.reset();
 	}
 
 	public double getEncoderMax() {
-		return distanceL.getRaw() > distanceR.getRaw() ? distanceL.getRaw() : distanceR.getRaw();
+		return driveLeftEncoder.getRaw() > driveRightEncoder.getRaw() ? driveLeftEncoder.getRaw()
+				: driveRightEncoder.getRaw();
 	}
 
 	public double getStraightPower() {
@@ -408,7 +465,6 @@ public class Robot extends TimedRobot {
 	 * goStraightSS need to be tweaked for goodness - especially the last 2.
 	 */
 
-	
 	public void goStraightSS(double ticks, double setPoint, double maxPower) {
 		double deltaSpeedIncrease = .01;
 		double deltaSpeedDecrease = .01;
@@ -450,7 +506,7 @@ public class Robot extends TimedRobot {
 	double turnSum = 0;
 	double offYaw = 0;
 	double lastOffYaw = 0;
-	
+
 	public void autoPIDTurn(double desiredYaw) {
 		double currentYaw = navX.getYaw();
 		double offYaw = desiredYaw - currentYaw;

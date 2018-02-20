@@ -47,12 +47,17 @@ public class SmartDashboardUtil {
 	static void printToSmartDashboard(Robot ourselves) {
 		SmartDashboard.putString(           "status", ourselves.statusMessage                 );
 		//parts
-		SmartDashboard.putNumber(        "distRight", ourselves.distanceR.getRaw()            );
-		SmartDashboard.putNumber(         "distLeft", ourselves.distanceL.getRaw()            );
+		SmartDashboard.putNumber(        "distRight", ourselves.driveLeftEncoder.getRaw()            );
+		SmartDashboard.putNumber(         "distLeft", ourselves.driveRightEncoder.getRaw()            );
 		SmartDashboard.putNumber(  "driveOutputLeft", ourselves.driveOutputLeft               );
 		SmartDashboard.putNumber( "driveOutputRight", ourselves.driveOutputRight              );
 		SmartDashboard.putNumber(   "elevatorOutput", ourselves.elevatorOutput                );
 		SmartDashboard.putString(    "shifterStatus", ourselves.shifterStatus                 );
+		SmartDashboard.putNumber("rolliesOutput", ourselves.rolliesOutput);
+		SmartDashboard.putNumber("grabberRotatorOutput", ourselves.grabberRotatorOutput);
+		SmartDashboard.putNumber("Elevator Encoder", ourselves.elevatorEncoder.getRaw());
+		SmartDashboard.putNumber("Grabber Rotator Encoder", ourselves.grabberRotateEncoder.getRaw());
+		
 
 		//navx
 		SmartDashboard.putNumber(              "Yaw", ourselves.navX.getYaw()                 );
