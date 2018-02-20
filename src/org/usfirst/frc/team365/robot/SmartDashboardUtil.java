@@ -56,7 +56,7 @@ public class SmartDashboardUtil {
 		SmartDashboard.putNumber("rolliesOutput", ourselves.rolliesOutput);
 		SmartDashboard.putNumber("grabberRotatorOutput", ourselves.grabberRotatorOutput);
 		SmartDashboard.putNumber("Elevator Encoder", ourselves.elevatorEncoder.getRaw());
-		SmartDashboard.putNumber("Grabber Rotator Encoder", ourselves.grabberRotateEncoder.getRaw());
+		SmartDashboard.putNumber("Grabber Rotator Encoder", ourselves.wristEncoder.getRaw());
 		
 
 		//navx

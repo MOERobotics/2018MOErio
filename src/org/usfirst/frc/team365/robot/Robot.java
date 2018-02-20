@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
 			setNeutralMode(NeutralMode.Brake);
 		}
 	};
-	private TalonSRX grabberRotator = new TalonSRX(4) {
+	private TalonSRX wrist = new TalonSRX(4) {
 		{
 			setNeutralMode(NeutralMode.Brake);
 		}
@@ -76,7 +76,7 @@ public class Robot extends TimedRobot {
 	Encoder driveLeftEncoder = new Encoder(0, 1, false, EncodingType.k1X);
 	Encoder driveRightEncoder = new Encoder(2, 3, true, EncodingType.k1X);
 	Encoder elevatorEncoder = new Encoder(4, 5, true, EncodingType.k2X);
-	Encoder grabberRotateEncoder = new Encoder(8, 9, true, EncodingType.k2X);
+	Encoder wristEncoder = new Encoder(8, 9, true, EncodingType.k2X);
 
 	// Joysticks
 	private Joystick driveController = new Joystick(0);
@@ -270,9 +270,9 @@ public class Robot extends TimedRobot {
 
 		// grabber rotation
 		if (functionController.getBButton()) {
-			rotateGrabber(-.4);
+			rotateWrist(-.4);
 		} else if (functionController.getYButton()) {
-			rotateGrabber(.4);
+			rotateWrist(.4);
 		}
 
 		// grabber rollies
@@ -310,6 +310,13 @@ public class Robot extends TimedRobot {
 		pid.enable();
 	}
 
+	
+	/*******************
+	 * Robot Functions *
+	 *******************/
+	
+	
+	//Drivetrain
 	void driveRobot(double leftPower, double rightPower) {
 		driveOutputLeft = leftPower;
 		driveOutputRight = rightPower;
@@ -319,15 +326,19 @@ public class Robot extends TimedRobot {
 		driveRB.set(ControlMode.PercentOutput, rightPower);
 	}
 
+	//Elevator
 	void driveElevator(double power) {
 		elevatorOutput = power;
 		elevator.set(ControlMode.PercentOutput, power);
 	}
 
-	void rotateGrabber(double power) {
-		grabberRotator.set(ControlMode.PercentOutput, power);
+	//Grabber Rotation
+	void rotateWrist(double power) {
+		wrist.set(ControlMode.PercentOutput, power);
 	}
 
+	
+	//Grabber Claw
 	void openGrabber() {
 		grabberClaw.set(true);
 	}
@@ -336,11 +347,15 @@ public class Robot extends TimedRobot {
 		grabberClaw.set(false);
 	}
 
+	
+	//Rollies
 	void driveRollies(double power) {
 		rollieL.set(ControlMode.PercentOutput, power);
 		rollieR.set(ControlMode.PercentOutput, power);
 	}
 
+	
+	//Shifting
 	void shiftIntoDrive() {
 		shifter.set(false);
 		shifterStatus = "drive";
