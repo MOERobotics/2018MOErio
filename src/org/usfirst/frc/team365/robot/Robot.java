@@ -514,7 +514,7 @@ public class Robot extends TimedRobot {
 			driveRobot(0, 0);
 			driveStraight.reset();
 //			resetEncoders();
-			autoPauseTimer.reset();
+//			autoPauseTimer.reset();
 //			autoPauseTimer.start();
 			autoStep++;
 			newPID = true;
@@ -524,7 +524,7 @@ public class Robot extends TimedRobot {
 			rampUpPower = rampUpPower + 0.06;
 			if (rampUpPower < power) {
 				driveRobot(rampUpPower + driveStraightCorrection.correctionValue,  rampUpPower - driveStraightCorrection.correctionValue);
-				rampUpPower = power;
+//				rampUpPower = power;
 			}
 			else if (getEncoderMax() > ticks - 600) power = 0.4;
 			driveRobot(power + driveStraightCorrection.correctionValue,
