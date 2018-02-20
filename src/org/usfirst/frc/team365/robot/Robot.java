@@ -5,6 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+/**
+ * RULES FOR MODIFYING
+ * 
+ * CONTOLLERS/JOYSTICKS can ONLY be accessed and used in disablePeriodic or teleopPeriodic.
+ * ALL access to motors MUST be done through methods.
+ * 		Direct usage of a TalonSRX.set() method is NOT valid
+ */
+
 package org.usfirst.frc.team365.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -14,6 +22,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 public class Robot extends TimedRobot {
@@ -73,14 +82,17 @@ public class Robot extends TimedRobot {
 
 	// Sensors
 	AHRS navX = new AHRS(SPI.Port.kMXP, (byte) 20);
-	Encoder driveLeftEncoder = new Encoder(0, 1, false, EncodingType.k1X);
+	Encoder driveLeftEncoder = new Encoder(0, 1, true, EncodingType.k1X);
 	Encoder driveRightEncoder = new Encoder(2, 3, true, EncodingType.k1X);
 	Encoder elevatorEncoder = new Encoder(4, 5, true, EncodingType.k2X);
 	Encoder wristEncoder = new Encoder(8, 9, true, EncodingType.k2X);
 
+	DigitalInput elevatorBottomLimitSwitch = new DigitalInput(6);
+	DigitalInput elevatorTopLimitSwitch = new DigitalInput(7);
+
 	// Joysticks
 	private Joystick driveController = new Joystick(0);
-	private XboxController functionController = new XboxController(2);
+	private XboxController functionController = new XboxController(1);
 
 	// Global Variables
 	int autoStep = 0;
@@ -94,7 +106,7 @@ public class Robot extends TimedRobot {
 	String statusMessage = "We use this to know what the status of the robot is";
 	String shifterStatus = "drive";
 
-	double driveOutputLeft = 0.0, driveOutputRight = 0.0, elevatorOutput = 0.0, rolliesOutput = 0.0, grabberRotatorOutput = 0.0;
+	double driveOutputLeft = 0.0, driveOutputRight = 0.0, elevatorOutput = 0.0, rolliesOutput = 0.0, wristOutput = 0.0;
 
 	// GameData Storage
 	String gameData = "";
@@ -103,6 +115,8 @@ public class Robot extends TimedRobot {
 	boolean oppSwitchLeft;
 
 	// PID Controllers
+
+	// Drive
 	double straightP = 0.08, straightI = 0.0005, straightD = 0;
 	PIDCorrection driveStraightCorrection = new PIDCorrection();
 	PIDController driveStraight = new PIDController(straightP, straightI, straightD, navX, driveStraightCorrection,
@@ -127,16 +141,31 @@ public class Robot extends TimedRobot {
 		}
 	};
 
+	// Elevator
+	double elevP = 0.05, elevI = 0.03, elevD = 0.03;
+	PIDCorrection elevatorCorrection = new PIDCorrection();
+	PIDController elevatorPID = new PIDController(turnP, turnI, turnD, navX, turnRobotCorrection, 0.020) {
+		{
+			setInputRange(-200, 10000);
+			setOutputRange(-1.0, 1.0);
+			setAbsoluteTolerance(100);
+			setContinuous(false);
+			disable();
+		}
+	};
+
 	/**********
 	 * Global *
 	 **********/
 
 	@Override
 	public void robotInit() {
-		driveLA.setInverted(true);
-		driveLB.setInverted(true);
+		driveRA.setInverted(true);
+		driveRB.setInverted(true);
 		rollieL.setInverted(true);
 
+		
+		
 		System.out.println("Itsa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
 	}
@@ -155,6 +184,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 
+		closeGrabber();
+		shiftIntoDrive();
 		autoTimer.start();
 	}
 
@@ -189,6 +220,8 @@ public class Robot extends TimedRobot {
 
 		autoStep = 1;
 
+		newPID = true;
+
 		navX.zeroYaw();
 		resetEncoders();
 
@@ -209,7 +242,7 @@ public class Robot extends TimedRobot {
 
 		switch (autoRoutine) {
 		case 1:
-		//	GoStraightAutonomous.autoGoStraightTest(this);
+			// GoStraightAutonomous.autoGoStraightTest(this);
 			break;
 		case 3:
 			DoNothingAutonomous.doNothingRoutine(this);
@@ -228,62 +261,89 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		SmartDashboardUtil.getFromSmartDashboard(this); // force update
+
 	}
 
 	@Override
 	public void teleopPeriodic() {
+
+		// Driving & Climbing
 		double yJoy = -driveController.getY();
 		double xJoy = driveController.getX();
 
-		if (driveController.getTrigger()) {
+		if (shifter.get()) {
+			yJoy = -Math.abs(yJoy);
 			driveRobot(yJoy, yJoy);
-			/*
-			 * if(newPID) {
-			 * 
-			 * driveStraight.reset(); driveStraight.setSetpoint(navX.getYaw());
-			 * driveStraight.enable(); newPID = false; }
-			 * 
-			 * driveRobot(yJoy + driveStraightCorrection.correctionValue, yJoy -
-			 * driveStraightCorrection.correctionValue);
-			 */
-		} else if (driveController.getRawButton(2)) { // turn robot left
-			driveRobot(-0.3, 0.3);
-			newPID = true;
-		} else if (driveController.getRawButton(4)) {
-			driveRobot(0.3, -0.3);
-			newPID = true;
 		} else {
-			double left = yJoy + xJoy;
-			double right = yJoy - xJoy;
-			driveRobot(left, right);
-			newPID = true;
+
+			if (driveController.getTrigger()) {
+				driveRobot(yJoy, yJoy);
+
+				/*
+				 * if(driveController.getTriggerPressed()) {
+				 * 
+				 * driveStraight.reset(); driveStraight.setSetpoint(navX.getYaw());
+				 * driveStraight.enable(); }
+				 * 
+				 * driveRobot(yJoy + driveStraightCorrection.correctionValue, yJoy -
+				 * driveStraightCorrection.correctionValue);
+				 */
+			} else if (driveController.getRawButton(2)) { // turn robot left
+				driveRobot(-0.3, 0.3);
+				newPID = true;
+			} else if (driveController.getRawButton(4)) {
+				driveRobot(0.3, -0.3);
+				newPID = true;
+			} else {
+				double left = yJoy + xJoy;
+				double right = yJoy - xJoy;
+				driveRobot(left, right);
+				newPID = true;
+			}
+
 		}
 
-		// xbox controller stuffs
+		// shifting
+		if (driveController.getRawButton(11)) {
+			shiftIntoClimb();
+		} else if (driveController.getRawButton(12)) {
+			shiftIntoDrive();
+		}
+
+		if (driveController.getRawButton(14)) {
+			openMouseTrap();
+		}
+
+		// XBOX CONTROLLER
 
 		// grabber claw
-		if (functionController.getAButton()) {
-			openGrabber();
-		} else if (functionController.getXButton()) {
+		if (functionController.getXButton()) {
 			closeGrabber();
+		} else if (functionController.getYButton()) {
+			openGrabber();
 		}
 
 		// grabber rotation
-		if (functionController.getBButton()) {
-			rotateWrist(-.4);
-		} else if (functionController.getYButton()) {
-			rotateWrist(.4);
+		if (functionController.getBumper(Hand.kLeft)) {
+			driveWrist(-.4);
+		} else if (functionController.getBumper(Hand.kRight)) {
+			driveWrist(.4);
+		} else {
+			driveWrist(0);
 		}
 
 		// grabber rollies
-		if (functionController.getBumper(Hand.kLeft)) {
+		if (functionController.getAButton()) {
 			driveRollies(-.5);
-		} else if (functionController.getBumper(Hand.kRight)) {
+		} else if (functionController.getBButton()) {
 			driveRollies(.5);
+		} else {
+			driveRollies(0);
 		}
 
 		// elevator
-		//this takes whichever Trigger value is greater and runs with that
+		// this takes whichever Trigger value is greater and runs with that
+
 		driveElevator(functionController.getTriggerAxis(Hand.kLeft) > functionController.getTriggerAxis(Hand.kRight)
 				? -functionController.getTriggerAxis(Hand.kLeft)
 				: functionController.getTriggerAxis(Hand.kRight));
@@ -300,23 +360,11 @@ public class Robot extends TimedRobot {
 
 	}
 
-	/******************
-	 * Misc Functions *
-	 ******************/
-
-	// blah blah extension functions blah blah use a better language
-	static void resetPIDController(PIDController pid) {
-		pid.reset();
-		pid.enable();
-	}
-
-	
 	/*******************
 	 * Robot Functions *
 	 *******************/
-	
-	
-	//Drivetrain
+
+	// Drivetrain
 	void driveRobot(double leftPower, double rightPower) {
 		driveOutputLeft = leftPower;
 		driveOutputRight = rightPower;
@@ -326,19 +374,29 @@ public class Robot extends TimedRobot {
 		driveRB.set(ControlMode.PercentOutput, rightPower);
 	}
 
-	//Elevator
+	// Elevator
 	void driveElevator(double power) {
+		// if (elevatorBottomLimitSwitch.get()) power = Math.max(power, 0);
+		// if (elevatorTopLimitSwitch.get()) power = Math.min(power, 0);
+
 		elevatorOutput = power;
 		elevator.set(ControlMode.PercentOutput, power);
 	}
 
-	//Grabber Rotation
-	void rotateWrist(double power) {
+	void setElevator(double setPoint) {
+		// insert PID with elevatorEncoder
+	}
+
+	// Grabber Rotation
+	void driveWrist(double power) {
 		wrist.set(ControlMode.PercentOutput, power);
 	}
 
-	
-	//Grabber Claw
+	void setWrist(double setPoint) {
+		// insert PID with wristEncoder
+	}
+
+	// Grabber Claw
 	void openGrabber() {
 		grabberClaw.set(true);
 	}
@@ -347,15 +405,13 @@ public class Robot extends TimedRobot {
 		grabberClaw.set(false);
 	}
 
-	
-	//Rollies
+	// Rollies
 	void driveRollies(double power) {
 		rollieL.set(ControlMode.PercentOutput, power);
 		rollieR.set(ControlMode.PercentOutput, power);
 	}
 
-	
-	//Shifting
+	// Shifting
 	void shiftIntoDrive() {
 		shifter.set(false);
 		shifterStatus = "drive";
@@ -366,9 +422,64 @@ public class Robot extends TimedRobot {
 		shifterStatus = "climb";
 	}
 
+	// mouseTrap
+	void openMouseTrap() {
+		mouseTrap.set(DoubleSolenoid.Value.kForward);
+	}
+
+	void closeMouseTrap() {
+		mouseTrap.set(DoubleSolenoid.Value.kReverse);
+	}
+
+	void openFlySwatter() {
+		openMouseTrap();
+	}
+
+	void closeFlySwatter() {
+		closeMouseTrap();
+	}
+
+	/******************
+	 * Misc Functions *
+	 ******************/
+
+	// blah blah extension functions blah blah use a better language
+	static void resetPIDController(PIDController pid) {
+		pid.reset();
+		pid.enable();
+	}
+
+	public void resetEncoders() {
+		driveLeftEncoder.reset();
+		driveRightEncoder.reset();
+	}
+
+	public double getEncoderMax() {
+		return driveLeftEncoder.getRaw() > driveRightEncoder.getRaw() ? driveLeftEncoder.getRaw()
+				: driveRightEncoder.getRaw();
+	}
+
+	public double getStraightPower() {
+		return (driveOutputLeft + driveOutputRight) / 2.0;
+	}
+
 	/******************
 	 * Vasista's Auto Simplificatorator *
 	 ******************/
+
+	// MISC
+
+	public void pause(double seconds) {
+		if (autoTimer.get() > seconds) {
+			autoStep++;
+			autoTimer.reset();
+		}
+	}
+
+	//
+
+	// DRIVING AUTO
+
 	public static final double INCHES_TO_ENCTICKS = 42.7;
 	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
 
@@ -432,27 +543,6 @@ public class Robot extends TimedRobot {
 
 	public void turnToAngle(double angle) {
 		turnToAngle(angle, .6);
-	}
-
-	public void resetEncoders() {
-		driveLeftEncoder.reset();
-		driveRightEncoder.reset();
-	}
-
-	public double getEncoderMax() {
-		return driveLeftEncoder.getRaw() > driveRightEncoder.getRaw() ? driveLeftEncoder.getRaw()
-				: driveRightEncoder.getRaw();
-	}
-
-	public double getStraightPower() {
-		return (driveOutputLeft + driveOutputRight) / 2.0;
-	}
-
-	public void pause(double seconds) {
-		if (autoTimer.get() > seconds) {
-			autoStep++;
-			autoTimer.reset();
-		}
 	}
 
 	public void halfTurnLeft(double angle, double power) {

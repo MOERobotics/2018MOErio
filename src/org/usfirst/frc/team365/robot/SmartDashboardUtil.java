@@ -45,19 +45,22 @@ public class SmartDashboardUtil {
 	}
 
 	static void printToSmartDashboard(Robot ourselves) {
-		SmartDashboard.putString(           "status", ourselves.statusMessage                 );
+		SmartDashboard.putString(              "status", ourselves.statusMessage             );
 		//parts
-		SmartDashboard.putNumber(        "distRight", ourselves.driveLeftEncoder.getRaw()            );
-		SmartDashboard.putNumber(         "distLeft", ourselves.driveRightEncoder.getRaw()            );
-		SmartDashboard.putNumber(  "driveOutputLeft", ourselves.driveOutputLeft               );
-		SmartDashboard.putNumber( "driveOutputRight", ourselves.driveOutputRight              );
-		SmartDashboard.putNumber(   "elevatorOutput", ourselves.elevatorOutput                );
-		SmartDashboard.putString(    "shifterStatus", ourselves.shifterStatus                 );
-		SmartDashboard.putNumber("rolliesOutput", ourselves.rolliesOutput);
-		SmartDashboard.putNumber("grabberRotatorOutput", ourselves.grabberRotatorOutput);
-		SmartDashboard.putNumber("Elevator Encoder", ourselves.elevatorEncoder.getRaw());
-		SmartDashboard.putNumber("Grabber Rotator Encoder", ourselves.wristEncoder.getRaw());
+		SmartDashboard.putNumber( "Drive Right Encoder", ourselves.driveRightEncoder.getRaw() );
+		SmartDashboard.putNumber(  "Drive Left Encoder", ourselves.driveLeftEncoder.getRaw());
+		SmartDashboard.putNumber(    "Elevator Encoder", ourselves.elevatorEncoder.getRaw()  );
+		SmartDashboard.putNumber(       "Wrist Encoder", ourselves.wristEncoder.getRaw()     );
 		
+		SmartDashboard.putNumber(     "driveOutputLeft", ourselves.driveOutputLeft           );
+		SmartDashboard.putNumber(    "driveOutputRight", ourselves.driveOutputRight          );
+		SmartDashboard.putNumber(      "elevatorOutput", ourselves.elevatorOutput            );
+		SmartDashboard.putString(       "shifterStatus", ourselves.shifterStatus             );
+		SmartDashboard.putNumber(       "rolliesOutput", ourselves.rolliesOutput             );
+		SmartDashboard.putNumber("grabberRotatorOutput", ourselves.wristOutput               );
+
+		SmartDashboard.putBoolean("Top Limit Switch", ourselves.elevatorTopLimitSwitch.get());
+		SmartDashboard.putBoolean("Bottom Limit Switch", ourselves.elevatorBottomLimitSwitch.get());
 
 		//navx
 		SmartDashboard.putNumber(              "Yaw", ourselves.navX.getYaw()                 );
