@@ -490,5 +490,48 @@ public class Robot extends TimedRobot {
 			lastOffYaw = offYaw;
 		}
 	}
+	
+	void autoPIDStraight(double ticks, double setPoint, double power) {
+//		double currentYaw = navX.getYaw();
+//		double offYaw = setPoint - currentYaw;
+		
+
+		
+//   initialize needed value for first loop		
+		if (newPID) {
+//			driveStraight.reset();
+			rampUpPower = 0.4;
+			newPID = false;
+			driveRobot(0,0);
+			resetEncoders();
+			driveStraight.setSetpoint(setPoint);
+			driveStraight.enable();
+			
+		}
+		
+		
+			else if (getEncoderMax() > ticks) {
+			driveRobot(0, 0);
+			driveStraight.reset();
+//			resetEncoders();
+			autoPauseTimer.reset();
+//			autoPauseTimer.start();
+			autoStep++;
+			newPID = true;
+		}
+		
+		else {
+			rampUpPower = rampUpPower + 0.06;
+			if (rampUpPower < power) {
+				driveRobot(rampUpPower + driveStraightCorrection.correctionValue,  rampUpPower - driveStraightCorrection.correctionValue);
+				rampUpPower = power;
+			}
+			else if (getEncoderMax() > ticks - 600) power = 0.4;
+			driveRobot(power + driveStraightCorrection.correctionValue,
+					power - driveStraightCorrection.correctionValue);
+		}
+		
+
+	}
 
 }
