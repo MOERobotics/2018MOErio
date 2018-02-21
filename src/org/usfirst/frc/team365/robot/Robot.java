@@ -117,10 +117,10 @@ public class Robot extends TimedRobot {
 	// PID Controllers
 
 	// Drive
-	double straightP = 0.08, straightI = 0.0005, straightD = 0;
-	PIDCorrection driveStraightCorrection = new PIDCorrection();
-	PIDController driveStraight = new PIDController(straightP, straightI, straightD, navX, driveStraightCorrection,
-			0.020) {
+	double straightP = 0.025, straightI = 0.0003, straightD = 0;
+	PIDCorrection driveStraightPIDCorrection = new PIDCorrection();
+	PIDController driveStraightPID = new PIDController(straightP, straightI, straightD, navX,
+			driveStraightPIDCorrection, 0.020) {
 		{
 			setInputRange(-180.0, 180.0);
 			setOutputRange(-1.0, 1.0);
@@ -129,9 +129,9 @@ public class Robot extends TimedRobot {
 		}
 	};
 
-	double turnP = 0.05, turnI = 0, turnD = 0.03;
-	PIDCorrection turnRobotCorrection = new PIDCorrection();
-	PIDController turnRobot = new PIDController(turnP, turnI, turnD, navX, turnRobotCorrection, 0.020) {
+	double turnP = 0.025, turnI = 0.0001, turnD = 0.03;
+	PIDCorrection turnRobotPIDCorrection = new PIDCorrection();
+	PIDController turnRobotPID = new PIDController(turnP, turnI, turnD, navX, turnRobotPIDCorrection, 0.020) {
 		{
 			setInputRange(-180.0, 180.0);
 			setOutputRange(-1.0, 1.0);
@@ -143,8 +143,8 @@ public class Robot extends TimedRobot {
 
 	// Elevator
 	double elevP = 0.05, elevI = 0.03, elevD = 0.03;
-	PIDCorrection elevatorCorrection = new PIDCorrection();
-	PIDController elevatorPID = new PIDController(turnP, turnI, turnD, navX, turnRobotCorrection, 0.020) {
+	PIDCorrection elevatorPIDCorrection = new PIDCorrection();
+	PIDController elevatorPID = new PIDController(turnP, turnI, turnD, navX, turnRobotPIDCorrection, 0.020) {
 		{
 			setInputRange(-200, 10000);
 			setOutputRange(-1.0, 1.0);
@@ -164,8 +164,8 @@ public class Robot extends TimedRobot {
 		driveRB.setInverted(true);
 		rollieL.setInverted(true);
 
-		
-		
+		closeMouseTrap();
+
 		System.out.println("Itsa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
 	}
@@ -183,18 +183,14 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledInit() {
-
 		closeGrabber();
 		shiftIntoDrive();
+
 		autoTimer.start();
 	}
 
 	@Override
 	public void disabledPeriodic() {
-		if (driveController.getRawButton(2)) {
-			resetEncoders();
-			navX.zeroYaw();
-		}
 		if (driveController.getRawButton(6))
 			autoRoutine = 1;
 		if (driveController.getRawButton(8))
@@ -211,6 +207,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
+		navX.zeroYaw();
+		resetEncoders();
+
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		switchLeft = gameData.charAt(0) == 'L';
 		scaleLeft = gameData.charAt(0) == 'L';
@@ -222,14 +221,11 @@ public class Robot extends TimedRobot {
 
 		newPID = true;
 
-		navX.zeroYaw();
-		resetEncoders();
-
 		autoTimer.reset();
 		autoTimer.start();
 
-		driveStraight.reset();
-		turnRobot.reset();
+		driveStraightPID.reset();
+		turnRobotPID.reset();
 
 		SmartDashboardUtil.getFromSmartDashboard(this); // force update
 
@@ -242,7 +238,7 @@ public class Robot extends TimedRobot {
 
 		switch (autoRoutine) {
 		case 1:
-			// GoStraightAutonomous.autoGoStraightTest(this);
+			CenterLeftSwitchThenCube.run(this);
 			break;
 		case 3:
 			DoNothingAutonomous.doNothingRoutine(this);
@@ -272,8 +268,12 @@ public class Robot extends TimedRobot {
 		double xJoy = driveController.getX();
 
 		if (shifter.get()) {
-			yJoy = -Math.abs(yJoy);
-			driveRobot(yJoy, yJoy);
+
+			// this drives using the xbox controller for now
+			driveRobot(-Math.abs(functionController.getY(Hand.kLeft)), -Math.abs(functionController.getY(Hand.kRight)));
+
+			// this is for the future
+			// driveRobot(-Math.abs(yJoy) - xJoy, -Math.abs(yJoy) + xJoy);
 		} else {
 
 			if (driveController.getTrigger()) {
@@ -310,6 +310,7 @@ public class Robot extends TimedRobot {
 			shiftIntoDrive();
 		}
 
+		// mouse trap
 		if (driveController.getRawButton(14)) {
 			openMouseTrap();
 		}
@@ -334,9 +335,9 @@ public class Robot extends TimedRobot {
 
 		// grabber rollies
 		if (functionController.getAButton()) {
-			driveRollies(-.5);
+			rolliesIn();
 		} else if (functionController.getBButton()) {
-			driveRollies(.5);
+			rolliesOut();
 		} else {
 			driveRollies(0);
 		}
@@ -348,12 +349,10 @@ public class Robot extends TimedRobot {
 				? -functionController.getTriggerAxis(Hand.kLeft)
 				: functionController.getTriggerAxis(Hand.kRight));
 
-		// testingservo
+		// Arm Deployer
 
-		if (functionController.getBackButton()) {
+		if (functionController.getBackButton() && functionController.getStartButton()) {
 			armDeployer.set(0);
-		} else if (functionController.getStartButton()) {
-			armDeployer.set(180);
 		} else {
 			armDeployer.set(90);
 		}
@@ -376,8 +375,11 @@ public class Robot extends TimedRobot {
 
 	// Elevator
 	void driveElevator(double power) {
-		// if (elevatorBottomLimitSwitch.get()) power = Math.max(power, 0);
-		// if (elevatorTopLimitSwitch.get()) power = Math.min(power, 0);
+		if (elevatorBottomLimitSwitch.get())
+			power = Math.max(power, 0);
+		if (elevatorTopLimitSwitch.get())
+			power = Math.min(power, 0);
+		// if (wristEncoder.getRaw() < 900) power = 0;
 
 		elevatorOutput = power;
 		elevator.set(ControlMode.PercentOutput, power);
@@ -398,6 +400,7 @@ public class Robot extends TimedRobot {
 
 	// Grabber Claw
 	void openGrabber() {
+
 		grabberClaw.set(true);
 	}
 
@@ -409,6 +412,14 @@ public class Robot extends TimedRobot {
 	void driveRollies(double power) {
 		rollieL.set(ControlMode.PercentOutput, power);
 		rollieR.set(ControlMode.PercentOutput, power);
+	}
+
+	void rolliesIn() {
+		driveRollies(-.65);
+	}
+
+	void rolliesOut() {
+		driveRollies(.65);
 	}
 
 	// Shifting
@@ -431,14 +442,6 @@ public class Robot extends TimedRobot {
 		mouseTrap.set(DoubleSolenoid.Value.kReverse);
 	}
 
-	void openFlySwatter() {
-		openMouseTrap();
-	}
-
-	void closeFlySwatter() {
-		closeMouseTrap();
-	}
-
 	/******************
 	 * Misc Functions *
 	 ******************/
@@ -455,7 +458,7 @@ public class Robot extends TimedRobot {
 	}
 
 	public double getEncoderMax() {
-		return driveLeftEncoder.getRaw() > driveRightEncoder.getRaw() ? driveLeftEncoder.getRaw()
+		return Math.abs(driveLeftEncoder.getRaw()) > Math.abs(driveRightEncoder.getRaw()) ? driveLeftEncoder.getRaw()
 				: driveRightEncoder.getRaw();
 	}
 
@@ -480,7 +483,7 @@ public class Robot extends TimedRobot {
 
 	// DRIVING AUTO
 
-	public static final double INCHES_TO_ENCTICKS = 42.7;
+	public static final double INCHES_TO_ENCTICKS = 45.23;
 	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
 
 	int turnOnTargetCount = 0;
@@ -488,43 +491,36 @@ public class Robot extends TimedRobot {
 	public void goStraight(double ticks, double setPoint, double power) {
 		if (newPID) {
 			resetEncoders();
-			driveStraight.reset();
-			driveStraight.setSetpoint(setPoint);
-			driveStraight.enable();
+			driveStraightPID.reset();
+			driveStraightPID.setSetpoint(setPoint);
+			driveStraightPID.enable();
 			newPID = false;
 		}
 
 		if (Math.abs(getEncoderMax()) > ticks) {
 			driveRobot(0, 0);
-			driveStraight.reset();
+			driveStraightPID.reset();
 			autoTimer.reset();
 			autoStep++;
 			newPID = true;
 		} else {
-			driveRobot(power + driveStraightCorrection.correctionValue,
-					power - driveStraightCorrection.correctionValue);
+			driveRobot(power + driveStraightPIDCorrection.correctionValue,
+					power - driveStraightPIDCorrection.correctionValue);
 		}
-	}
-
-	public void turnToAngle(double angle, double maxPower, double tolerance) {
-		if (newPID) {
-			turnRobot.setAbsoluteTolerance(tolerance);
-		}
-		turnToAngle(angle, maxPower);
 	}
 
 	public void turnToAngle(double angle, double maxPower) {
 		if (newPID) {
 			resetEncoders();
-			turnRobot.reset();
-			turnRobot.setSetpoint(angle);
-			turnRobot.setOutputRange(-Math.abs(maxPower), Math.abs(maxPower));
-			turnRobot.enable();
+			turnRobotPID.reset();
+			turnRobotPID.setSetpoint(angle);
+			turnRobotPID.setOutputRange(-Math.abs(maxPower), Math.abs(maxPower));
+			turnRobotPID.enable();
 			turnOnTargetCount = 0;
 			newPID = false;
 		}
 
-		if (turnRobot.onTarget()) {
+		if (turnRobotPID.onTarget()) {
 			turnOnTargetCount++;
 		}
 
@@ -532,12 +528,12 @@ public class Robot extends TimedRobot {
 			resetEncoders();
 			driveRobot(0, 0);
 			turnOnTargetCount = 0;
-			turnRobot.reset();
+			turnRobotPID.reset();
 			autoTimer.reset();
 			autoStep++;
 			newPID = true;
 		} else {
-			driveRobot(turnRobotCorrection.correctionValue, -turnRobotCorrection.correctionValue);
+			driveRobot(turnRobotPIDCorrection.correctionValue, -turnRobotPIDCorrection.correctionValue);
 		}
 	}
 
@@ -578,31 +574,31 @@ public class Robot extends TimedRobot {
 
 		if (newPID) {
 			resetEncoders();
-			driveStraight.reset();
-			driveStraight.setSetpoint(setPoint);
-			driveStraight.enable();
+			driveStraightPID.reset();
+			driveStraightPID.setSetpoint(setPoint);
+			driveStraightPID.enable();
 			newPID = false;
 		}
 
 		if (Math.abs(getEncoderMax()) > ticks) {
 			driveRobot(0, 0);
-			driveStraight.reset();
+			driveStraightPID.reset();
 			autoTimer.reset();
 			autoStep++;
 			newPID = true;
 		} else {
 			if (ticks - Math.abs(getEncoderMax()) < distAwayFromTargetToStartBraking
 					&& getStraightPower() > maxOKBrakingPower) {
-				driveRobot(getStraightPower() - deltaSpeedDecrease + driveStraightCorrection.correctionValue,
-						getStraightPower() - deltaSpeedDecrease - driveStraightCorrection.correctionValue);
+				driveRobot(getStraightPower() - deltaSpeedDecrease + driveStraightPIDCorrection.correctionValue,
+						getStraightPower() - deltaSpeedDecrease - driveStraightPIDCorrection.correctionValue);
 			}
 
 			else if (getStraightPower() < maxPower) {
-				driveRobot(getStraightPower() + deltaSpeedIncrease + driveStraightCorrection.correctionValue,
-						getStraightPower() + deltaSpeedIncrease - driveStraightCorrection.correctionValue);
+				driveRobot(getStraightPower() + deltaSpeedIncrease + driveStraightPIDCorrection.correctionValue,
+						getStraightPower() + deltaSpeedIncrease - driveStraightPIDCorrection.correctionValue);
 			} else {
-				driveRobot(maxPower + driveStraightCorrection.correctionValue,
-						maxPower - driveStraightCorrection.correctionValue);
+				driveRobot(maxPower + driveStraightPIDCorrection.correctionValue,
+						maxPower - driveStraightPIDCorrection.correctionValue);
 			}
 		}
 
