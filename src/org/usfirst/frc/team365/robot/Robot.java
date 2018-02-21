@@ -516,7 +516,7 @@ public class Robot extends TimedRobot {
 		double deltaSpeedIncrease = .01;
 		double deltaSpeedDecrease = .01;
 		double distAwayFromTargetToStartBraking = 24 * INCHES_TO_ENCTICKS;
-		double maxOKBrakingPower = .3;
+		double maxOKBrakingPower = .5;
 
 		if (newPID) {
 			resetEncoders();
