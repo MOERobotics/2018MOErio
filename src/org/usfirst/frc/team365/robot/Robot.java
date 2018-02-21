@@ -31,67 +31,36 @@ public class Robot extends TimedRobot {
 	// immediately after the object is constructed.
 	// Longer answer: Anonymous default constructor for anonymous class implementing
 	// given class
-	private TalonSRX driveLA = new TalonSRX(0) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
-	private TalonSRX driveLB = new TalonSRX(15) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
-	private TalonSRX driveRA = new TalonSRX(1) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
-	private TalonSRX driveRB = new TalonSRX(14) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
-	private TalonSRX elevator = new TalonSRX(2) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
-	private TalonSRX rollieL = new TalonSRX(3) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
-	private TalonSRX rollieR = new TalonSRX(12) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
-	private TalonSRX wrist = new TalonSRX(4) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
+	private TalonSRX  driveLA = new TalonSRX( 0)	{{setNeutralMode(NeutralMode.Brake);}};
+	private TalonSRX  driveLB = new TalonSRX(15)	{{setNeutralMode(NeutralMode.Brake);}};
+	private TalonSRX  driveRA = new TalonSRX( 1)	{{setNeutralMode(NeutralMode.Brake);}};
+	private TalonSRX  driveRB = new TalonSRX(14)	{{setNeutralMode(NeutralMode.Brake);}};
+	private TalonSRX elevator = new TalonSRX( 2)	{{setNeutralMode(NeutralMode.Brake);}};
+	private TalonSRX  rollieL = new TalonSRX( 3)	{{setNeutralMode(NeutralMode.Brake);}};
+	private TalonSRX  rollieR = new TalonSRX(12)	{{setNeutralMode(NeutralMode.Brake);}};
+	private TalonSRX    wrist = new TalonSRX( 4)	{{setNeutralMode(NeutralMode.Brake);}};
 
 	// Solenoids
-	private DoubleSolenoid mouseTrap = new DoubleSolenoid(0, 1);
-	private Solenoid shifter = new Solenoid(2);
-	private Solenoid grabberClaw = new Solenoid(3);
+	private DoubleSolenoid 	  mouseTrap = new DoubleSolenoid(0, 1);
+	private Solenoid 		 	shifter = new  		   Solenoid(2);
+	private Solenoid 		grabberClaw = new 		   Solenoid(3);
 
 	// Servos
 	private Servo armDeployer = new Servo(0);
 
 	// Sensors
 	AHRS navX = new AHRS(SPI.Port.kMXP, (byte) 20);
-	Encoder driveLeftEncoder = new Encoder(0, 1, true, EncodingType.k1X);
-	Encoder driveRightEncoder = new Encoder(2, 3, true, EncodingType.k1X);
-	Encoder elevatorEncoder = new Encoder(4, 5, true, EncodingType.k2X);
-	Encoder wristEncoder = new Encoder(8, 9, true, EncodingType.k2X);
+	
+	Encoder 	driveLeftEncoder = new Encoder(0, 1, true, EncodingType.k1X);
+	Encoder    driveRightEncoder = new Encoder(2, 3, true, EncodingType.k1X);
+	Encoder      elevatorEncoder = new Encoder(4, 5, true, EncodingType.k2X);
+	Encoder         wristEncoder = new Encoder(8, 9, true, EncodingType.k2X);
 
 	DigitalInput elevatorBottomLimitSwitch = new DigitalInput(6);
-	DigitalInput elevatorTopLimitSwitch = new DigitalInput(7);
+	DigitalInput    elevatorTopLimitSwitch = new DigitalInput(7);
 
 	// Joysticks
-	private Joystick driveController = new Joystick(0);
+	private Joystick 		  driveController = new Joystick(0);
 	private XboxController functionController = new XboxController(1);
 
 	// Global Variables
@@ -109,7 +78,7 @@ public class Robot extends TimedRobot {
 	double driveOutputLeft = 0.0, driveOutputRight = 0.0, elevatorOutput = 0.0, rolliesOutput = 0.0, wristOutput = 0.0;
 
 	// GameData Storage
-	String gameData = "";
+	String  gameData = "";
 	boolean switchLeft;
 	boolean scaleLeft;
 	boolean oppSwitchLeft;
@@ -183,6 +152,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledInit() {
+		//reset grabber and drive solenoids
 		closeGrabber();
 		shiftIntoDrive();
 
@@ -191,14 +161,10 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledPeriodic() {
-		if (driveController.getRawButton(6))
-			autoRoutine = 1;
-		if (driveController.getRawButton(8))
-			autoRoutine = 2;
-		if (driveController.getRawButton(10))
-			autoRoutine = 3;
-		if (driveController.getRawButton(12))
-			autoRoutine = 4;
+		if (driveController.getRawButton( 6))  autoRoutine = 1;
+		if (driveController.getRawButton( 8))  autoRoutine = 2;
+		if (driveController.getRawButton(10))  autoRoutine = 3;
+		if (driveController.getRawButton(12))  autoRoutine = 4;
 	}
 
 	/**************
@@ -210,9 +176,9 @@ public class Robot extends TimedRobot {
 		navX.zeroYaw();
 		resetEncoders();
 
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		switchLeft = gameData.charAt(0) == 'L';
-		scaleLeft = gameData.charAt(0) == 'L';
+		gameData      = DriverStation.getInstance().getGameSpecificMessage();
+		switchLeft    = gameData.charAt(0) == 'L';
+		scaleLeft     = gameData.charAt(0) == 'L';
 		oppSwitchLeft = gameData.charAt(0) == 'L';
 
 		autoLoopCounter = 0;
@@ -265,7 +231,7 @@ public class Robot extends TimedRobot {
 
 		// Driving & Climbing
 		double yJoy = -driveController.getY();
-		double xJoy = driveController.getX();
+		double xJoy =  driveController.getX();
 
 		if (shifter.get()) {
 
@@ -288,59 +254,39 @@ public class Robot extends TimedRobot {
 				 * driveRobot(yJoy + driveStraightCorrection.correctionValue, yJoy -
 				 * driveStraightCorrection.correctionValue);
 				 */
-			} else if (driveController.getRawButton(2)) { // turn robot left
-				driveRobot(-0.3, 0.3);
-				newPID = true;
-			} else if (driveController.getRawButton(4)) {
-				driveRobot(0.3, -0.3);
-				newPID = true;
-			} else {
+			} 
+			else if (driveController.getRawButton(2)) { driveRobot(-0.3, 0.3); } 
+			else if (driveController.getRawButton(4)) { driveRobot( 0.3,-0.3); } 
+			else {
 				double left = yJoy + xJoy;
 				double right = yJoy - xJoy;
 				driveRobot(left, right);
-				newPID = true;
 			}
 
 		}
 
 		// shifting
-		if (driveController.getRawButton(11)) {
-			shiftIntoClimb();
-		} else if (driveController.getRawButton(12)) {
-			shiftIntoDrive();
-		}
+		if 		(driveController.getRawButton(11)) { shiftIntoClimb(); } 
+		else if (driveController.getRawButton(12)) { shiftIntoDrive(); }
 
 		// mouse trap
-		if (driveController.getRawButton(14)) {
-			openMouseTrap();
-		}
+		if 		(driveController.getRawButton(14)) { openMouseTrap(); }
 
 		// XBOX CONTROLLER
 
 		// grabber claw
-		if (functionController.getXButton()) {
-			closeGrabber();
-		} else if (functionController.getYButton()) {
-			openGrabber();
-		}
+		if 		(functionController.getXButton()) { closeGrabber(); } 
+		else if (functionController.getYButton()) {  openGrabber(); }
 
 		// grabber rotation
-		if (functionController.getBumper(Hand.kLeft)) {
-			driveWrist(-.4);
-		} else if (functionController.getBumper(Hand.kRight)) {
-			driveWrist(.4);
-		} else {
-			driveWrist(0);
-		}
+		if 		(functionController.getBumper( Hand.kLeft)) { driveWrist(-.4); } 
+		else if (functionController.getBumper(Hand.kRight)) { driveWrist( .4); } 
+		else												{ driveWrist(  0); }
 
 		// grabber rollies
-		if (functionController.getAButton()) {
-			rolliesIn();
-		} else if (functionController.getBButton()) {
-			rolliesOut();
-		} else {
-			driveRollies(0);
-		}
+		if 		(functionController.getAButton()) {	rolliesIn(); } 
+		else if (functionController.getBButton()) {	rolliesOut();} 
+		else 									  {	driveRollies(0); }
 
 		// elevator
 		// this takes whichever Trigger value is greater and runs with that
