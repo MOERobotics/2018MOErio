@@ -56,8 +56,8 @@ public class SmartDashboardUtil {
 
 		//navx
 		SmartDashboard.putNumber(              "Yaw", ourselves.navX.getYaw()                 );
-		SmartDashboard.putNumber(    "accelerationX", ourselves.navX.getWorldLinearAccelX()   );
-		SmartDashboard.putNumber(    "accelerationY", ourselves.navX.getWorldLinearAccelY()   );
+//		SmartDashboard.putNumber(    "accelerationX", ourselves.navX.getWorldLinearAccelX()   );
+//		SmartDashboard.putNumber(    "accelerationY", ourselves.navX.getWorldLinearAccelY()   );
 
 		//auto
 		SmartDashboard.putNumber(      "autoRoutine", ourselves.autoRoutine                   );
