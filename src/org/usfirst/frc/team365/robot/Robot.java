@@ -331,10 +331,6 @@ public class Robot extends TimedRobot {
 		elevator.set(ControlMode.PercentOutput, power);
 	}
 
-	void setElevator(double setPoint) {
-		// insert PID with elevatorEncoder
-	}
-
 	// Grabber Rotation
 	void driveWrist(double power) {
 		wrist.set(ControlMode.PercentOutput, power);
@@ -346,7 +342,6 @@ public class Robot extends TimedRobot {
 
 	// Grabber Claw
 	void openGrabber() {
-
 		grabberClaw.set(true);
 	}
 
@@ -425,7 +420,33 @@ public class Robot extends TimedRobot {
 		}
 	}
 
-	//
+	//elevator
+	public static final double ELEVATOR_INCHES = 100;
+	public static final double SWITCH_HEIGHT = 48 * ELEVATOR_INCHES;
+	public static final double SCALE_HEIGHT  = 84 *  ELEVATOR_INCHES;
+	void setElevator(double setPoint) {
+		// insert PID with elevatorEncoder
+	}
+	
+	//wrist
+	public void wristDown() {
+		if(wristEncoder.getRaw() > 1100) {
+			autoStep++;
+			driveWrist(0);
+		}
+		else {
+			driveWrist(-.4);
+		}
+	}
+	
+	public void wristUp() {
+		if(wristEncoder.getRaw() < 100) {
+			autoStep++;
+			driveWrist(0);
+		} else {
+			driveWrist(.4);
+		}
+	}
 
 	// DRIVING AUTO
 
