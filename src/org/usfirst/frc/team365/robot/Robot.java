@@ -69,6 +69,8 @@ public class Robot extends TimedRobot {
 	int autoLoopCounter = 0;
 	Timer autoTimer = new Timer();
 
+	Timer rolliesTimer = new Timer();
+	
 	boolean newPID = true;
 
 	// Output Storage
@@ -362,7 +364,7 @@ public class Robot extends TimedRobot {
 	void rolliesOut() {
 		driveRollies(.65);
 	}
-
+	
 	// Shifting
 	void shiftIntoDrive() {
 		shifter.set(false);
@@ -424,8 +426,13 @@ public class Robot extends TimedRobot {
 	public static final double ELEVATOR_INCHES = 100;
 	public static final double SWITCH_HEIGHT = 48 * ELEVATOR_INCHES;
 	public static final double SCALE_HEIGHT  = 84 *  ELEVATOR_INCHES;
+	public static final double BOTTOM = 0;
 	void setElevator(double setPoint) {
 		// insert PID with elevatorEncoder
+		
+		if(setPoint == BOTTOM) {
+			driveElevator(-.4);
+		}
 	}
 	
 	//wrist
@@ -448,6 +455,29 @@ public class Robot extends TimedRobot {
 		}
 	}
 
+	//rollies
+	public void pulseRolliesIn(double time) {
+		rolliesIn();
+		
+		rolliesTimer.start();
+		if(rolliesTimer.get() > time) {
+			driveRollies(0);
+			rolliesTimer.stop();
+			rolliesTimer.reset();
+		}
+	}
+	
+	public void pulseRolliesOut(double time) {
+		rolliesOut();
+		
+		rolliesTimer.start();
+		if(rolliesTimer.get() > time) {
+			driveRollies(0);
+			rolliesTimer.stop();
+			rolliesTimer.reset();
+		}
+	}
+	
 	// DRIVING AUTO
 
 	public static final double INCHES_TO_ENCTICKS = 45.23;

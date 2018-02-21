@@ -7,23 +7,22 @@ public class RightSwitchThenCube {
 	static void run(Robot robot) {
 		switch(robot.autoStep) {
 		case 1:
-			//goStraight(encoderTicks, navx setPoint, startPower - forwards/backwards is pos/neg)
+			robot.wristDown();
+			robot.pulseRolliesIn(.3);
 			robot.goStraight(12 * FEET, 0, .5);
+			robot.setElevator(robot.SWITCH_HEIGHT);
 			break;
 		case 2:
-			//turnToAngle(navxsetPoint, maxPower)
 			robot.turnToAngle(-90, .8);
 			break;
 		case 3:
-			robot.goStraight(.8 * FEET, -90, .5);
-			break;
-		case 4:
-			robot.goStraight(.8 * FEET, -90, -.5);
+			robot.pulseRolliesOut(.5);
 			break;
 		case 5:
 			robot.turnToAngle(0);
 			break;
 		case 6:
+			robot.setElevator(robot.BOTTOM);
 			robot.goStraight(6 * FEET, 0, .5);
 			break;
 		case 7:
@@ -31,15 +30,19 @@ public class RightSwitchThenCube {
 			break;
 		case 8:
 			robot.goStraight(3 * FEET, 90, .5);
+			robot.openGrabber();
 			break;
 		case 9:
 			robot.turnToAngle(-180, .8);
+			robot.rolliesIn();
 			break;
 		case 10:
 			robot.goStraight(2 * FEET, 180, .5);
 			break;
 		case 11:
+			robot.closeGrabber();
 			robot.driveRobot(0,0);
+			robot.pulseRolliesIn(.2);
 			break;
 			
 		}
