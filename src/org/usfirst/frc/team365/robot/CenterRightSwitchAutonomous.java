@@ -9,37 +9,37 @@ public class CenterRightSwitchAutonomous {
 	static void run(Robot robot) {
 		switch (robot.autoStep) {
 		case 1:
-			robot.goStraight(2 * FEET, 0, .5);
+			AutoSimplify.goStraight(robot, 2 * FEET, 0, .5);
 			break;
 		case 2:
-			robot.turnToAngle(45);
+			AutoSimplify.turnToAngle(robot, 45);
 			break;
 		case 3:
-			robot.goStraight(72.7 * INCHES, 45, .5);
+			AutoSimplify.goStraight(robot, 72.7 * INCHES, 45, .5);
 			break;
 		case 4:
-			robot.turnToAngle(0);
+			AutoSimplify.turnToAngle(robot, 0);
 			break;
 		case 5:
-			robot.goStraight(9 * INCHES, 0, .5);
+			AutoSimplify.goStraight(robot, 9 * INCHES, 0, .5);
 			break;
 		case 6:
-			robot.pause(1.0);
+			AutoSimplify.pause(robot, 1.0);
 			break;
 		case 7:
-			robot.goStraight(48 * INCHES, 0, -.5);
+			AutoSimplify.goStraight(robot, 48 * INCHES, 0, -.5);
 			break;
 		case 8:
-			robot.turnToAngle(-90);
+			AutoSimplify.turnToAngle(robot, -90);
 			break;
 		case 9:
-			robot.goStraight(58 * INCHES, -90, .4);
+			AutoSimplify.goStraight(robot, 58 * INCHES, -90, .4);
 			break;
 		case 10:
-			robot.turnToAngle(0);
+			AutoSimplify.turnToAngle(robot, 0);
 			break;
 		case 11:
-			robot.goStraight(9 * INCHES, 0, .5);
+			AutoSimplify.goStraight(robot, 9 * INCHES, 0, .5);
 			break;
 		}
 	}

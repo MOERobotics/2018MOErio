@@ -100,6 +100,8 @@ public class Robot extends TimedRobot {
 		disable();
 	}};
 	int turnOnTargetCount = 0;
+	public static final double INCHES_TO_ENCTICKS = 110;
+	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
 
 	/**********
 	 * Global *

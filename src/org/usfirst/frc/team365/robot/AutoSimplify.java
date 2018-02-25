@@ -8,8 +8,6 @@ public class AutoSimplify{
 		/******************
 		 * Vasista's Auto Simplificatorator *
 		 ******************/
-		public static final double INCHES_TO_ENCTICKS = 110;
-		public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
 
 		static void goStraight(Robot us, double ticks, double setPoint, double power) {
 			if (us.newPID) {
@@ -108,10 +106,10 @@ public class AutoSimplify{
 		 */
 
 		
-		public void goStraightSS(Robot us, double ticks, double setPoint, double maxPower) {
+		public static void goStraightSS(Robot us, double ticks, double setPoint, double maxPower) {
 			double deltaSpeedIncrease = .01;
 			double deltaSpeedDecrease = .01;
-			double distAwayFromTargetToStartBraking = 24 * INCHES_TO_ENCTICKS;
+			double distAwayFromTargetToStartBraking = 24 * us.INCHES_TO_ENCTICKS;
 			double maxOKBrakingPower = .3;
 
 			if (us.newPID) {
