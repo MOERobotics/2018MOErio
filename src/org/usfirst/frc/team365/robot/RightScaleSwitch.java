@@ -10,15 +10,15 @@ public class RightScaleSwitch {
 		switch (us.autoStep) {
 		
 			case 1:
-				us.goStraight(23000, 0, 0.6);
+				AutoSimplify.goStraight(us, 23000, 0, 0.6);
 				break;
 				
 			case 2:
-				us.turnToAngle(-30, 0.6);
+				AutoSimplify.turnToAngle(us, -30, 0.6);
 				break;
 				
 			case 3:
-				us.goStraight(3500, -30, 0.6);
+				AutoSimplify.goStraight(us, 3500, -30, 0.6);
 				us.autoTimer.reset();
 				break;
 				
@@ -34,15 +34,15 @@ public class RightScaleSwitch {
 				break;
 			
 			case 5:
-				us.turnToAngle(-150, 0.6);
+				AutoSimplify.turnToAngle(us, -150, 0.6);
 				break;
 				
 			case 6:
-				us.goStraight(4400, -150, 0.6);
+				AutoSimplify.goStraight(us, 4400, -150, 0.6);
 				break;
 				
 			case 7:
-				us.turnToAngle(-180, 0.6);
+				AutoSimplify.turnToAngle(us, -180, 0.6);
 				us.autoTimer.reset();
 				break;
 				
@@ -58,7 +58,7 @@ public class RightScaleSwitch {
 				break;
 				
 			case 9:
-				us.goStraight(1000, -180, 0.5);
+				AutoSimplify.goStraight(us, 1000, -180, 0.5);
 				break;
 				
 		
