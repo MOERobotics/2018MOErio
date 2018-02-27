@@ -62,6 +62,7 @@ public class Robot extends TimedRobot {
 	double  lastOffYaw  = 0;
 	boolean newPID      = true;
 	double  rampUpPower = 0;
+	boolean newTime     = true;
 
 	// GameData Stuff
 	String  gameData = "";
@@ -293,6 +294,6 @@ public class Robot extends TimedRobot {
 	}
 
 	public double getEncoderMax() {
-		return distanceL.getRaw() > distanceR.getRaw() ? distanceL.getRaw() : distanceR.getRaw();
+		return Math.abs(distanceL.getRaw()) > Math.abs(distanceR.getRaw()) ? Math.abs(distanceL.getRaw()) : Math.abs(distanceR.getRaw());
 	}	
 }

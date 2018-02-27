@@ -18,7 +18,7 @@ public class AutoSimplify{
 				us.newPID = false;
 			}
 
-			if (Math.abs(us.getEncoderMax()) > ticks) {
+			if (us.getEncoderMax() > ticks) {
 				us.driveRobot(0, 0);
 				us.driveStraight.reset();
 				us.autoTimer.reset();
@@ -75,9 +75,14 @@ public class AutoSimplify{
 		}
 
 		public static void pause(Robot us, double seconds) {
-			if (us.autoTimer.get() > seconds) {
+			if (us.newTime) {
+				us.autoTimer.reset();
+				us.newTime = false;
+			}
+			else if (us.autoTimer.get() > seconds) {
 				us.autoStep++;
 				us.autoTimer.reset();
+				us.newTime = true;
 			}
 		}
 
@@ -234,16 +239,24 @@ public class AutoSimplify{
 			}
 			
 			else {
-				us.rampUpPower = us.rampUpPower + 0.06;
-				if (us.rampUpPower < power) {
-					us.driveRobot(us.rampUpPower + us.driveStraightCorrection.correctionValue,  us.rampUpPower - us.driveStraightCorrection.correctionValue);
-//					rampUpPower = power;
+				us.rampUpPower = us.rampUpPower + 0.05;
+				if (power > 0) {
+					if (us.rampUpPower < power) {
+						us.driveRobot(us.rampUpPower + us.driveStraightCorrection.correctionValue,  us.rampUpPower - us.driveStraightCorrection.correctionValue);
+						//					rampUpPower = power;
+					}
+					else if (us.getEncoderMax() > ticks - 500) power = 0.3;
+					us.driveRobot(power + us.driveStraightCorrection.correctionValue,
+							power - us.driveStraightCorrection.correctionValue);
 				}
-				else if (us.getEncoderMax() > ticks - 600) power = 0.4;
-				us.driveRobot(power + us.driveStraightCorrection.correctionValue,
-						power - us.driveStraightCorrection.correctionValue);
+				else {
+					if (-us.rampUpPower > power)  {
+						us.driveRobot(-us.rampUpPower + us.driveStraightCorrection.correctionValue,  -us.rampUpPower - us.driveStraightCorrection.correctionValue);
+					}
+					else if (us.getEncoderMax() > ticks - 500) power = -0.3;
+				}
 			}
-			
+
 
 		}		
 }
