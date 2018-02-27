@@ -22,8 +22,12 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+=======
+import edu.wpi.first.wpilibj.CameraServer;
+>>>>>>> refs/heads/master
 
 public class Robot extends TimedRobot {
 	// Motors
@@ -98,9 +102,21 @@ public class Robot extends TimedRobot {
 	int autoStep = 0;
 	int autoRoutine = 0;
 	int autoLoopCounter = 0;
+<<<<<<< HEAD
 	Timer autoTimer = new Timer();
+=======
+    	Timer  autoTimer    = new Timer();
+>>>>>>> refs/heads/master
 
+<<<<<<< HEAD
 	boolean newPID = true;
+=======
+	double  turnSum     = 0;
+	double  lastOffYaw  = 0;
+	boolean newPID      = true;
+	double  rampUpPower = 0;
+	boolean newTime     = true;
+>>>>>>> refs/heads/master
 
 	// Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
@@ -144,6 +160,7 @@ public class Robot extends TimedRobot {
 	// Elevator
 	double elevP = 0.05, elevI = 0.03, elevD = 0.03;
 	PIDCorrection elevatorCorrection = new PIDCorrection();
+<<<<<<< HEAD
 	PIDController elevatorPID = new PIDController(turnP, turnI, turnD, navX, turnRobotCorrection, 0.020) {
 		{
 			setInputRange(-200, 10000);
@@ -153,6 +170,25 @@ public class Robot extends TimedRobot {
 			disable();
 		}
 	};
+=======
+	PIDController elevatorPID = new PIDController(
+        turnP,
+        turnI,
+        turnD,
+        navX,
+        elevatorCorrection,
+        0.020
+    ) {{
+        setInputRange(-200, 10000);
+        setOutputRange(-1.0, 1.0);
+        setAbsoluteTolerance(100);
+        setContinuous(false);
+        enable();
+	}};
+	int turnOnTargetCount = 0;
+	public static final double INCHES_TO_ENCTICKS = 110;
+	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
+>>>>>>> refs/heads/master
 
 	/**********
 	 * Global *
@@ -164,8 +200,15 @@ public class Robot extends TimedRobot {
 		driveRB.setInverted(true);
 		rollieL.setInverted(true);
 
+<<<<<<< HEAD
 		
 		
+=======
+		// Uncomment to stream video from the camera.
+		// Documentation here on setting modes: https://wpilib.screenstepslive.com/s/currentCS/m/vision/l/669166-using-the-cameraserver-on-the-roborio
+		// CameraServer.getInstance().startAutomaticCapture();
+
+>>>>>>> refs/heads/master
 		System.out.println("Itsa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
 	}
@@ -373,6 +416,7 @@ public class Robot extends TimedRobot {
 		driveRA.set(ControlMode.PercentOutput, rightPower);
 		driveRB.set(ControlMode.PercentOutput, rightPower);
 	}
+<<<<<<< HEAD
 
 	// Elevator
 	void driveElevator(double power) {
@@ -670,4 +714,15 @@ public class Robot extends TimedRobot {
 		}
 	}
 
+=======
+	
+	public void resetEncoders() {
+		distanceL.reset();
+		distanceR.reset();
+	}
+
+	public double getEncoderMax() {
+		return Math.abs(distanceL.getRaw()) > Math.abs(distanceR.getRaw()) ? Math.abs(distanceL.getRaw()) : Math.abs(distanceR.getRaw());
+	}	
+>>>>>>> refs/heads/master
 }
