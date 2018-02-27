@@ -14,6 +14,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.CameraServer;
 
 public class Robot extends TimedRobot {
 	//Motors
@@ -56,7 +57,7 @@ public class Robot extends TimedRobot {
 
 
 	int autoLoopCounter = 0;
-    Timer  autoTimer    = new Timer();
+    	Timer  autoTimer    = new Timer();
 
 	double  turnSum     = 0;
 	double  lastOffYaw  = 0;
@@ -147,6 +148,10 @@ public class Robot extends TimedRobot {
 		driveRA.setInverted(true);
 		driveRB.setInverted(true);
 		handLeft.setInverted(true);
+
+		// Uncomment to stream video from the camera.
+		// Documentation here on setting modes: https://wpilib.screenstepslive.com/s/currentCS/m/vision/l/669166-using-the-cameraserver-on-the-roborio
+		// CameraServer.getInstance().startAutomaticCapture();
 
 		System.out.println("Itsa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
