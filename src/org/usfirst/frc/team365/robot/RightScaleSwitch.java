@@ -61,7 +61,6 @@ public class RightScaleSwitch {
 				AutoSimplify.goStraight(us, 1000, -180, 0.5);
 				break;
 				
-		
 		}
 	}
 
