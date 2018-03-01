@@ -22,22 +22,22 @@ public class Robot extends TimedRobot {
 	//Motors
 	//TL;DR: Double braces after a new object let you run commands on object immediately after the object is constructed.
 	//Longer answer: Anonymous default constructor for anonymous class implementing given class
-	private TalonSRX driveLA   = new TalonSRX( 0) {{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX driveLB   = new TalonSRX(15) {{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX driveRA   = new TalonSRX( 1) {{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX driveRB   = new TalonSRX(14) {{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX elevator  = new TalonSRX( 2) {{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX rollLeft  = new TalonSRX( 3) {{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX rollRight = new TalonSRX(12) {{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX wrist     = new TalonSRX( 4) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX driveLA   = new TalonSRX( 0) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX driveLB   = new TalonSRX(15) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX driveRA   = new TalonSRX( 1) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX driveRB   = new TalonSRX(14) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX elevator  = new TalonSRX( 2) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX rollLeft  = new TalonSRX( 3) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX rollRight = new TalonSRX(12) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX wrist     = new TalonSRX( 4) {{ setNeutralMode(NeutralMode.Brake); }};
 
     //Solenoids
-    private       Solenoid shifter   = new       Solenoid(2);
-    private       Solenoid cubeClaw  = new       Solenoid(3);
-    private DoubleSolenoid mouseTrap = new DoubleSolenoid(0,1);
+           Solenoid shifter   = new       Solenoid(2);
+           Solenoid cubeClaw  = new       Solenoid(3);
+     DoubleSolenoid mouseTrap = new DoubleSolenoid(0,1);
 
 	// Servos
-	private Servo flySwatter = new Servo(0);
+	 Servo flySwatter = new Servo(0);
 
 	// Sensors
 	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 50);
@@ -63,15 +63,20 @@ public class Robot extends TimedRobot {
 
 	double  turnSum     = 0;
 	double  lastOffYaw  = 0;
-	boolean newPID      = true;
+	boolean newStep      = true;
 	double  rampUpPower = 0;
-	boolean newTime     = true;
+//	boolean newTime     = true;
 
 	// GameData Stuff
 	String  gameData = "";
 	boolean switchLeft;
 	boolean scaleLeft;
 	boolean oppSwitchLeft;
+	boolean reachedSetting = false;
+	
+	final int HEIGHT_FOR_SWITCH = 2000;
+	final int HEIGHT_FOR_SCALE = 5500;
+	final int BOTTOM_HEIGHT = 10;
 
 
 	//Output Storage
@@ -413,5 +418,56 @@ public class Robot extends TimedRobot {
 	public void flySwatterClose() {
 		flySwatter.set(90);
 	}
+	//Lucy's Elevator
+	void raiseElevator(int setpoint) {
+		double height = encoderElevator.getRaw();
+		if (height > setpoint) {
+//		if (height < -2000)  {
+//			elevator.set(ControlMode.PercentOutput, 0.7);
+			reachedSetting = true;
+			elevator.set(ControlMode.PercentOutput, 0.25);
+			
+		}
+		else if (reachedSetting && height >= setpoint - 200) {
+			elevator.set(ControlMode.PercentOutput, 0.25);
+		}
+		else if (height < setpoint - 200 && reachedSetting) {
+			elevator.set(ControlMode.PercentOutput, 0.7);
+			reachedSetting = false;
+		}
+		else {
+			elevator.set(ControlMode.PercentOutput, 0.7);
+			reachedSetting = false;
+		}
+		
+//		SmartDashboard.putNumber("elevAuto", elevatorHeight.getRaw());
+	}
 	
+	void lowerElevator(int setpoint) {
+		double height = encoderElevator.getRaw();
+		if (setpoint < 100) {
+			if (elevatorBottomLimitSwitch.get()) {
+				elevator.set(ControlMode.PercentOutput, 0);
+				reachedSetting = true;
+			}
+			else {
+				elevator.set(ControlMode.PercentOutput, -0.25);
+				reachedSetting = false;
+			}
+		}
+		else {
+			if (height < setpoint + 200) {
+				elevator.set(ControlMode.PercentOutput, 0.25);
+				reachedSetting = true;
+			}
+			else if (reachedSetting) {
+				elevator.set(ControlMode.PercentOutput, 0.25);
+			}
+			
+			else {
+				elevator.set(ControlMode.PercentOutput, -0.25);
+				reachedSetting = false;
+			}
+		}
+	}
 }
