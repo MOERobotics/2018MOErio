@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.CameraServer;
 
 public class Robot extends TimedRobot {
 	// Motors
@@ -100,7 +101,11 @@ public class Robot extends TimedRobot {
 	int autoLoopCounter = 0;
 	Timer autoTimer = new Timer();
 
-	boolean newPID = true;
+	double  turnSum     = 0;
+	double  lastOffYaw  = 0;
+	boolean newPID      = true;
+	double  rampUpPower = 0;
+	boolean newTime     = true;
 
 	// Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
@@ -144,15 +149,24 @@ public class Robot extends TimedRobot {
 	// Elevator
 	double elevP = 0.05, elevI = 0.03, elevD = 0.03;
 	PIDCorrection elevatorCorrection = new PIDCorrection();
-	PIDController elevatorPID = new PIDController(turnP, turnI, turnD, navX, turnRobotCorrection, 0.020) {
-		{
-			setInputRange(-200, 10000);
-			setOutputRange(-1.0, 1.0);
-			setAbsoluteTolerance(100);
-			setContinuous(false);
-			disable();
-		}
-	};
+
+	PIDController elevatorPID = new PIDController(
+        turnP,
+        turnI,
+        turnD,
+        navX,
+        elevatorCorrection,
+        0.020
+    ) {{
+        setInputRange(-200, 10000);
+        setOutputRange(-1.0, 1.0);
+        setAbsoluteTolerance(100);
+        setContinuous(false);
+        enable();
+	}};
+	int turnOnTargetCount = 0;
+	public static final double INCHES_TO_ENCTICKS = 110;
+	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
 
 	/**********
 	 * Global *
@@ -164,8 +178,11 @@ public class Robot extends TimedRobot {
 		driveRB.setInverted(true);
 		rollieL.setInverted(true);
 
-		
-		
+
+		// Uncomment to stream video from the camera.
+		// Documentation here on setting modes: https://wpilib.screenstepslive.com/s/currentCS/m/vision/l/669166-using-the-cameraserver-on-the-roborio
+		// CameraServer.getInstance().startAutomaticCapture();
+
 		System.out.println("Itsa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
 	}
@@ -669,5 +686,16 @@ public class Robot extends TimedRobot {
 			lastOffYaw = offYaw;
 		}
 	}
+
+
+	
+	public void resetEncoders() {
+		distanceL.reset();
+		distanceR.reset();
+	}
+
+	public double getEncoderMax() {
+		return Math.abs(distanceL.getRaw()) > Math.abs(distanceR.getRaw()) ? Math.abs(distanceL.getRaw()) : Math.abs(distanceR.getRaw());
+	}	
 
 }
