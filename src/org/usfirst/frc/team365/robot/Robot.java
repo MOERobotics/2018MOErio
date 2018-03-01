@@ -14,6 +14,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.CameraServer;
 
 public class Robot extends TimedRobot {
@@ -25,24 +26,24 @@ public class Robot extends TimedRobot {
 	private TalonSRX driveRA   = new TalonSRX( 1) {{ setNeutralMode(NeutralMode.Brake); }};
 	private TalonSRX driveRB   = new TalonSRX(14) {{ setNeutralMode(NeutralMode.Brake); }};
 	private TalonSRX elevator  = new TalonSRX( 2) {{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX handLeft  = new TalonSRX( 3) {{ setNeutralMode(NeutralMode.Brake); }};
-	private TalonSRX handRight = new TalonSRX(12) {{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX rollLeft  = new TalonSRX( 3) {{ setNeutralMode(NeutralMode.Brake); }};
+	private TalonSRX rollRight = new TalonSRX(12) {{ setNeutralMode(NeutralMode.Brake); }};
 	private TalonSRX wrist     = new TalonSRX( 4) {{ setNeutralMode(NeutralMode.Brake); }};
 
     //Solenoids
     private       Solenoid shifter   = new       Solenoid(2);
-    private       Solenoid grabbies  = new       Solenoid(3);
+    private       Solenoid cubeClaw  = new       Solenoid(3);
     private DoubleSolenoid mouseTrap = new DoubleSolenoid(0,1);
 
 	// Servos
-	private Servo armDeployer = new Servo(0);
+	private Servo flySwatter = new Servo(0);
 
 	// Sensors
 	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 50);
-	Encoder      distanceL  = new Encoder(0, 1, false, EncodingType.k1X);
-	Encoder      distanceR  = new Encoder(2, 3, true, EncodingType.k1X);
-	Encoder elevatorEncoder = new Encoder(4, 5, true, EncodingType.k2X);
-	Encoder wristEncoder = new Encoder(8, 9, true, EncodingType.k2X);
+	Encoder      encoderL  = new Encoder(0, 1, false, EncodingType.k1X);
+	Encoder      encoderR  = new Encoder(2, 3, true, EncodingType.k1X);
+	Encoder encoderElevator = new Encoder(4, 5, true, EncodingType.k2X);
+	Encoder encoderWrist = new Encoder(8, 9, true, EncodingType.k2X);
 
 	DigitalInput elevatorBottomLimitSwitch = new DigitalInput(6);
 	DigitalInput elevatorTopLimitSwitch = new DigitalInput(7);
@@ -80,7 +81,7 @@ public class Robot extends TimedRobot {
 		driveOutputLeft  = 0.0,
 		driveOutputRight = 0.0,
 		elevatorOutput   = 0.0,
-        rolliesOutput    = 0.0,
+        rollOutput    = 0.0,
         wristOutput      = 0.0;
 
 
@@ -147,14 +148,15 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		driveRA.setInverted(true);
 		driveRB.setInverted(true);
-		handLeft.setInverted(true);
+		rollLeft.setInverted(true);
 
 		// Uncomment to stream video from the camera.
 		// Documentation here on setting modes: https://wpilib.screenstepslive.com/s/currentCS/m/vision/l/669166-using-the-cameraserver-on-the-roborio
 		// CameraServer.getInstance().startAutomaticCapture();
 
-		System.out.println("Itsa me, MOERio!");
+		System.out.println("It'sa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
+		shifter.set(false);
 	}
 
 	@Override
@@ -173,6 +175,7 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 
 		autoTimer.start();
+		shifter.set(false);
 	//	autoPauseTimer.start();
 	}
 
@@ -294,11 +297,58 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void resetEncoders() {
-		distanceL.reset();
-		distanceR.reset();
+		encoderL.reset();
+		encoderR.reset();
 	}
 
 	public double getEncoderMax() {
-		return Math.abs(distanceL.getRaw()) > Math.abs(distanceR.getRaw()) ? Math.abs(distanceL.getRaw()) : Math.abs(distanceR.getRaw());
+		return Math.abs(encoderL.getRaw()) > Math.abs(encoderR.getRaw()) ? Math.abs(encoderL.getRaw()) : Math.abs(encoderR.getRaw());
 	}	
+	//Elevator Functions
+	public void driveElevator(double power) {
+		if(elevatorBottomLimitSwitch.get()) {
+			power = Math.max(power, 0);
+		}
+		if(elevatorTopLimitSwitch.get()) {
+			power = Math.min(power, 0);
+		}
+		if(power < -0.1 || power < 0.15) {//Keeps elevator idle for to accommodate backdrive
+			elevatorOutput = power + 0.15;
+		}
+		elevator.set(ControlMode.PercentOutput, power);
+	}
+	
+	//Roller driving
+	public void driveRoll(double power) {
+		rollLeft.set(ControlMode.PercentOutput, power);
+		rollRight.set(ControlMode.PercentOutput, power);
+	}
+	
+	public void rollIn() {
+		driveRoll(-0.99);
+	}
+	
+	public void rollOut() {
+		driveRoll(0.99);
+	}
+	
+	//Shifting
+	public void shiftDrive() {
+		shifter.set(false);
+	}
+	
+	public void shiftClimb() {
+		shifter.set(true);
+	}
+	
+	//mouseTrap
+	public void mouseTrapUp() {
+		mouseTrap.set(Value.kReverse);
+	}
+	
+	public void mouseTrapDown() {
+		mouseTrap.set(Value.kForward);
+	}
+	
+	
 }
