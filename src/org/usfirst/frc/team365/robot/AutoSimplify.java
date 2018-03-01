@@ -5,17 +5,70 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.PIDController;
 
 public class AutoSimplify{
+	
+	//   Useful Functions
+	
+	void deployGrabber(Robot us) {
+		if (us.encoderWrist.getRaw() < 1150) {
+			us.wrist.set(ControlMode.PercentOutput, -0.4);
+		}
+		else us.wrist.set(ControlMode.PercentOutput, 0);
+	}
+	
+	void launchCube(Robot us) {
+		
+		if (us.newStep) {
+			us.newStep = false;
+			us.autoTimer.reset();
+		}
+		else if (us.autoTimer.get() > 1) {
+			us.rollLeft.set(ControlMode.PercentOutput, 0);
+			us.rollRight.set(ControlMode.PercentOutput, 0);
+			us.autoStep++;
+			us.autoTimer.reset();
+			us.newStep = true;
+		}
+		else {
+			us.rollLeft.set(ControlMode.PercentOutput, -1.0);
+			us.rollRight.set(ControlMode.PercentOutput, 1.0);
+		}
+	}
+	
+	void openGrabber(Robot us) {
+	     us.cubeClaw.set(true);  // open grabber
+	}
+	
+	void grabCube(Robot us) {
+		if (us.newStep) {
+			us.newStep = false;
+			us.autoTimer.reset();
+			us.cubeClaw.set(false);
+		}
+		else if (us.autoTimer.get() > 1) {
+			us.autoStep++;
+			us.autoTimer.reset();
+			us.newStep = true;
+			us.rollLeft.set(ControlMode.PercentOutput, 0);
+			us.rollRight.set(ControlMode.PercentOutput, 0);
+		}
+		else {
+			us.rollLeft.set(ControlMode.PercentOutput, 1.0);
+			us.rollRight.set(ControlMode.PercentOutput, -1.0);
+		}
+	}
+	
+
 		/******************
 		 * Vasista's Auto Simplificatorator *
 		 ******************/
 
 		static void goStraight(Robot us, double ticks, double setPoint, double power) {
-			if (us.newPID) {
+			if (us.newStep) {
 				us.resetEncoders();
 				us.driveStraight.reset();
 				us.driveStraight.setSetpoint(setPoint);
 				us.driveStraight.enable();
-				us.newPID = false;
+				us.newStep = false;
 			}
 
 			if (us.getEncoderMax() > ticks) {
@@ -23,7 +76,7 @@ public class AutoSimplify{
 				us.driveStraight.reset();
 				us.autoTimer.reset();
 				us.autoStep++;
-				us.newPID = true;
+				us.newStep = true;
 			} else {
 				us.driveRobot(power + us.driveStraightCorrection.correctionValue,
 						power - us.driveStraightCorrection.correctionValue);
@@ -31,21 +84,21 @@ public class AutoSimplify{
 		}
 
 		public static void turnToAngle(Robot us, double angle, double maxPower, double tolerance) {
-			if (us.newPID) {
+			if (us.newStep) {
 				us.turnRobot.setAbsoluteTolerance(tolerance);
 			}
 			turnToAngle(us, angle, maxPower);
 		}
 
 		public static void turnToAngle(Robot us, double angle, double maxPower) {
-			if (us.newPID) {
+			if (us.newStep) {
 				us.resetEncoders();
 				us.turnRobot.reset();
 				us.turnRobot.setSetpoint(angle);
 				us.turnRobot.setOutputRange(-Math.abs(maxPower), Math.abs(maxPower));
 				us.turnRobot.enable();
 				us.turnOnTargetCount = 0;
-				us.newPID = false;
+				us.newStep = false;
 			}
 
 			if (us.turnRobot.onTarget()) {
@@ -59,7 +112,7 @@ public class AutoSimplify{
 				us.turnRobot.reset();
 				us.autoTimer.reset();
 				us.autoStep++;
-				us.newPID = true;
+				us.newStep = true;
 			} else {
 				us.driveRobot(us.turnRobotCorrection.correctionValue, -us.turnRobotCorrection.correctionValue);
 			}
@@ -75,14 +128,14 @@ public class AutoSimplify{
 		}
 
 		public static void pause(Robot us, double seconds) {
-			if (us.newTime) {
+			if (us.newStep) {
 				us.autoTimer.reset();
-				us.newTime = false;
+				us.newStep = false;
 			}
 			else if (us.autoTimer.get() > seconds) {
 				us.autoStep++;
 				us.autoTimer.reset();
-				us.newTime = true;
+				us.newStep = true;
 			}
 		}
 
@@ -117,12 +170,12 @@ public class AutoSimplify{
 			double distAwayFromTargetToStartBraking = 24 * us.INCHES_TO_ENCTICKS;
 			double maxOKBrakingPower = .3;
 
-			if (us.newPID) {
+			if (us.newStep) {
 				us.resetEncoders();
 				us.driveStraight.reset();
 				us.driveStraight.setSetpoint(setPoint);
 				us.driveStraight.enable();
-				us.newPID = false;
+				us.newStep = false;
 			}
 
 			if (Math.abs(us.getEncoderMax()) > ticks) {
@@ -130,7 +183,7 @@ public class AutoSimplify{
 				us.driveStraight.reset();
 				us.autoTimer.reset();
 				us.autoStep++;
-				us.newPID = true;
+				us.newStep = true;
 			} else {
 				if (ticks - Math.abs(us.getEncoderMax()) < distAwayFromTargetToStartBraking
 						&& getStraightPower(us) > maxOKBrakingPower) {
@@ -162,9 +215,9 @@ public class AutoSimplify{
 				offYaw = offYaw + 360;
 
 			// initialize values during first loop
-			if (us.newPID) {
+			if (us.newStep) {
 				us.turnSum = 0;
-				us.newPID = false;
+				us.newStep = false;
 				us.lastOffYaw = offYaw;
 				us.turnOnTargetCount = 0;
 				us.driveRobot(0, 0);
@@ -201,7 +254,7 @@ public class AutoSimplify{
 						us.turnOnTargetCount = 0;
 						us.autoStep++;
 						us.driveRobot(0, 0);
-						us.newPID = true;
+						us.newStep = true;
 					}
 
 				}
@@ -216,10 +269,10 @@ public class AutoSimplify{
 
 			
 	//   initialize needed value for first loop		
-			if (us.newPID) {
+			if (us.newStep) {
 //				driveStraight.reset();
 				us.rampUpPower = 0.4;
-				us.newPID = false;
+				us.newStep = false;
 				us.driveRobot(0,0);
 				us.resetEncoders();
 				us.driveStraight.setSetpoint(setPoint);
@@ -235,7 +288,7 @@ public class AutoSimplify{
 //				autoPauseTimer.reset();
 //				autoPauseTimer.start();
 				us.autoStep++;
-				us.newPID = true;
+				us.newStep = true;
 			}
 			
 			else {
