@@ -10,7 +10,7 @@ public class RightScaleSwitch {
 		switch (us.autoStep) {
 		
 			case 1:
-				AutoSimplify.goStraight(us, 23000, 0, 0.6);
+				AutoSimplify.goStraight(us, 17.424 * FEET, 0, 0.6); //209.091 in.
 				break;
 				
 			case 2:
@@ -18,7 +18,7 @@ public class RightScaleSwitch {
 				break;
 				
 			case 3:
-				AutoSimplify.goStraight(us, 3500, -30, 0.6);
+				AutoSimplify.goStraight(us, 2.652 * FEET, -30, 0.6); //31.812 in.
 				us.autoTimer.reset();
 				break;
 				
@@ -38,7 +38,7 @@ public class RightScaleSwitch {
 				break;
 				
 			case 6:
-				AutoSimplify.goStraight(us, 4400, -150, 0.6);
+				AutoSimplify.goStraight(us, 3.33 * FEET, -150, 0.6); //40 in
 				break;
 				
 			case 7:
@@ -58,7 +58,7 @@ public class RightScaleSwitch {
 				break;
 				
 			case 9:
-				AutoSimplify.goStraight(us, 1000, -180, 0.5);
+				AutoSimplify.goStraight(us, .758 * FEET, -180, 0.5); //9.091 in.
 				break;
 				
 		
