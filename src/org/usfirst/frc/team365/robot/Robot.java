@@ -142,7 +142,7 @@ public class Robot extends TimedRobot {
         enable();
 	}};
 	int turnOnTargetCount = 0;
-	public static final double INCHES_TO_ENCTICKS = 110;
+	public static final double INCHES_TO_ENCTICKS = 45;
 	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
 
 	/**********
@@ -239,7 +239,7 @@ public class Robot extends TimedRobot {
 			// Right_Switch_Cube_Plus.run(this);
 			//break;
 		case 4:
-			RightScaleSwitch.run(this);
+			CenterLeftSwitchThenCube.run(this);
 			break;
 		case 5:
 			GoStraightAutonomous.autoGoStraightTurnTest(this);

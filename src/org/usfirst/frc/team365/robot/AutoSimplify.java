@@ -8,14 +8,14 @@ public class AutoSimplify{
 	
 	//   Useful Functions
 	
-	void deployGrabber(Robot us) {
+	static void deployGrabber(Robot us) {
 		if (us.encoderWrist.getRaw() < 1150) {
 			us.wrist.set(ControlMode.PercentOutput, -0.4);
 		}
 		else us.wrist.set(ControlMode.PercentOutput, 0);
 	}
 	
-	void launchCube(Robot us) {
+	static void launchCube(Robot us) {
 		
 		if (us.newStep) {
 			us.newStep = false;
@@ -34,11 +34,11 @@ public class AutoSimplify{
 		}
 	}
 	
-	void openGrabber(Robot us) {
+	static void openGrabber(Robot us) {
 	     us.cubeClaw.set(true);  // open grabber
 	}
 	
-	void grabCube(Robot us) {
+	static void grabCube(Robot us) {
 		if (us.newStep) {
 			us.newStep = false;
 			us.autoTimer.reset();
