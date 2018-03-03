@@ -12,16 +12,16 @@ public class SmartDashboardUtil {
 	public static void dashboardInit(Robot ourselves) {
 		setDefaultValues(ourselves);
 		printToSmartDashboard(ourselves);
-		getFromSmartDashboard(ourselves);
+//		getFromSmartDashboard(ourselves);
 	}
 
 	public static void dashboardPeriodic(Robot ourselves) {
 
-		if (smartDashboardTimer.hasPeriodPassed(0.1)) {
+		if (smartDashboardTimer.hasPeriodPassed(0.3)) {
 			printToSmartDashboard(ourselves);
-			getFromSmartDashboard(ourselves);
+//			getFromSmartDashboard(ourselves);
 			smartDashboardTimer.reset();
-			smartDashboardTimer.start();
+//			smartDashboardTimer.start();
 		}
 
 	}

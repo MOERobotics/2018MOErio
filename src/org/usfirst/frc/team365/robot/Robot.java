@@ -15,7 +15,6 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.CameraServer;
 
 public class Robot extends TimedRobot {
 	//Motors
@@ -142,7 +141,7 @@ public class Robot extends TimedRobot {
         enable();
 	}};
 	int turnOnTargetCount = 0;
-	public static final double INCHES_TO_ENCTICKS = 110;
+	public static final double INCHES_TO_ENCTICKS = 45;
 	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
 
 	/**********
@@ -157,7 +156,7 @@ public class Robot extends TimedRobot {
 
 		// Uncomment to stream video from the camera.
 		// Documentation here on setting modes: https://wpilib.screenstepslive.com/s/currentCS/m/vision/l/669166-using-the-cameraserver-on-the-roborio
-		// CameraServer.getInstance().startAutomaticCapture();
+		 CameraServer.getInstance().startAutomaticCapture();
 
 		System.out.println("It'sa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
@@ -166,7 +165,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotPeriodic() {
-		SmartDashboardUtil.dashboardPeriodic(this);
+//		SmartDashboardUtil.dashboardPeriodic(this);
 		// If this isn't still good when you print it again, we did something bad.
 		statusMessage = "Everything is good!";
 	}
@@ -194,6 +193,8 @@ public class Robot extends TimedRobot {
 		if (driveStick.getRawButton(8)) autoRoutine = 2;
 		if (driveStick.getRawButton(10)) autoRoutine = 3;
 		if (driveStick.getRawButton(12)) autoRoutine = 4;
+		
+		SmartDashboardUtil.dashboardPeriodic(this);
     }
 
 	/**************
@@ -202,10 +203,22 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		gameData      = DriverStation.getInstance().getGameSpecificMessage();
-		switchLeft    = gameData.charAt(0) == 'L';
-		scaleLeft     = gameData.charAt(0) == 'L';
-		oppSwitchLeft = gameData.charAt(0) == 'L';
+		
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		if (gameData.charAt(0) == 'L') {
+			switchLeft = true;
+		}
+		else switchLeft = false;
+		if (gameData.charAt(1) == 'L')  {
+			scaleLeft = true;
+		}
+		else scaleLeft = false;
+		
+//		gameData      = DriverStation.getInstance().getGameSpecificMessage();
+//		switchLeft    = gameData.charAt(0) == 'L';
+//		scaleLeft     = gameData.charAt(0) == 'L';
+//		oppSwitchLeft = gameData.charAt(0) == 'L';
 
 		autoLoopCounter = 0;
 
@@ -220,7 +233,7 @@ public class Robot extends TimedRobot {
 		driveStraight.reset();
 		turnRobot.reset();
 
-		SmartDashboardUtil.getFromSmartDashboard(this); //force update
+//		SmartDashboardUtil.getFromSmartDashboard(this); //force update
 
 	}
 
@@ -259,7 +272,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		// force update
-		SmartDashboardUtil.getFromSmartDashboard(this);
+//		SmartDashboardUtil.getFromSmartDashboard(this);
 	}
 
 	@Override
@@ -278,7 +291,7 @@ public class Robot extends TimedRobot {
 			double right = yJoy - xJoy;
 			driveRobot(left, right);
 		}
-
+		SmartDashboardUtil.dashboardPeriodic(this);
 	}
 
 
@@ -358,21 +371,11 @@ public class Robot extends TimedRobot {
 	void raiseElevator(int setpoint) {
 		double height = encoderElevator.getRaw();
 		if (height > setpoint) {
-//		if (height < -2000)  {
-//			elevator.set(ControlMode.PercentOutput, 0.7);
 			reachedSetting = true;
-			elevator.set(ControlMode.PercentOutput, 0.25);
-			
-		}
-		else if (reachedSetting && height >= setpoint - 200) {
-			elevator.set(ControlMode.PercentOutput, 0.25);
-		}
-		else if (height < setpoint - 200 && reachedSetting) {
-			elevator.set(ControlMode.PercentOutput, 0.7);
-			reachedSetting = false;
-		}
+			elevator.set(ControlMode.PercentOutput, 0.05);			
+		}	
 		else {
-			elevator.set(ControlMode.PercentOutput, 0.7);
+			elevator.set(ControlMode.PercentOutput, 0.65);
 			reachedSetting = false;
 		}
 		
@@ -387,21 +390,17 @@ public class Robot extends TimedRobot {
 				reachedSetting = true;
 			}
 			else {
-				elevator.set(ControlMode.PercentOutput, -0.25);
+				elevator.set(ControlMode.PercentOutput, -0.4);
 				reachedSetting = false;
 			}
 		}
 		else {
 			if (height < setpoint + 200) {
-				elevator.set(ControlMode.PercentOutput, 0.25);
+				elevator.set(ControlMode.PercentOutput, 0.05);
 				reachedSetting = true;
-			}
-			else if (reachedSetting) {
-				elevator.set(ControlMode.PercentOutput, 0.25);
-			}
-			
+			}	
 			else {
-				elevator.set(ControlMode.PercentOutput, -0.25);
+				elevator.set(ControlMode.PercentOutput, -0.4);
 				reachedSetting = false;
 			}
 		}

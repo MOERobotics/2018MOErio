@@ -9,8 +9,8 @@ public class AutoSimplify{
 	//   Useful Functions
 	
 	void deployGrabber(Robot us) {
-		if (us.encoderWrist.getRaw() < 1150) {
-			us.wrist.set(ControlMode.PercentOutput, -0.4);
+		if (us.encoderWrist.getRaw() < 1100) {
+			us.wrist.set(ControlMode.PercentOutput, -0.5);
 		}
 		else us.wrist.set(ControlMode.PercentOutput, 0);
 	}
@@ -21,16 +21,16 @@ public class AutoSimplify{
 			us.newStep = false;
 			us.autoTimer.reset();
 		}
-		else if (us.autoTimer.get() > 1) {
+		else if (us.autoTimer.get() > 0.5) {
 			us.rollLeft.set(ControlMode.PercentOutput, 0);
 			us.rollRight.set(ControlMode.PercentOutput, 0);
 			us.autoStep++;
 			us.autoTimer.reset();
 			us.newStep = true;
 		}
-		else {
-			us.rollLeft.set(ControlMode.PercentOutput, -1.0);
-			us.rollRight.set(ControlMode.PercentOutput, 1.0);
+		else {    // rollers out
+			us.rollLeft.set(ControlMode.PercentOutput, 0.5);
+			us.rollRight.set(ControlMode.PercentOutput, 0.5);
 		}
 	}
 	
@@ -39,7 +39,7 @@ public class AutoSimplify{
 	}
 	
 	void grabCube(Robot us) {
-		if (us.newStep) {
+		if (us.newStep) {   //  if first loop reset timer
 			us.newStep = false;
 			us.autoTimer.reset();
 			us.cubeClaw.set(false);
@@ -51,9 +51,9 @@ public class AutoSimplify{
 			us.rollLeft.set(ControlMode.PercentOutput, 0);
 			us.rollRight.set(ControlMode.PercentOutput, 0);
 		}
-		else {
-			us.rollLeft.set(ControlMode.PercentOutput, 1.0);
-			us.rollRight.set(ControlMode.PercentOutput, -1.0);
+		else {   //   rollers in
+			us.rollLeft.set(ControlMode.PercentOutput, -0.65);
+			us.rollRight.set(ControlMode.PercentOutput, -0.65);
 		}
 	}
 	
