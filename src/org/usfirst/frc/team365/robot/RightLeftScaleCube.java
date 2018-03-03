@@ -19,30 +19,30 @@ public class RightLeftScaleCube {
 		switch (us.autoStep)
 		{
 		case 1: 
-			us.goStraight(22668, 0, 0.7);
+			AutoSimplify.goStraight(us, 17.173 * FEET, 0, 0.7); //206.173 in
 			break;
 		case 2:
 			us.turnToAngle(-90, 0.8);
 			break;
 		case 3:
-			us.goStraight(19440, -90, 0.5);
+			AutoSimplify.goStraight(us, 14.727 * FEET, -90, 0.5); //176.727 in
 			break;
 		case 4:
 			us.turnToAngle(0, 0.8);
 			break;
 		case 5:
-			us.goStraight(4200, 0, 0.4);
+			AutoSimplify.goStraight(us, 3.182 * FEET, 0, 0.4); //38.182 in
 			break;
 		case 6:
 			us.pause(1);
 		case 7:
-			us.goStraight(4000, 0, -0.4);
+			AutoSimplify.goStraight(us, 3.03 * FEET, 0, -0.4); //36.364 in
 			break;
 		case 8:
 			us.turnToAngle(180, 0.8);
 			break;
 		case 9:
-			us.goStraight(1500, 180, 0.4);
+			AutoSimplify.goStraight(us, 1.136 * FEET, 180, 0.4); //13.636 in
 			break;
 		case 10:
 			us.driveRobot(0, 0);
