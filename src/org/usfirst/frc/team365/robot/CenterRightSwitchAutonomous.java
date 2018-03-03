@@ -30,7 +30,7 @@ public class CenterRightSwitchAutonomous {
 			}
 			break;
 		case 4:
-			AutoSimplify.goStraight(robot, 14 * INCHES,0,.7);
+			AutoSimplify.goStraight(robot, 10 * INCHES,0,.7);
 			break;
 		case 5:
 			AutoSimplify.pause(robot, 1.0);
@@ -39,13 +39,15 @@ public class CenterRightSwitchAutonomous {
 			AutoSimplify.goStraight(robot, 48 * INCHES, 0, -.5);
 			break;
 		case 7:
-			AutoSimplify.turnToAngle(robot, -90);
+			//AutoSimplify.turnToAngle(robot, -90);
+			AutoSimplify.autoPIDTurn(robot, -90);
 			break;
 		case 8:
 			AutoSimplify.goStraight(robot, 58 * INCHES, -90, .4);
 			break;
 		case 9:
-			AutoSimplify.turnToAngle(robot, 0);
+			//AutoSimplify.turnToAngle(robot, 0);
+			AutoSimplify.autoPIDTurn(robot, 0);
 			break;
 		case 10:
 			AutoSimplify.goStraight(robot, 9 * INCHES, 0, .5);
