@@ -252,7 +252,7 @@ public class Robot extends TimedRobot {
 			// Right_Switch_Cube_Plus.run(this);
 			//break;
 		case 4:
-			RightScaleSwitch.run(this);
+			CenterLeftSwitchThenCube.run(this);
 			break;
 		case 5:
 			GoStraightAutonomous.autoGoStraightTurnTest(this);

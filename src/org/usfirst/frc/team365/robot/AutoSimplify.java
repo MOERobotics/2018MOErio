@@ -8,14 +8,16 @@ public class AutoSimplify{
 	
 	//   Useful Functions
 	
-	void deployGrabber(Robot us) {
+
+	static void deployGrabber(Robot us) {
 		if (us.encoderWrist.getRaw() < 1100) {
 			us.wrist.set(ControlMode.PercentOutput, -0.5);
+
 		}
 		else us.wrist.set(ControlMode.PercentOutput, 0);
 	}
 	
-	void launchCube(Robot us) {
+	static void launchCube(Robot us) {
 		
 		if (us.newStep) {
 			us.newStep = false;
@@ -34,12 +36,13 @@ public class AutoSimplify{
 		}
 	}
 	
-	void openGrabber(Robot us) {
+	static void openGrabber(Robot us) {
 	     us.cubeClaw.set(true);  // open grabber
 	}
 	
-	void grabCube(Robot us) {
-		if (us.newStep) {   //  if first loop reset timer
+
+	static void grabCube(Robot us) {
+		if (us.newStep) {
 			us.newStep = false;
 			us.autoTimer.reset();
 			us.cubeClaw.set(false);
@@ -233,18 +236,18 @@ public class AutoSimplify{
 					// only add to error sum when close to target value
 					if (offYaw < 20 && offYaw > -20) {
 						if (offYaw > 0)
-							us.turnSum = us.turnSum + 0.01;
+							us.turnSum = us.turnSum + 0.015;
 						else
-							us.turnSum = us.turnSum - 0.01;
+							us.turnSum = us.turnSum - 0.015;
 					}
 					// calculate new correction value
 					double newPower = us.turnP * offYaw + us.turnSum + us.turnD * (offYaw - us.lastOffYaw);
 
 					// limit output power
-					if (newPower > 0.6)
-						newPower = 0.6;
-					else if (newPower < -0.6)
-						newPower = -0.6;
+					if (newPower > 0.65)
+						newPower = 0.65;
+					else if (newPower < -0.65)
+						newPower = -0.65;
 					us.driveRobot(newPower, -newPower);
 				}
 				// if robot is within yaw tolerance stop robot and increase onCount
