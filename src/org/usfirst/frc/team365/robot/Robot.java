@@ -158,7 +158,7 @@ public class Robot extends TimedRobot {
 
 		// Uncomment to stream video from the camera.
 		// Documentation here on setting modes: https://wpilib.screenstepslive.com/s/currentCS/m/vision/l/669166-using-the-cameraserver-on-the-roborio
-		// CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
 
 		System.out.println("It'sa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
@@ -235,9 +235,9 @@ public class Robot extends TimedRobot {
 		autoLoopCounter++;
 		switch (autoRoutine) {
 		case 1:
-			RightLeftScaleCube.run(this);
+			CenterRightSwitchAutonomous.run(this);
 			break;
-		case 2:
+/*		case 2:
 			RightSwitchThenCube.run(this);
 			break;
 		//case 3:
@@ -248,7 +248,7 @@ public class Robot extends TimedRobot {
 			break;
 		case 5:
 			GoStraightAutonomous.autoGoStraightTurnTest(this);
-			break;
+			break; */
 		default:
 			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
 			break;
@@ -301,6 +301,7 @@ public class Robot extends TimedRobot {
 		//wrist
 		if(functionStick.getBumper(Hand.kLeft)) wristDown();
 		else if(functionStick.getBumper(Hand.kRight)) wristUp();
+		else driveWrist(0);
 		//flySwatter
 		if(functionStick.getBackButton() && functionStick.getStartButton()) flySwatterShoot();
 		else flySwatterClose();
