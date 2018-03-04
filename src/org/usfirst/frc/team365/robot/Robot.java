@@ -322,7 +322,7 @@ public class Robot extends TimedRobot {
 		if(elevatorTopLimitSwitch.get()) {
 			power = Math.min(power, 0);
 		}
-		if(power < -0.05 || power < backdrivePower) {//Keeps elevator idle for to accommodate backdrive
+		if(power > -0.005 || power < backdrivePower) {//Keeps elevator idle for to accommodate backdrive
 			power = power + backdrivePower;
 		}
 		elevatorOutput = power;
