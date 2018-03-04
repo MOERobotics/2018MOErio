@@ -92,7 +92,7 @@ public class Robot extends TimedRobot {
 
 
 	// PID Controllers
-	double straightP = 0.04, straightI = 0.0003, straightD = .01;
+	double straightP = 0.025, straightI = 0.0003, straightD = .0;
 	PIDCorrection driveStraightCorrection = new PIDCorrection();
 	PIDController driveStraight = new PIDController(
         straightP,
@@ -108,7 +108,7 @@ public class Robot extends TimedRobot {
 		enable();
 	}};
 
-	double turnP = 0.04, turnI = 0, turnD = 0.02;
+	double turnP = 0.025, turnI = 0.0001, turnD = 0.02;
 	PIDCorrection turnRobotCorrection = new PIDCorrection();
 	PIDController turnRobot  = new PIDController(
         turnP,
@@ -209,8 +209,8 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		gameData      = DriverStation.getInstance().getGameSpecificMessage();
 		switchLeft    = gameData.charAt(0) == 'L';
-		scaleLeft     = gameData.charAt(0) == 'L';
-		oppSwitchLeft = gameData.charAt(0) == 'L';
+		scaleLeft     = gameData.charAt(1) == 'L';
+		oppSwitchLeft = gameData.charAt(2) == 'L';
 
 		autoLoopCounter = 0;
 
