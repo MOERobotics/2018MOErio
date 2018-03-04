@@ -378,11 +378,8 @@ public class Robot extends TimedRobot {
 	
 	void lowerElevator(int setpoint) {
 		double height = encoderElevator.getRaw();
-		if (setpoint < 100) {
-			driveElevator(-.4);
-		}
-		else {
-			if (height < setpoint + 200) {
+		double tolerance = 200;
+			if (height < setpoint + tolerance) {
 				driveElevator(0);
 				reachedSetting = true;
 			}	
@@ -390,7 +387,6 @@ public class Robot extends TimedRobot {
 				driveElevator(-.4);
 				reachedSetting = false;
 			}
-		}
 	}
 	
 	
