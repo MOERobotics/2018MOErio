@@ -366,10 +366,10 @@ public class Robot extends TimedRobot {
 		double height = encoderElevator.getRaw();
 		if (height > setpoint) {
 			reachedSetting = true;
-			elevator.set(ControlMode.PercentOutput, 0.05);			
+			driveElevator(0);			
 		}	
 		else {
-			elevator.set(ControlMode.PercentOutput, 0.65);
+			driveElevator(.65);
 			reachedSetting = false;
 		}
 		
@@ -379,22 +379,15 @@ public class Robot extends TimedRobot {
 	void lowerElevator(int setpoint) {
 		double height = encoderElevator.getRaw();
 		if (setpoint < 100) {
-			if (elevatorBottomLimitSwitch.get()) {
-				elevator.set(ControlMode.PercentOutput, 0);
-				reachedSetting = true;
-			}
-			else {
-				elevator.set(ControlMode.PercentOutput, -0.4);
-				reachedSetting = false;
-			}
+			driveElevator(-.4);
 		}
 		else {
 			if (height < setpoint + 200) {
-				elevator.set(ControlMode.PercentOutput, 0.05);
+				driveElevator(0);
 				reachedSetting = true;
 			}	
 			else {
-				elevator.set(ControlMode.PercentOutput, -0.4);
+				driveElevator(-.4);
 				reachedSetting = false;
 			}
 		}
