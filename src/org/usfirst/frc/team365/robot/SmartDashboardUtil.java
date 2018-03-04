@@ -49,6 +49,8 @@ public class SmartDashboardUtil {
 		//parts
 		SmartDashboard.putNumber(        "distRight", ourselves.encoderR.getRaw()            );
 		SmartDashboard.putNumber(         "distLeft", ourselves.encoderL.getRaw()            );
+		SmartDashboard.putNumber(    "encoderWrist", ourselves.encoderWrist.getRaw());
+		SmartDashboard.putNumber( "encoderElevator", ourselves.encoderElevator.getRaw()         );
 		SmartDashboard.putNumber(  "driveOutputLeft", ourselves.driveOutputLeft               );
 		SmartDashboard.putNumber( "driveOutputRight", ourselves.driveOutputRight              );
 		SmartDashboard.putNumber(   "elevatorOutput", ourselves.elevatorOutput                );
