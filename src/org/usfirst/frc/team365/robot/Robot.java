@@ -309,8 +309,13 @@ public class Robot extends TimedRobot {
 		if(driveStick.getRawButton(14)) mouseTrapDown();
 		else mouseTrapUp();
 		//Elevator
-		if(functionStick.getTriggerAxis(Hand.kLeft) > functionStick.getTriggerAxis(Hand.kRight)) driveElevator(-functionStick.getTriggerAxis(Hand.kLeft));
-		else driveElevator(functionStick.getTriggerAxis(Hand.kRight));
+		if(functionStick.getTriggerAxis(Hand.kLeft) > functionStick.getTriggerAxis(Hand.kRight)) {
+			elevatorButton(-functionStick.getTriggerAxis(Hand.kLeft));
+		}
+		else {
+			elevatorButton(functionStick.getTriggerAxis(Hand.kRight));
+		}
+		
 
 	}
 
@@ -344,17 +349,34 @@ public class Robot extends TimedRobot {
 	}	
 	//Elevator Functions (going up or down)
 	public void driveElevator(double power) {
-		if(elevatorBottomLimitSwitch.get()) {
-			power = Math.max(power, 0);
+		int height = encoderElevator.getRaw();
+		if(elevatorBottomLimitSwitch.get()) { //Drive positive
+			if(power > 0) elevator.set(ControlMode.PercentOutput, power);
+			else elevator.set(ControlMode.PercentOutput, 0);
 		}
-		if(elevatorTopLimitSwitch.get()) {
-			power = Math.min(power, 0);
+		else if(elevatorTopLimitSwitch.get()) {//Drive negative
+			if(power < 0) elevator.set(ControlMode.PercentOutput, power);
+			else elevator.set(ControlMode.PercentOutput, 0);
 		}
-		if(power > -0.005 && power < 0.15) {//Keeps elevator idle for to accommodate backdrive
-			power = 0.2;
+		else {
+			elevator.set(ControlMode.PercentOutput, power);
 		}
-		elevatorOutput = power;
-		elevator.set(ControlMode.PercentOutput, power);
+	}
+	
+	public void elevatorButton(double power) {
+		if(power < -0.3) {
+			driveElevator(-0.3);
+		}
+		else if(power < -0.05) {
+			driveElevator(power);
+		} 
+		else if(power > 0.7) {
+			driveElevator(0.7);
+		}
+		else if(power > 0.05) {
+			driveElevator(power);
+		}
+		else driveElevator(0.05);
 	}
 	
 	//Roller in or out
@@ -419,7 +441,7 @@ public class Robot extends TimedRobot {
 	public void flySwatterClose() {
 		flySwatter.set(90);
 	}
-	//Lucy's Elevator
+	//Lucy's Elevator (Auto)
 	void raiseElevator(int setpoint) {
 		double height = encoderElevator.getRaw();
 		if (height > setpoint) {
