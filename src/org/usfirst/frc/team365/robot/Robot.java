@@ -315,14 +315,15 @@ public class Robot extends TimedRobot {
 	}	
 	//Elevator Functions
 	public void driveElevator(double power) {
+		double backdrivePower = .05;
 		if(elevatorBottomLimitSwitch.get()) {
 			power = Math.max(power, 0);
 		}
 		if(elevatorTopLimitSwitch.get()) {
 			power = Math.min(power, 0);
 		}
-		if(power < -0.1 || power < 0.15) {//Keeps elevator idle for to accommodate backdrive
-			elevatorOutput = power + 0.15;
+		if(power < -0.05 || power < backdrivePower) {//Keeps elevator idle for to accommodate backdrive
+			elevatorOutput = power + backdrivePower;
 		}
 		elevator.set(ControlMode.PercentOutput, power);
 	}
