@@ -22,67 +22,46 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-=======
+//<<<<<<< HEAD
+//=======
+//=======
+//>>>>>>> branch 'arya_rohan_branch' of https://github.com/MOERobotics/2018MOErio.git
 import edu.wpi.first.wpilibj.CameraServer;
->>>>>>> refs/remotes/origin/master
+//>>>>>>> refs/remotes/origin/master
 
 public class Robot extends TimedRobot {
-	// Motors
-	// TL;DR: Double braces after a new object let you run commands on object
-	// immediately after the object is constructed.
-	// Longer answer: Anonymous default constructor for anonymous class implementing
-	// given class
-	private TalonSRX driveLA = new TalonSRX(0) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
-	private TalonSRX driveLB = new TalonSRX(15) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
-	private TalonSRX driveRA = new TalonSRX(1) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
-	private TalonSRX driveRB = new TalonSRX(14) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
-	private TalonSRX elevator = new TalonSRX(2) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
-	private TalonSRX rollieL = new TalonSRX(3) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
-	private TalonSRX rollieR = new TalonSRX(12) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
-	private TalonSRX wrist = new TalonSRX(4) {
-		{
-			setNeutralMode(NeutralMode.Brake);
-		}
-	};
 
-	// Solenoids
-	private DoubleSolenoid mouseTrap = new DoubleSolenoid(0, 1);
-	private Solenoid shifter = new Solenoid(2);
-	private Solenoid grabberClaw = new Solenoid(3);
+	//Motors
+	//TL;DR: Double braces after a new object let you run commands on object immediately after the object is constructed.
+	//Longer answer: Anonymous default constructor for anonymous class implementing given class
+	 TalonSRX driveLA   = new TalonSRX( 0) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX driveLB   = new TalonSRX(15) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX driveRA   = new TalonSRX( 1) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX driveRB   = new TalonSRX(14) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX elevator  = new TalonSRX( 2) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX rollLeft  = new TalonSRX( 3) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX rollRight = new TalonSRX(12) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX wrist     = new TalonSRX( 4) {{ setNeutralMode(NeutralMode.Brake); }};
+//>>>>>>> branch 'arya_rohan_branch' of https://github.com/MOERobotics/2018MOErio.git
+
+//<<<<<<< HEAD
+
+//=======
+    //Solenoids
+           Solenoid shifter   = new       Solenoid(2);
+           Solenoid cubeClaw  = new       Solenoid(3);
+     DoubleSolenoid mouseTrap = new DoubleSolenoid(0,1);
+//>>>>>>> branch 'arya_rohan_branch' of https://github.com/MOERobotics/2018MOErio.git
 
 	// Servos
+//<<<<<<< HEAD
 	private Servo armDeployer = new Servo(0);
+//=======
+	 Servo flySwatter = new Servo(0);
+//>>>>>>> branch 'arya_rohan_branch' of https://github.com/MOERobotics/2018MOErio.git
 
 	// Sensors
 	AHRS navX = new AHRS(SPI.Port.kMXP, (byte) 20);
@@ -102,21 +81,17 @@ public class Robot extends TimedRobot {
 	int autoStep = 0;
 	int autoRoutine = 0;
 	int autoLoopCounter = 0;
-<<<<<<< HEAD
-	Timer autoTimer = new Timer();
-=======
-    	Timer  autoTimer    = new Timer();
->>>>>>> refs/remotes/origin/master
 
-<<<<<<< HEAD
-	boolean newPID = true;
-=======
+    	Timer  autoTimer    = new Timer();
+
+
 	double  turnSum     = 0;
 	double  lastOffYaw  = 0;
-	boolean newPID      = true;
+	boolean newStep      = true;
 	double  rampUpPower = 0;
-	boolean newTime     = true;
->>>>>>> refs/remotes/origin/master
+
+	
+//	boolean newTime     = true;
 
 	// Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
@@ -129,6 +104,11 @@ public class Robot extends TimedRobot {
 	boolean switchLeft;
 	boolean scaleLeft;
 	boolean oppSwitchLeft;
+	boolean reachedSetting = false;
+	
+	final int HEIGHT_FOR_SWITCH = 2000;
+	final int HEIGHT_FOR_SCALE = 5500;
+	final int BOTTOM_HEIGHT = 10;
 
 	// PID Controllers
 
@@ -160,17 +140,7 @@ public class Robot extends TimedRobot {
 	// Elevator
 	double elevP = 0.05, elevI = 0.03, elevD = 0.03;
 	PIDCorrection elevatorCorrection = new PIDCorrection();
-<<<<<<< HEAD
-	PIDController elevatorPID = new PIDController(turnP, turnI, turnD, navX, turnRobotCorrection, 0.020) {
-		{
-			setInputRange(-200, 10000);
-			setOutputRange(-1.0, 1.0);
-			setAbsoluteTolerance(100);
-			setContinuous(false);
-			disable();
-		}
-	};
-=======
+
 	PIDController elevatorPID = new PIDController(
         turnP,
         turnI,
@@ -186,9 +156,9 @@ public class Robot extends TimedRobot {
         enable();
 	}};
 	int turnOnTargetCount = 0;
-	public static final double INCHES_TO_ENCTICKS = 110;
+	public static final double INCHES_TO_ENCTICKS = 45;
 	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
->>>>>>> refs/remotes/origin/master
+
 
 	/**********
 	 * Global *
@@ -198,8 +168,8 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		driveRA.setInverted(true);
 		driveRB.setInverted(true);
-		rollieL.setInverted(true);
-
+		rollLeft.setInverted(true);
+/*
 <<<<<<< HEAD
 		
 		
@@ -209,8 +179,14 @@ public class Robot extends TimedRobot {
 		// CameraServer.getInstance().startAutomaticCapture();
 
 >>>>>>> refs/remotes/origin/master
+*/
 		System.out.println("Itsa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
+
+		shiftDrive();
+		mouseTrapUp();
+		cubeClawClose();
+		
 	}
 
 	@Override
@@ -230,6 +206,12 @@ public class Robot extends TimedRobot {
 		closeGrabber();
 		shiftIntoDrive();
 		autoTimer.start();
+//<<<<<<< HEAD
+//=======
+		shiftDrive();
+		cubeClawClose();
+	//	autoPauseTimer.start();
+//>>>>>>> branch 'arya_rohan_branch' of https://github.com/MOERobotics/2018MOErio.git
 	}
 
 	@Override
@@ -263,7 +245,7 @@ public class Robot extends TimedRobot {
 
 		autoStep = 1;
 
-		newPID = true;
+		newStep = true;
 
 		navX.zeroYaw();
 		resetEncoders();
@@ -285,6 +267,7 @@ public class Robot extends TimedRobot {
 
 		switch (autoRoutine) {
 		case 1:
+			Right_Switch_Cube_Plus.Right_Switch_Cube_Plus(this);
 			// GoStraightAutonomous.autoGoStraightTest(this);
 			break;
 		case 3:
@@ -309,6 +292,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+//<<<<<<< HEAD
 
 		// Driving & Climbing
 		double yJoy = -driveController.getY();
@@ -333,15 +317,15 @@ public class Robot extends TimedRobot {
 				 */
 			} else if (driveController.getRawButton(2)) { // turn robot left
 				driveRobot(-0.3, 0.3);
-				newPID = true;
+				newStep = true;
 			} else if (driveController.getRawButton(4)) {
 				driveRobot(0.3, -0.3);
-				newPID = true;
+				newStep = true;
 			} else {
 				double left = yJoy + xJoy;
 				double right = yJoy - xJoy;
 				driveRobot(left, right);
-				newPID = true;
+				newStep = true;
 			}
 
 		}
@@ -399,9 +383,9 @@ public class Robot extends TimedRobot {
 			armDeployer.set(180);
 		} else {
 			armDeployer.set(90);
+//=======
 		}
-
-	}
+			}
 
 	/*******************
 	 * Robot Functions *
@@ -416,25 +400,17 @@ public class Robot extends TimedRobot {
 		driveRA.set(ControlMode.PercentOutput, rightPower);
 		driveRB.set(ControlMode.PercentOutput, rightPower);
 	}
-<<<<<<< HEAD
+//<<<<<<< HEAD
 
 	// Elevator
-	void driveElevator(double power) {
-		// if (elevatorBottomLimitSwitch.get()) power = Math.max(power, 0);
-		// if (elevatorTopLimitSwitch.get()) power = Math.min(power, 0);
-
-		elevatorOutput = power;
-		elevator.set(ControlMode.PercentOutput, power);
-	}
+	
 
 	void setElevator(double setPoint) {
 		// insert PID with elevatorEncoder
 	}
 
 	// Grabber Rotation
-	void driveWrist(double power) {
-		wrist.set(ControlMode.PercentOutput, power);
-	}
+	
 
 	void setWrist(double setPoint) {
 		// insert PID with wristEncoder
@@ -442,17 +418,17 @@ public class Robot extends TimedRobot {
 
 	// Grabber Claw
 	void openGrabber() {
-		grabberClaw.set(true);
+		cubeClaw.set(true);
 	}
 
 	void closeGrabber() {
-		grabberClaw.set(false);
+		cubeClaw.set(false);
 	}
 
 	// Rollies
 	void driveRollies(double power) {
-		rollieL.set(ControlMode.PercentOutput, power);
-		rollieR.set(ControlMode.PercentOutput, power);
+		rollLeft.set(ControlMode.PercentOutput, power);
+		rollRight.set(ControlMode.PercentOutput, power);
 	}
 
 	// Shifting
@@ -498,10 +474,7 @@ public class Robot extends TimedRobot {
 		driveRightEncoder.reset();
 	}
 
-	public double getEncoderMax() {
-		return driveLeftEncoder.getRaw() > driveRightEncoder.getRaw() ? driveLeftEncoder.getRaw()
-				: driveRightEncoder.getRaw();
-	}
+	
 
 	public double getStraightPower() {
 		return (driveOutputLeft + driveOutputRight) / 2.0;
@@ -524,18 +497,15 @@ public class Robot extends TimedRobot {
 
 	// DRIVING AUTO
 
-	public static final double INCHES_TO_ENCTICKS = 42.7;
-	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
 
-	int turnOnTargetCount = 0;
 
 	public void goStraight(double ticks, double setPoint, double power) {
-		if (newPID) {
+		if (newStep) {
 			resetEncoders();
 			driveStraight.reset();
 			driveStraight.setSetpoint(setPoint);
 			driveStraight.enable();
-			newPID = false;
+			newStep = false;
 		}
 
 		if (Math.abs(getEncoderMax()) > ticks) {
@@ -543,7 +513,7 @@ public class Robot extends TimedRobot {
 			driveStraight.reset();
 			autoTimer.reset();
 			autoStep++;
-			newPID = true;
+			newStep = true;
 		} else {
 			driveRobot(power + driveStraightCorrection.correctionValue,
 					power - driveStraightCorrection.correctionValue);
@@ -551,21 +521,21 @@ public class Robot extends TimedRobot {
 	}
 
 	public void turnToAngle(double angle, double maxPower, double tolerance) {
-		if (newPID) {
+		if (newStep) {
 			turnRobot.setAbsoluteTolerance(tolerance);
 		}
 		turnToAngle(angle, maxPower);
 	}
 
 	public void turnToAngle(double angle, double maxPower) {
-		if (newPID) {
+		if (newStep) {
 			resetEncoders();
 			turnRobot.reset();
 			turnRobot.setSetpoint(angle);
 			turnRobot.setOutputRange(-Math.abs(maxPower), Math.abs(maxPower));
 			turnRobot.enable();
 			turnOnTargetCount = 0;
-			newPID = false;
+			newStep = false;
 		}
 
 		if (turnRobot.onTarget()) {
@@ -579,7 +549,7 @@ public class Robot extends TimedRobot {
 			turnRobot.reset();
 			autoTimer.reset();
 			autoStep++;
-			newPID = true;
+			newStep = true;
 		} else {
 			driveRobot(turnRobotCorrection.correctionValue, -turnRobotCorrection.correctionValue);
 		}
@@ -620,12 +590,12 @@ public class Robot extends TimedRobot {
 		double distAwayFromTargetToStartBraking = 24 * INCHES_TO_ENCTICKS;
 		double maxOKBrakingPower = .3;
 
-		if (newPID) {
+		if (newStep) {
 			resetEncoders();
 			driveStraight.reset();
 			driveStraight.setSetpoint(setPoint);
 			driveStraight.enable();
-			newPID = false;
+			newStep = false;
 		}
 
 		if (Math.abs(getEncoderMax()) > ticks) {
@@ -633,7 +603,7 @@ public class Robot extends TimedRobot {
 			driveStraight.reset();
 			autoTimer.reset();
 			autoStep++;
-			newPID = true;
+			newStep = true;
 		} else {
 			if (ticks - Math.abs(getEncoderMax()) < distAwayFromTargetToStartBraking
 					&& getStraightPower() > maxOKBrakingPower) {
@@ -652,9 +622,7 @@ public class Robot extends TimedRobot {
 
 	}
 
-	double turnSum = 0;
-	double offYaw = 0;
-	double lastOffYaw = 0;
+
 
 	public void autoPIDTurn(double desiredYaw) {
 		double currentYaw = navX.getYaw();
@@ -667,9 +635,9 @@ public class Robot extends TimedRobot {
 			offYaw = offYaw + 360;
 
 		// initialize values during first loop
-		if (newPID) {
+		if (newStep) {
 			turnSum = 0;
-			newPID = false;
+			newStep = false;
 			lastOffYaw = offYaw;
 			turnOnTargetCount = 0;
 			driveRobot(0, 0);
@@ -706,7 +674,7 @@ public class Robot extends TimedRobot {
 					turnOnTargetCount = 0;
 					autoStep++;
 					driveRobot(0, 0);
-					newPID = true;
+					newStep = true;
 				}
 
 			}
@@ -714,15 +682,145 @@ public class Robot extends TimedRobot {
 		}
 	}
 
-=======
+//=======
 	
-	public void resetEncoders() {
-		distanceL.reset();
-		distanceR.reset();
-	}
+
+
 
 	public double getEncoderMax() {
-		return Math.abs(distanceL.getRaw()) > Math.abs(distanceR.getRaw()) ? Math.abs(distanceL.getRaw()) : Math.abs(distanceR.getRaw());
+		return Math.abs(driveLeftEncoder.getRaw()) > Math.abs(driveRightEncoder.getRaw()) ? Math.abs(driveLeftEncoder.getRaw()) : Math.abs(driveRightEncoder.getRaw());
 	}	
->>>>>>> refs/remotes/origin/master
+//<<<<<<< HEAD
+//>>>>>>> refs/remotes/origin/master
+//=======
+	//Elevator Functions (going up or down)
+	public void driveElevator(double power) {
+		if(elevatorBottomLimitSwitch.get()) {
+			power = Math.max(power, 0);
+		}
+		if(elevatorTopLimitSwitch.get()) {
+			power = Math.min(power, 0);
+		}
+		if(power > -0.005 && power < 0.15) {//Keeps elevator idle for to accommodate backdrive
+			power = 0.2;
+		}
+		elevatorOutput = power;
+		elevator.set(ControlMode.PercentOutput, power);
+	}
+	
+	//Roller in or out
+	public void driveRoll(double power) {
+		rollLeft.set(ControlMode.PercentOutput, power);
+		rollRight.set(ControlMode.PercentOutput, power);
+	}
+	
+	public void rollIn() {
+		driveRoll(-0.70);
+	}
+	
+	public void rollOut() {
+		driveRoll(0.70);
+	}
+	
+	//wrist down or up 
+	public void driveWrist(double power) {
+		wrist.set(ControlMode.PercentOutput, power);
+	}
+	
+	public void wristUp() {
+		driveWrist(0.4);
+	}
+	
+	public void wristDown() {
+		driveWrist(-0.4);
+	}
+	
+	//cubeClaw holds or lets go of cube
+	public void cubeClawOpen() {
+		cubeClaw.set(true);
+	}
+	
+	public void cubeClawClose() {
+		cubeClaw.set(false);
+	}
+	
+	//Shifting to either drive or climb
+	public void shiftDrive() {
+		shifter.set(false);
+	}
+	
+	public void shiftClimb() {
+		shifter.set(true);
+	}
+	
+	//mouseTrap functions
+	public void mouseTrapUp() {
+		mouseTrap.set(Value.kReverse);
+	}
+	
+	public void mouseTrapDown() {
+		mouseTrap.set(Value.kForward);
+	}
+	
+	//flySwatter functions
+	public void flySwatterShoot() {
+		flySwatter.set(0);
+	}
+	
+	public void flySwatterClose() {
+		flySwatter.set(90);
+	}
+	//Lucy's Elevator
+	void raiseElevator(int setpoint) {
+		double height = elevatorEncoder.getRaw();
+		if (height > setpoint) {
+//		if (height < -2000)  {
+//			elevator.set(ControlMode.PercentOutput, 0.7);
+			reachedSetting = true;
+			elevator.set(ControlMode.PercentOutput, 0.25);
+			
+		}
+		else if (reachedSetting && height >= setpoint - 200) {
+			elevator.set(ControlMode.PercentOutput, 0.25);
+		}
+		else if (height < setpoint - 200 && reachedSetting) {
+			elevator.set(ControlMode.PercentOutput, 0.7);
+			reachedSetting = false;
+		}
+		else {
+			elevator.set(ControlMode.PercentOutput, 0.7);
+			reachedSetting = false;
+		}
+		
+//		SmartDashboard.putNumber("elevAuto", elevatorHeight.getRaw());
+	}
+	
+	void lowerElevator(int setpoint) {
+		double height = elevatorEncoder.getRaw();
+		if (setpoint < 100) {
+			if (elevatorBottomLimitSwitch.get()) {
+				elevator.set(ControlMode.PercentOutput, 0);
+				reachedSetting = true;
+			}
+			else {
+				elevator.set(ControlMode.PercentOutput, -0.25);
+				reachedSetting = false;
+			}
+		}
+		else {
+			if (height < setpoint + 200) {
+				elevator.set(ControlMode.PercentOutput, 0.25);
+				reachedSetting = true;
+			}
+			else if (reachedSetting) {
+				elevator.set(ControlMode.PercentOutput, 0.25);
+			}
+			
+			else {
+				elevator.set(ControlMode.PercentOutput, -0.25);
+				reachedSetting = false;
+			}
+		}
+	}
+//>>>>>>> branch 'arya_rohan_branch' of https://github.com/MOERobotics/2018MOErio.git
 }

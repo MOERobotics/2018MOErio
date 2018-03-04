@@ -47,8 +47,8 @@ public class SmartDashboardUtil {
 	static void printToSmartDashboard(Robot ourselves) {
 		SmartDashboard.putString(           "status", ourselves.statusMessage                 );
 		//parts
-		SmartDashboard.putNumber(        "distRight", ourselves.encoderR.getRaw()            );
-		SmartDashboard.putNumber(         "distLeft", ourselves.encoderL.getRaw()            );
+		SmartDashboard.putNumber(        "distRight", ourselves.driveRightEncoder.getRaw()            );
+		SmartDashboard.putNumber(         "distLeft", ourselves.driveLeftEncoder.getRaw()            );
 		SmartDashboard.putNumber(  "driveOutputLeft", ourselves.driveOutputLeft               );
 		SmartDashboard.putNumber( "driveOutputRight", ourselves.driveOutputRight              );
 		SmartDashboard.putNumber(   "elevatorOutput", ourselves.elevatorOutput                );

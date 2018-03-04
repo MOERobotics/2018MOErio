@@ -4,7 +4,7 @@ public class Right_Switch_Cube_Plus {
 	public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
 	public static final double FEET = 12 * INCHES;
 
-	static void run(Robot robot) {
+	public static void Right_Switch_Cube_Plus(Robot robot) {
 		switch(robot.autoStep) {
 		
 
