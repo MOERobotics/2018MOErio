@@ -314,5 +314,59 @@ public class AutoSimplify{
 			}
 
 
-		}		
-}
+		}	
+		
+		//Lucy's Elevator (Auto)
+		static void raiseElevator(Robot us, int setpoint) {
+			double height = us.encoderElevator.getRaw();
+			if (height > setpoint) {
+//			if (height < -2000)  {
+//				elevator.set(ControlMode.PercentOutput, 0.7);
+				us.reachedSetting = true;
+				us.elevator.set(ControlMode.PercentOutput, 0.25);
+				
+			}
+			else if (us.reachedSetting && height >= setpoint - 200) {
+				us.elevator.set(ControlMode.PercentOutput, 0.25);
+			}
+			else if (height < setpoint - 200 && us.reachedSetting) {
+				us.elevator.set(ControlMode.PercentOutput, 0.7);
+				us.reachedSetting = false;
+			}
+			else {
+				us.elevator.set(ControlMode.PercentOutput, 0.7);
+				us.reachedSetting = false;
+			}
+			
+//			SmartDashboard.putNumber("elevAuto", elevatorHeight.getRaw());
+		}
+		
+		static void lowerElevator(Robot us,int setpoint) {
+			double height = us.encoderElevator.getRaw();
+			if (setpoint < 100) {
+				if (us.elevatorBottomLimitSwitch.get()) {
+					us.elevator.set(ControlMode.PercentOutput, 0);
+					us.reachedSetting = true;
+				}
+				else {
+					us.elevator.set(ControlMode.PercentOutput, -0.25);
+					us.reachedSetting = false;
+				}
+			}
+			else {
+				if (height < setpoint + 200) {
+					us.elevator.set(ControlMode.PercentOutput, 0.25);
+					us.reachedSetting = true;
+				}
+				else if (us.reachedSetting) {
+					us.elevator.set(ControlMode.PercentOutput, 0.25);
+				}
+				
+				else {
+					us.elevator.set(ControlMode.PercentOutput, -0.25);
+					us.reachedSetting = false;
+				}
+			}
+		}
+	}
+
