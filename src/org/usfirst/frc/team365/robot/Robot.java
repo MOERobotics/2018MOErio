@@ -207,9 +207,9 @@ public class Robot extends TimedRobot {
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		switchLeft    = gameData.charAt(0) == 'L';
-		scaleLeft     = gameData.charAt(0) == 'L';
+		scaleLeft     = gameData.charAt(1) == 'L';
 		
-//		oppSwitchLeft = gameData.charAt(0) == 'L';
+//		oppSwitchLeft = gameData.charAt(2) == 'L';
 
 		autoLoopCounter = 0;
 
