@@ -9,7 +9,7 @@ public class Right_Switch_Cube_Plus {
 		
 
 		case 1:
-			AutoSimplify.goStraight(robot, 23000, 0, 0.6);
+			AutoSimplify.goStraight(robot, 19*FEET, 0, 0.6);
 			break;
 			
 		case 2:
@@ -17,7 +17,7 @@ public class Right_Switch_Cube_Plus {
 			break;
 			
 		case 3:
-			AutoSimplify.goStraight(robot, 3500, -30, 0.6);
+			AutoSimplify.goStraight(robot, 4.2*FEET, -30, 0.6);
 			robot.autoTimer.reset();
 			break;
 		
@@ -35,33 +35,34 @@ public class Right_Switch_Cube_Plus {
 			
 		case 5: 
 			
-			AutoSimplify.goStraight(robot, 3500, -30, -0.6);
+			AutoSimplify.goStraight(robot, 4.2*FEET, -30, -0.6);
 			break;
 		case 6:
-			
+		/*	
 			AutoSimplify.turnToAngle(robot, -150, 0.6);
 			break;
 			
 		case 7:
 			AutoSimplify.goStraight(robot, 3500, -150, 0.6);
 			break;
-		case 8:
+			*/
+		//case 8:
 			
 			AutoSimplify.turnToAngle(robot, -90, 0.6);
 			break;
-		case 9:
+		case 7:
 			AutoSimplify.goStraight(robot, 4000, -90, 0.6);
 		
 		break;
 		
-		case 10:
+		case 8:
 			AutoSimplify.turnToAngle(robot, 180, 0.6);
 			break;
-		case 11:
+		case 9:
 			AutoSimplify.goStraight(robot, 1500, 180, 0.4);
 			robot.autoTimer.reset();
 			break;
-		case 12:
+		case 10:
 			//grabber rollers in
 			if(robot.autoTimer.get() > 1)
 			{
@@ -72,30 +73,7 @@ public class Right_Switch_Cube_Plus {
 				robot.driveRobot(0,0);
 			}
 			break;
-			
-		
-			
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		}
+			}
 	/*	case 1:
 			AutoSimplify.goStraight(robot,300*INCHES , 0, .7);
 			//change to 33000 for real

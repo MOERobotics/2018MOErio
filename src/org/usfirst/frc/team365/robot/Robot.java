@@ -15,6 +15,8 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.CameraServer;
 
 public class Robot extends TimedRobot {
 	//Motors
@@ -141,7 +143,7 @@ public class Robot extends TimedRobot {
         enable();
 	}};
 	int turnOnTargetCount = 0;
-	public static final double INCHES_TO_ENCTICKS = 45;
+	public static final double INCHES_TO_ENCTICKS = 110;
 	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
 
 	/**********
@@ -156,16 +158,19 @@ public class Robot extends TimedRobot {
 
 		// Uncomment to stream video from the camera.
 		// Documentation here on setting modes: https://wpilib.screenstepslive.com/s/currentCS/m/vision/l/669166-using-the-cameraserver-on-the-roborio
-		 CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
 
 		System.out.println("It'sa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
-		shifter.set(false);
+		shiftDrive();
+		mouseTrapUp();
+		cubeClawClose();
+		
 	}
 
 	@Override
 	public void robotPeriodic() {
-//		SmartDashboardUtil.dashboardPeriodic(this);
+		SmartDashboardUtil.dashboardPeriodic(this);
 		// If this isn't still good when you print it again, we did something bad.
 		statusMessage = "Everything is good!";
 	}
@@ -179,7 +184,8 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 
 		autoTimer.start();
-		shifter.set(false);
+		shiftDrive();
+		cubeClawClose();
 	//	autoPauseTimer.start();
 	}
 
@@ -193,8 +199,6 @@ public class Robot extends TimedRobot {
 		if (driveStick.getRawButton(8)) autoRoutine = 2;
 		if (driveStick.getRawButton(10)) autoRoutine = 3;
 		if (driveStick.getRawButton(12)) autoRoutine = 4;
-		
-		SmartDashboardUtil.dashboardPeriodic(this);
     }
 
 	/**************
@@ -203,22 +207,10 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		
-		String gameData;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		if (gameData.charAt(0) == 'L') {
-			switchLeft = true;
-		}
-		else switchLeft = false;
-		if (gameData.charAt(1) == 'L')  {
-			scaleLeft = true;
-		}
-		else scaleLeft = false;
-		
-//		gameData      = DriverStation.getInstance().getGameSpecificMessage();
-//		switchLeft    = gameData.charAt(0) == 'L';
-//		scaleLeft     = gameData.charAt(0) == 'L';
-//		oppSwitchLeft = gameData.charAt(0) == 'L';
+		gameData      = DriverStation.getInstance().getGameSpecificMessage();
+		switchLeft    = gameData.charAt(0) == 'L';
+		scaleLeft     = gameData.charAt(0) == 'L';
+		oppSwitchLeft = gameData.charAt(0) == 'L';
 
 		autoLoopCounter = 0;
 
@@ -233,7 +225,7 @@ public class Robot extends TimedRobot {
 		driveStraight.reset();
 		turnRobot.reset();
 
-//		SmartDashboardUtil.getFromSmartDashboard(this); //force update
+		SmartDashboardUtil.getFromSmartDashboard(this); //force update
 
 	}
 
@@ -243,20 +235,20 @@ public class Robot extends TimedRobot {
 		autoLoopCounter++;
 		switch (autoRoutine) {
 		case 1:
-			RightLeftScaleCube.run(this);
+			CenterRightSwitchAutonomous.run(this);
 			break;
-		case 2:
+/*		case 2:
 			RightSwitchThenCube.run(this);
 			break;
 		//case 3:
 			// Right_Switch_Cube_Plus.run(this);
 			//break;
 		case 4:
-			CenterLeftSwitchThenCube.run(this);
+			RightScaleSwitch.run(this);
 			break;
 		case 5:
 			GoStraightAutonomous.autoGoStraightTurnTest(this);
-			break;
+			break; */
 		default:
 			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
 			break;
@@ -272,26 +264,59 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		// force update
-//		SmartDashboardUtil.getFromSmartDashboard(this);
+		SmartDashboardUtil.getFromSmartDashboard(this);
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		double yJoy = -driveStick.getY();
-		double xJoy =  driveStick.getX();
-
-		if (driveStick.getTrigger()) {
-			driveRobot(yJoy, yJoy);
-		} else if (driveStick.getRawButton(2)) { // turn robot left
-			driveRobot(-0.3, 0.3);
-		} else if (driveStick.getRawButton(4)) {
-			driveRobot(0.3, -0.3);
-		} else {
+		double xJoy = driveStick.getX();
+		if (shifter.get()) {
 			double left = yJoy + xJoy;
 			double right = yJoy - xJoy;
-			driveRobot(left, right);
+			driveRobot(-Math.abs(left), -Math.abs(right));
+		} else {
+			if (driveStick.getTrigger()) {
+				driveRobot(yJoy, yJoy);
+			} else if (driveStick.getRawButton(2)) { // turn robot left
+				driveRobot(-0.3, 0.3);
+			} else if (driveStick.getRawButton(4)) {
+				driveRobot(0.3, -0.3);
+			} else {
+				double left = yJoy + xJoy;
+				double right = yJoy - xJoy;
+				driveRobot(left, right);
+			}
 		}
-		SmartDashboardUtil.dashboardPeriodic(this);
+		//Shifting
+		if(driveStick.getRawButton(11)) shiftClimb();
+		if(driveStick.getRawButton(12)) shiftDrive();
+		//Rollers
+		if(functionStick.getAButton()) rollIn();
+		else if(functionStick.getBButton()) rollOut();
+		else driveRoll(0);
+		//cubeClaw
+		if(functionStick.getXButton()) cubeClawClose();
+		else if(functionStick.getYButton()) cubeClawOpen();
+		//wrist
+		if(functionStick.getBumper(Hand.kLeft)) wristDown();
+		else if(functionStick.getBumper(Hand.kRight)) wristUp();
+		else driveWrist(0);
+		//flySwatter
+		if(functionStick.getBackButton() && functionStick.getStartButton()) flySwatterShoot();
+		else flySwatterClose();
+		//mouseTrap
+		if(driveStick.getRawButton(14)) mouseTrapDown();
+		else mouseTrapUp();
+		//Elevator
+		if(functionStick.getTriggerAxis(Hand.kLeft) > functionStick.getTriggerAxis(Hand.kRight)) {
+			elevatorButton(-functionStick.getTriggerAxis(Hand.kLeft));
+		}
+		else {
+			elevatorButton(functionStick.getTriggerAxis(Hand.kRight));
+		}
+		
+
 	}
 
 
@@ -322,35 +347,75 @@ public class Robot extends TimedRobot {
 	public double getEncoderMax() {
 		return Math.abs(encoderL.getRaw()) > Math.abs(encoderR.getRaw()) ? Math.abs(encoderL.getRaw()) : Math.abs(encoderR.getRaw());
 	}	
-	//Elevator Functions
+	//Elevator Functions (going up or down)
 	public void driveElevator(double power) {
-		if(elevatorBottomLimitSwitch.get()) {
-			power = Math.max(power, 0);
+		int height = encoderElevator.getRaw();
+		if(elevatorBottomLimitSwitch.get()) { //Drive positive
+			if(power > 0) elevator.set(ControlMode.PercentOutput, power);
+			else elevator.set(ControlMode.PercentOutput, 0);
 		}
-		if(elevatorTopLimitSwitch.get()) {
-			power = Math.min(power, 0);
+		else if(elevatorTopLimitSwitch.get()) {//Drive negative
+			if(power < 0) elevator.set(ControlMode.PercentOutput, power);
+			else elevator.set(ControlMode.PercentOutput, 0);
 		}
-		if(power < -0.1 || power < 0.15) {//Keeps elevator idle for to accommodate backdrive
-			elevatorOutput = power + 0.15;
+		else {
+			elevator.set(ControlMode.PercentOutput, power);
 		}
-		elevator.set(ControlMode.PercentOutput, power);
 	}
 	
-	//Roller driving
+	public void elevatorButton(double power) {
+		if(power < -0.3) {
+			driveElevator(-0.3);
+		}
+		else if(power < -0.05) {
+			driveElevator(power);
+		} 
+		else if(power > 0.7) {
+			driveElevator(0.7);
+		}
+		else if(power > 0.05) {
+			driveElevator(power);
+		}
+		else driveElevator(0.05);
+	}
+	
+	//Roller in or out
 	public void driveRoll(double power) {
 		rollLeft.set(ControlMode.PercentOutput, power);
 		rollRight.set(ControlMode.PercentOutput, power);
 	}
 	
 	public void rollIn() {
-		driveRoll(-0.99);
+		driveRoll(-0.70);
 	}
 	
 	public void rollOut() {
-		driveRoll(0.99);
+		driveRoll(0.70);
 	}
 	
-	//Shifting
+	//wrist down or up 
+	public void driveWrist(double power) {
+		wrist.set(ControlMode.PercentOutput, power);
+	}
+	
+	public void wristUp() {
+		driveWrist(0.4);
+	}
+	
+	public void wristDown() {
+		driveWrist(-0.4);
+	}
+	
+	//cubeClaw holds or lets go of cube
+	public void cubeClawOpen() {
+		cubeClaw.set(true);
+	}
+	
+	public void cubeClawClose() {
+		cubeClaw.set(false);
+	}
+	
+	//Shifting to either drive or climb
 	public void shiftDrive() {
 		shifter.set(false);
 	}
@@ -359,7 +424,7 @@ public class Robot extends TimedRobot {
 		shifter.set(true);
 	}
 	
-	//mouseTrap
+	//mouseTrap functions
 	public void mouseTrapUp() {
 		mouseTrap.set(Value.kReverse);
 	}
@@ -368,44 +433,12 @@ public class Robot extends TimedRobot {
 		mouseTrap.set(Value.kForward);
 	}
 	
-	void raiseElevator(int setpoint) {
-		double height = encoderElevator.getRaw();
-		if (height > setpoint) {
-			reachedSetting = true;
-			elevator.set(ControlMode.PercentOutput, 0.05);			
-		}	
-		else {
-			elevator.set(ControlMode.PercentOutput, 0.65);
-			reachedSetting = false;
-		}
-		
-//		SmartDashboard.putNumber("elevAuto", elevatorHeight.getRaw());
+	//flySwatter functions
+	public void flySwatterShoot() {
+		flySwatter.set(0);
 	}
 	
-	void lowerElevator(int setpoint) {
-		double height = encoderElevator.getRaw();
-		if (setpoint < 100) {
-			if (elevatorBottomLimitSwitch.get()) {
-				elevator.set(ControlMode.PercentOutput, 0);
-				reachedSetting = true;
-			}
-			else {
-				elevator.set(ControlMode.PercentOutput, -0.4);
-				reachedSetting = false;
-			}
-		}
-		else {
-			if (height < setpoint + 200) {
-				elevator.set(ControlMode.PercentOutput, 0.05);
-				reachedSetting = true;
-			}	
-			else {
-				elevator.set(ControlMode.PercentOutput, -0.4);
-				reachedSetting = false;
-			}
-		}
+	public void flySwatterClose() {
+		flySwatter.set(90);
 	}
-	
-	
-	
 }
