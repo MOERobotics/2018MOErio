@@ -71,7 +71,7 @@ public class CenterLeftSwitchThenCube
 			
 		case 10:
 			AutoSimplify.goStraight(us, 1 * FEET, 0, 0.5);
-			AutoSimplify.openGrabber(us); //this too
+			us.cubeClawOpen(); //this too
 			AutoSimplify.grabCube(us); //and this
 			break;
 

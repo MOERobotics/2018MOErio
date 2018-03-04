@@ -11,10 +11,10 @@ public class AutoSimplify{
 
 	static void deployGrabber(Robot us) {
 		if (us.encoderWrist.getRaw() < 1100) {
-			us.wrist.set(ControlMode.PercentOutput, -0.5);
+			us.wristDown();
 
 		}
-		else us.wrist.set(ControlMode.PercentOutput, 0);
+		else us.driveWrist(0);
 	}
 	
 	static void launchCube(Robot us) {
@@ -24,39 +24,30 @@ public class AutoSimplify{
 			us.autoTimer.reset();
 		}
 		else if (us.autoTimer.get() > 0.5) {
-			us.rollLeft.set(ControlMode.PercentOutput, 0);
-			us.rollRight.set(ControlMode.PercentOutput, 0);
+			us.driveRoll(0);
 			us.autoStep++;
 			us.autoTimer.reset();
 			us.newStep = true;
 		}
 		else {    // rollers out
-			us.rollLeft.set(ControlMode.PercentOutput, 0.5);
-			us.rollRight.set(ControlMode.PercentOutput, 0.5);
+			us.rollOut();
 		}
 	}
-	
-	static void openGrabber(Robot us) {
-	     us.cubeClaw.set(true);  // open grabber
-	}
-	
 
 	static void grabCube(Robot us) {
 		if (us.newStep) {
 			us.newStep = false;
 			us.autoTimer.reset();
-			us.cubeClaw.set(false);
+			us.cubeClawOpen();
 		}
 		else if (us.autoTimer.get() > 1) {
 			us.autoStep++;
 			us.autoTimer.reset();
 			us.newStep = true;
-			us.rollLeft.set(ControlMode.PercentOutput, 0);
-			us.rollRight.set(ControlMode.PercentOutput, 0);
+			us.driveRoll(0);
 		}
 		else {   //   rollers in
-			us.rollLeft.set(ControlMode.PercentOutput, -0.65);
-			us.rollRight.set(ControlMode.PercentOutput, -0.65);
+			us.rollIn();
 		}
 	}
 	
@@ -367,6 +358,29 @@ public class AutoSimplify{
 					us.reachedSetting = false;
 				}
 			}
+		}
+		//VVV and Arya's Elevator combo method (NOT DONE YET, DO NOT USE!)
+		static void elevatorAuto(Robot us, int setPoint) {
+			double tolerance = 100;
+			double upSpeed = 0.8;
+			double downSpeed = -0.4;
+			if(setPoint - us.encoderElevator.getRaw() > tolerance) {
+				us.driveElevator(upSpeed);
+				us.reachedSetting = false;
+			}
+			else if(setPoint == 0){
+				us.driveElevator(downSpeed);
+				//Something with reachedSetting here
+			}
+			else if(setPoint - us.encoderElevator.getRaw() < -tolerance) {
+				us.driveElevator(downSpeed);
+				us.reachedSetting = false;
+			}
+			else {
+				us.driveElevator(0);
+				us.reachedSetting = true;
+			}
+			
 		}
 	}
 
