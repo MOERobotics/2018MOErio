@@ -342,6 +342,8 @@ public class Robot extends TimedRobot {
 	public void resetEncoders() {
 		encoderL.reset();
 		encoderR.reset();
+		encoderElevator.reset();
+		encoderWrist.reset();
 	}
 
 	public double getEncoderMax() {
