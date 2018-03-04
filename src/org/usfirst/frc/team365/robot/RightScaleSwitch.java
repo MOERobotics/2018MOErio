@@ -30,9 +30,9 @@ public class RightScaleSwitch {
 				else
 				{
 					us.driveRobot(0,0);
-					us.raiseElevator(0); //yikes
+					us.raiseElevator(us.HEIGHT_FOR_SCALE); 
 					AutoSimplify.launchCube(us);
-					us.lowerElevator(0);
+					us.lowerElevator(us.BOTTOM_HEIGHT);
 				}
 				break;
 			
