@@ -316,12 +316,16 @@ public class Robot extends TimedRobot {
 	//Elevator Functions
 	public void driveElevator(double power) {
 		double backdrivePower = .05;
+		
+		
 		if(elevatorBottomLimitSwitch.get()) {
 			power = Math.max(power, 0);
 		}
 		else if(power > -0.005 && power < backdrivePower) {//Keeps elevator idle for to accommodate backdrive
 			power = power + backdrivePower;
 		}
+		
+		
 		if(elevatorTopLimitSwitch.get()) {
 			power = Math.min(power, 0);
 		}
