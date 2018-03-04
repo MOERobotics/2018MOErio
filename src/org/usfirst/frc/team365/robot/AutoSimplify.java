@@ -323,11 +323,11 @@ public class AutoSimplify{
 //			if (height < -2000)  {
 //				elevator.set(ControlMode.PercentOutput, 0.7);
 				us.reachedSetting = true;
-				us.elevator.set(ControlMode.PercentOutput, 0.25);
+				us.elevator.set(ControlMode.PercentOutput, 0.05);
 				
 			}
 			else if (us.reachedSetting && height >= setpoint - 200) {
-				us.elevator.set(ControlMode.PercentOutput, 0.25);
+				us.elevator.set(ControlMode.PercentOutput, 0.05);
 			}
 			else if (height < setpoint - 200 && us.reachedSetting) {
 				us.elevator.set(ControlMode.PercentOutput, 0.7);
@@ -349,21 +349,21 @@ public class AutoSimplify{
 					us.reachedSetting = true;
 				}
 				else {
-					us.elevator.set(ControlMode.PercentOutput, -0.25);
+					us.elevator.set(ControlMode.PercentOutput, -0.4);
 					us.reachedSetting = false;
 				}
 			}
 			else {
 				if (height < setpoint + 200) {
-					us.elevator.set(ControlMode.PercentOutput, 0.25);
+					us.elevator.set(ControlMode.PercentOutput, 0.05);
 					us.reachedSetting = true;
 				}
 				else if (us.reachedSetting) {
-					us.elevator.set(ControlMode.PercentOutput, 0.25);
+					us.elevator.set(ControlMode.PercentOutput, 0.05);
 				}
 				
 				else {
-					us.elevator.set(ControlMode.PercentOutput, -0.25);
+					us.elevator.set(ControlMode.PercentOutput, -0.4);
 					us.reachedSetting = false;
 				}
 			}
