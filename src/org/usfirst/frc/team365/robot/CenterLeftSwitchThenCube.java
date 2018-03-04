@@ -48,8 +48,8 @@ public class CenterLeftSwitchThenCube
 			}
 			else {
 				us.driveRobot(0, 0);
-				AutoSimplify.launchCube(us); //changed autoSimplify code,,, not sure if okay (made launchCube static)
-				
+				AutoSimplify.openGrabber(us);
+				AutoSimplify.launchCube(us); 
 			}
 			break;
 			
@@ -70,9 +70,11 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 10:
+			us.driveRobot(0, 0);
 			AutoSimplify.goStraight(us, 1 * FEET, 0, 0.5);
 			AutoSimplify.openGrabber(us); //this too
 			AutoSimplify.grabCube(us); //and this
+			us.cubeClaw.set(false);
 			break;
 
 			
