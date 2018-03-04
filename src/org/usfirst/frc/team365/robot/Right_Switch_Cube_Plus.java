@@ -4,80 +4,80 @@ public class Right_Switch_Cube_Plus {
 	public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
 	public static final double FEET = 12 * INCHES;
 
-	public static void Right_Switch_Cube_Plus(Robot robot) {
+
+	public static void run(Robot robot) {
 		switch(robot.autoStep) {
-		
+
 
 		case 1:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 			AutoSimplify.goStraight(robot, 18*FEET, 0, 0.6);
+			AutoSimplify.deployGrabber(robot);
 			break;
-			
+
 		case 2:
+			AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
 			AutoSimplify.turnToAngle(robot, -30, 0.6);
+			AutoSimplify.deployGrabber(robot);
 			break;
-			
+
 		case 3:
-			AutoSimplify.goStraight(robot, 2*FEET, -30, 0.6);
-			robot.autoTimer.reset();
+			AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
+			AutoSimplify.goStraight(robot, 1.1*FEET, -30, 0.6);
+
 			break;
-		
+
 		case 4:
+			AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
+			AutoSimplify.launchCube(robot);
+
 			// Elevator up and rollers out
-			if(robot.autoTimer.get() > 1)
-			{
-				robot.autoStep = 5;
-			}
-			else
-			{
-				robot.driveRobot(0,0);
-			}
+
 			break;
-			
+
 		case 5: 
-			
+			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.goStraight(robot, 2.5*FEET, -30, -0.6);
 			break;
 		case 6:
-		/*	
+			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
+			/*	
 			AutoSimplify.turnToAngle(robot, -150, 0.6);
 			break;
-			
+
 		case 7:
 			AutoSimplify.goStraight(robot, 3500, -150, 0.6);
 			break;
-			*/
-		//case 8:
-			
+			 */
+			//case 8:
+
 			AutoSimplify.turnToAngle(robot, -90, 0.6);
 			break;
 		case 7:
+			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.goStraight(robot, 3*FEET, -90, 0.6);
-		
-		break;
-		
+
+			break;
+
 		case 8:
+			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.turnToAngle(robot, 180, 0.6);
 			break;
 		case 9:
+			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.goStraight(robot, 1.3*FEET, 180, 0.4);
 			robot.autoTimer.reset();
 			break;
 		case 10:
 			//grabber rollers in
-			if(robot.autoTimer.get() > 1)
-			{
-				robot.autoStep = 5;
-			}
-			else
-			{
-				robot.driveRobot(0,0);
-			}
+			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
+			AutoSimplify.grabCube(robot);
 			break;
 		case 11:
 			robot.driveRobot(0.0,0.0);
 			break;
-			}
-	/*	case 1:
+		}
+		/*	case 1:
 			AutoSimplify.goStraight(robot,300*INCHES , 0, .7);
 			//change to 33000 for real
 			//300 inches
@@ -120,6 +120,6 @@ public class Right_Switch_Cube_Plus {
 			robot.driveRobot(0.0,0.0);
 			break;
 		}
-		*/
+		 */
 	}
 }

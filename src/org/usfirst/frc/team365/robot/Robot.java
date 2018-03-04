@@ -57,7 +57,6 @@ public class Robot extends TimedRobot {
 	int autoStep    = 0;
 	int autoRoutine = 0;
 
-
 	int autoLoopCounter = 0;
     	Timer  autoTimer    = new Timer();
 
@@ -235,8 +234,7 @@ public class Robot extends TimedRobot {
 		autoLoopCounter++;
 		switch (autoRoutine) {
 		case 1:
-			
-			Right_Switch_Cube_Plus.Right_Switch_Cube_Plus(this);
+			Right_Switch_Cube_Plus.run(this);
 			
 			break;
 /*		case 2:
@@ -311,11 +309,13 @@ public class Robot extends TimedRobot {
 		if(driveStick.getRawButton(14)) mouseTrapDown();
 		else mouseTrapUp();
 		//Elevator
+		double upperElevator = 0.8;
+		double bottomElevator = -0.3;
 		if(functionStick.getTriggerAxis(Hand.kLeft) > functionStick.getTriggerAxis(Hand.kRight)) {
-			elevatorButton(-functionStick.getTriggerAxis(Hand.kLeft));
+			driveElevator((bottomElevator * functionStick.getTriggerAxis(Hand.kLeft)));
 		}
 		else {
-			elevatorButton(functionStick.getTriggerAxis(Hand.kRight));
+			driveElevator((upperElevator * functionStick.getTriggerAxis(Hand.kRight)));
 		}
 		
 
@@ -344,6 +344,8 @@ public class Robot extends TimedRobot {
 	public void resetEncoders() {
 		encoderL.reset();
 		encoderR.reset();
+		encoderElevator.reset();
+		encoderWrist.reset();
 	}
 
 	public double getEncoderMax() {
@@ -351,34 +353,18 @@ public class Robot extends TimedRobot {
 	}	
 	//Elevator Functions (going up or down)
 	public void driveElevator(double power) {
-		int height = encoderElevator.getRaw();
+		double height = encoderElevator.getRaw();
+		double backDrive = 0.05;
 		if(elevatorBottomLimitSwitch.get()) { //Drive positive
-			if(power > 0) elevator.set(ControlMode.PercentOutput, power);
-			else elevator.set(ControlMode.PercentOutput, 0);
+			if(power < 0) power = 0;
 		}
 		else if(elevatorTopLimitSwitch.get()) {//Drive negative
-			if(power < 0) elevator.set(ControlMode.PercentOutput, power);
-			else elevator.set(ControlMode.PercentOutput, 0);
+			if(power > 0) power = 0;
 		}
-		else {
-			elevator.set(ControlMode.PercentOutput, power);
+		else if(power < backDrive && power > -0.005) {
+			power = backDrive;
 		}
-	}
-	
-	public void elevatorButton(double power) {
-		if(power < -0.3) {
-			driveElevator(-0.3);
-		}
-		else if(power < -0.05) {
-			driveElevator(power);
-		} 
-		else if(power > 0.7) {
-			driveElevator(0.7);
-		}
-		else if(power > 0.05) {
-			driveElevator(power);
-		}
-		else driveElevator(0.05);
+		elevator.set(ControlMode.PercentOutput, power);
 	}
 	
 	//Roller in or out
