@@ -65,5 +65,7 @@ public class SmartDashboardUtil {
 		SmartDashboard.putNumber(      "autoRoutine", ourselves.autoRoutine                   );
 		SmartDashboard.putNumber(         "autoStep", ourselves.autoStep                      );
 		SmartDashboard.putNumber(        "AutoTimer", ourselves.autoTimer.get()               );
+		SmartDashboard.putBoolean("Top limit switch: ", ourselves.elevatorTopLimitSwitch.get());
+		SmartDashboard.putBoolean("Bottom limit switch", ourselves.elevatorBottomLimitSwitch.get());
 	}
 }
