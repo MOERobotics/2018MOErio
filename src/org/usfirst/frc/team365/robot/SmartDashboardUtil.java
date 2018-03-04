@@ -12,16 +12,16 @@ public class SmartDashboardUtil {
 	public static void dashboardInit(Robot ourselves) {
 		setDefaultValues(ourselves);
 		printToSmartDashboard(ourselves);
-		getFromSmartDashboard(ourselves);
+//		getFromSmartDashboard(ourselves);
 	}
 
 	public static void dashboardPeriodic(Robot ourselves) {
 
-		if (smartDashboardTimer.hasPeriodPassed(0.1)) {
+		if (smartDashboardTimer.hasPeriodPassed(0.3)) {
 			printToSmartDashboard(ourselves);
-			getFromSmartDashboard(ourselves);
+//			getFromSmartDashboard(ourselves);
 			smartDashboardTimer.reset();
-			smartDashboardTimer.start();
+//			smartDashboardTimer.start();
 		}
 
 	}
@@ -47,8 +47,8 @@ public class SmartDashboardUtil {
 	static void printToSmartDashboard(Robot ourselves) {
 		SmartDashboard.putString(           "status", ourselves.statusMessage                 );
 		//parts
-		SmartDashboard.putNumber(        "distRight", ourselves.driveRightEncoder.getRaw()            );
-		SmartDashboard.putNumber(         "distLeft", ourselves.driveLeftEncoder.getRaw()            );
+		SmartDashboard.putNumber(        "distRight", ourselves.encoderR.getRaw()            );
+		SmartDashboard.putNumber(         "distLeft", ourselves.encoderL.getRaw()            );
 		SmartDashboard.putNumber(  "driveOutputLeft", ourselves.driveOutputLeft               );
 		SmartDashboard.putNumber( "driveOutputRight", ourselves.driveOutputRight              );
 		SmartDashboard.putNumber(   "elevatorOutput", ourselves.elevatorOutput                );

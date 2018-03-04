@@ -8,37 +8,40 @@ public class AutoSimplify{
 	
 	//   Useful Functions
 	
-	void deployGrabber(Robot us) {
-		if (us.wristEncoder.getRaw() < 1150) {
-			us.wrist.set(ControlMode.PercentOutput, -0.4);
+
+	static void deployGrabber(Robot us) {
+		if (us.encoderWrist.getRaw() < 1100) {
+			us.wrist.set(ControlMode.PercentOutput, -0.5);
+
 		}
 		else us.wrist.set(ControlMode.PercentOutput, 0);
 	}
 	
-	void launchCube(Robot us) {
+	static void launchCube(Robot us) {
 		
 		if (us.newStep) {
 			us.newStep = false;
 			us.autoTimer.reset();
 		}
-		else if (us.autoTimer.get() > 1) {
+		else if (us.autoTimer.get() > 0.5) {
 			us.rollLeft.set(ControlMode.PercentOutput, 0);
 			us.rollRight.set(ControlMode.PercentOutput, 0);
 			us.autoStep++;
 			us.autoTimer.reset();
 			us.newStep = true;
 		}
-		else {
-			us.rollLeft.set(ControlMode.PercentOutput, -1.0);
-			us.rollRight.set(ControlMode.PercentOutput, 1.0);
+		else {    // rollers out
+			us.rollLeft.set(ControlMode.PercentOutput, 0.5);
+			us.rollRight.set(ControlMode.PercentOutput, 0.5);
 		}
 	}
 	
-	void openGrabber(Robot us) {
+	static void openGrabber(Robot us) {
 	     us.cubeClaw.set(true);  // open grabber
 	}
 	
-	void grabCube(Robot us) {
+
+	static void grabCube(Robot us) {
 		if (us.newStep) {
 			us.newStep = false;
 			us.autoTimer.reset();
@@ -51,9 +54,9 @@ public class AutoSimplify{
 			us.rollLeft.set(ControlMode.PercentOutput, 0);
 			us.rollRight.set(ControlMode.PercentOutput, 0);
 		}
-		else {
-			us.rollLeft.set(ControlMode.PercentOutput, 1.0);
-			us.rollRight.set(ControlMode.PercentOutput, -1.0);
+		else {   //   rollers in
+			us.rollLeft.set(ControlMode.PercentOutput, -0.65);
+			us.rollRight.set(ControlMode.PercentOutput, -0.65);
 		}
 	}
 	
@@ -233,18 +236,18 @@ public class AutoSimplify{
 					// only add to error sum when close to target value
 					if (offYaw < 20 && offYaw > -20) {
 						if (offYaw > 0)
-							us.turnSum = us.turnSum + 0.01;
+							us.turnSum = us.turnSum + 0.015;
 						else
-							us.turnSum = us.turnSum - 0.01;
+							us.turnSum = us.turnSum - 0.015;
 					}
 					// calculate new correction value
 					double newPower = us.turnP * offYaw + us.turnSum + us.turnD * (offYaw - us.lastOffYaw);
 
 					// limit output power
-					if (newPower > 0.6)
-						newPower = 0.6;
-					else if (newPower < -0.6)
-						newPower = -0.6;
+					if (newPower > 0.65)
+						newPower = 0.65;
+					else if (newPower < -0.65)
+						newPower = -0.65;
 					us.driveRobot(newPower, -newPower);
 				}
 				// if robot is within yaw tolerance stop robot and increase onCount

@@ -23,7 +23,7 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 2:
-			AutoSimplify.goStraight(us, 7.45 * FEET, -52.0, 0.6);
+			AutoSimplify.goStraight(us, 3.6 * FEET, -52.0, 0.55);
 			break;
 			
 		case 3:	
@@ -37,7 +37,7 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 4: 
-			AutoSimplify.goStraight(us, 1.5 * FEET, 0, 0.6);
+			AutoSimplify.goStraight(us, 1.2 * FEET, 0, 0.6);
 			us.autoTimer.reset();
 			break;
 			
@@ -48,11 +48,13 @@ public class CenterLeftSwitchThenCube
 			}
 			else {
 				us.driveRobot(0, 0);
+				AutoSimplify.launchCube(us); //changed autoSimplify code,,, not sure if okay (made launchCube static)
+				
 			}
 			break;
 			
 		case 6:
-			AutoSimplify.goStraight(us, 4 * FEET, 0, -0.6);
+			AutoSimplify.goStraight(us, 2.75 * FEET, 0, -0.5);
 			break;
 			
 		case 7: 
@@ -60,7 +62,7 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 8:
-			AutoSimplify.goStraight(us, 4.5 * FEET, 90, 0.6);
+			AutoSimplify.goStraight(us, 3.2 * FEET, 90, 0.6);
 			break;
 		
 		case 9:
@@ -68,7 +70,9 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 10:
-			AutoSimplify.goStraight(us, 1.2 * FEET, 0, 0.6);
+			AutoSimplify.goStraight(us, 1 * FEET, 0, 0.5);
+			AutoSimplify.openGrabber(us); //this too
+			AutoSimplify.grabCube(us); //and this
 			break;
 
 			
