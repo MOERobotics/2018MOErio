@@ -362,6 +362,24 @@ public class Robot extends TimedRobot {
 		mouseTrap.set(Value.kForward);
 	}
 	
+	void setElevator(double setPoint) {
+		double tolerance = 100;
+		double upSpeed = 0.8;
+		double downSpeed = -.4;
+
+		if (setPoint - encoderElevator.getRaw() > tolerance) {
+			driveElevator(upSpeed);
+			reachedSetting = false;
+		} else if (setPoint - encoderElevator.getRaw() < -tolerance) {
+			driveElevator(downSpeed);
+			reachedSetting = false;
+		} else {
+			driveElevator(0);
+			reachedSetting = true;
+		}
+
+	}
+	
 	void raiseElevator(int setpoint) {
 		double height = encoderElevator.getRaw();
 		if (height > setpoint) {
