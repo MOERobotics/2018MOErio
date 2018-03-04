@@ -323,8 +323,9 @@ public class Robot extends TimedRobot {
 			power = Math.min(power, 0);
 		}
 		if(power < -0.05 || power < backdrivePower) {//Keeps elevator idle for to accommodate backdrive
-			elevatorOutput = power + backdrivePower;
+			power = power + backdrivePower;
 		}
+		elevatorOutput = power;
 		elevator.set(ControlMode.PercentOutput, power);
 	}
 	
