@@ -9,7 +9,7 @@ public class Right_Switch_Cube_Plus {
 		
 
 		case 1:
-			AutoSimplify.goStraight(robot, 19*FEET, 0, 0.6);
+			AutoSimplify.goStraight(robot, 18*FEET, 0, 0.6);
 			break;
 			
 		case 2:
@@ -17,7 +17,7 @@ public class Right_Switch_Cube_Plus {
 			break;
 			
 		case 3:
-			AutoSimplify.goStraight(robot, 4.2*FEET, -30, 0.6);
+			AutoSimplify.goStraight(robot, 2*FEET, -30, 0.6);
 			robot.autoTimer.reset();
 			break;
 		
@@ -35,7 +35,7 @@ public class Right_Switch_Cube_Plus {
 			
 		case 5: 
 			
-			AutoSimplify.goStraight(robot, 4.2*FEET, -30, -0.6);
+			AutoSimplify.goStraight(robot, 2.5*FEET, -30, -0.6);
 			break;
 		case 6:
 		/*	
@@ -51,7 +51,7 @@ public class Right_Switch_Cube_Plus {
 			AutoSimplify.turnToAngle(robot, -90, 0.6);
 			break;
 		case 7:
-			AutoSimplify.goStraight(robot, 4000, -90, 0.6);
+			AutoSimplify.goStraight(robot, 3*FEET, -90, 0.6);
 		
 		break;
 		
@@ -59,7 +59,7 @@ public class Right_Switch_Cube_Plus {
 			AutoSimplify.turnToAngle(robot, 180, 0.6);
 			break;
 		case 9:
-			AutoSimplify.goStraight(robot, 1500, 180, 0.4);
+			AutoSimplify.goStraight(robot, 1.3*FEET, 180, 0.4);
 			robot.autoTimer.reset();
 			break;
 		case 10:
@@ -72,6 +72,9 @@ public class Right_Switch_Cube_Plus {
 			{
 				robot.driveRobot(0,0);
 			}
+			break;
+		case 11:
+			robot.driveRobot(0.0,0.0);
 			break;
 			}
 	/*	case 1:
