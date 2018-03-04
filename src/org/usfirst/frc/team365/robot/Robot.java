@@ -206,14 +206,8 @@ public class Robot extends TimedRobot {
 		
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		if (gameData.charAt(0) == 'L') {
-			switchLeft = true;
-		}
-		else switchLeft = false;
-		if (gameData.charAt(1) == 'L')  {
-			scaleLeft = true;
-		}
-		else scaleLeft = false;
+		switchLeft    = gameData.charAt(0) == 'L';
+		scaleLeft     = gameData.charAt(0) == 'L';
 		
 //		gameData      = DriverStation.getInstance().getGameSpecificMessage();
 //		switchLeft    = gameData.charAt(0) == 'L';
