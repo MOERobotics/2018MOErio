@@ -339,7 +339,7 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void rollOut() {
-		driveRoll(0.99);
+		driveRoll(0.5);
 	}
 	
 	//Shifting
