@@ -371,10 +371,20 @@ public class Robot extends TimedRobot {
 		double upSpeed = 0.8;
 		double downSpeed = -.4;
 
-		if (setPoint - encoderElevator.getRaw() > tolerance) {
+		if (setPoint == 0) {
+			if(elevatorBottomLimitSwitch.get()) {
+				driveElevator(0);
+				reachedSetting = true;
+			} else {
+				driveElevator(downSpeed);
+				reachedSetting = false;
+			}
+		}
+		else if (setPoint - encoderElevator.getRaw() > tolerance) {
 			driveElevator(upSpeed);
 			reachedSetting = false;
-		} else if (setPoint - encoderElevator.getRaw() < -tolerance) {
+		} 
+		else if (setPoint - encoderElevator.getRaw() < -tolerance) {
 			driveElevator(downSpeed);
 			reachedSetting = false;
 		} else {
@@ -383,6 +393,8 @@ public class Robot extends TimedRobot {
 		}
 
 	}
+	
+
 	
 	void raiseElevator(int setpoint) {
 		double height = encoderElevator.getRaw();
