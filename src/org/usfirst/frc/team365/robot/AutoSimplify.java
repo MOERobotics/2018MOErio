@@ -67,7 +67,7 @@ public class AutoSimplify{
 
 		static void goStraight(Robot us, double ticks, double setPoint, double power) {
 			if (us.newStep) {
-				us.resetDistanceEncoders();
+				us.resetDriveEncoders();
 				us.driveStraight.reset();
 				us.driveStraight.setSetpoint(setPoint);
 				us.driveStraight.enable();
@@ -95,7 +95,7 @@ public class AutoSimplify{
 
 		public static void turnToAngle(Robot us, double angle, double maxPower) {
 			if (us.newStep) {
-				us.resetDistanceEncoders();
+				us.resetDriveEncoders();
 				us.turnRobot.reset();
 				us.turnRobot.setSetpoint(angle);
 				us.turnRobot.setOutputRange(-Math.abs(maxPower), Math.abs(maxPower));
@@ -109,7 +109,7 @@ public class AutoSimplify{
 			}
 
 			if (us.turnOnTargetCount > 3) {
-				us.resetDistanceEncoders();
+				us.resetDriveEncoders();
 				us.driveRobot(0, 0);
 				us.turnOnTargetCount = 0;
 				us.turnRobot.reset();
@@ -174,7 +174,7 @@ public class AutoSimplify{
 			double maxOKBrakingPower = .3;
 
 			if (us.newStep) {
-				us.resetDistanceEncoders();
+				us.resetDriveEncoders();
 				us.driveStraight.reset();
 				us.driveStraight.setSetpoint(setPoint);
 				us.driveStraight.enable();

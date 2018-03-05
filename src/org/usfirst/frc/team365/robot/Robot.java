@@ -358,11 +358,9 @@ public class Robot extends TimedRobot {
 		encoderWrist.reset();
 	}
 	
-	public void resetDistanceEncoders() {
+	public void resetDriveEncoders() {
 		encoderL.reset();
 		encoderR.reset();
-		encoderElevator.reset();
-		encoderWrist.reset();
 	}
 
 	public double getEncoderMax() {
