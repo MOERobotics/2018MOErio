@@ -282,9 +282,13 @@ public class Robot extends TimedRobot {
 		double yJoy = -driveStick.getY();
 		double xJoy = driveStick.getX();
 		if (shifter.get()) {
-			double left = yJoy + xJoy;
+			
+			//Climbing using the Function Stick
+			driveRobot(-Math.abs(functionStick.getY(Hand.kLeft)), -Math.abs(functionStick.getY(Hand.kRight)));
+			
+			/*double left = yJoy + xJoy;
 			double right = yJoy - xJoy;
-			driveRobot(-Math.abs(left), -Math.abs(right));
+			driveRobot(-Math.abs(left), -Math.abs(right));*/
 		} else {
 			if (driveStick.getTrigger()) {
 				driveRobot(yJoy, yJoy);
