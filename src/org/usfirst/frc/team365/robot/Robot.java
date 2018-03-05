@@ -395,7 +395,7 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void rollOut() {
-		driveRoll(0.70);
+		driveRoll(1.0);
 	}
 	
 	//wrist down or up 
