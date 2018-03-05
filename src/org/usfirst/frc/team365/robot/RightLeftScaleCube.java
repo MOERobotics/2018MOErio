@@ -10,7 +10,7 @@ public class RightLeftScaleCube {
 		/**
 		 * Forward: 210 inches
 		 * Left (-90)
-		 * Forward: 180 inches
+		 * Forward: 185 inches
 		 * Right (0)
 		 * Forward: 39 inches 
 		 * Backwards (0)

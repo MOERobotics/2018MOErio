@@ -8,9 +8,11 @@ public class AutoSimplify{
 	
 	//   Useful Functions
 	
+
 	static void deployGrabber(Robot us) {
-		if (us.encoderWrist.getRaw() < 1150) {
-			us.wrist.set(ControlMode.PercentOutput, -0.4);
+		if (us.encoderWrist.getRaw() < 1100) {
+			us.wrist.set(ControlMode.PercentOutput, -0.5);
+
 		}
 		else us.wrist.set(ControlMode.PercentOutput, 0);
 	}
@@ -21,16 +23,16 @@ public class AutoSimplify{
 			us.newStep = false;
 			us.autoTimer.reset();
 		}
-		else if (us.autoTimer.get() > 1) {
+		else if (us.autoTimer.get() > 0.5) {
 			us.rollLeft.set(ControlMode.PercentOutput, 0);
 			us.rollRight.set(ControlMode.PercentOutput, 0);
 			us.autoStep++;
 			us.autoTimer.reset();
 			us.newStep = true;
 		}
-		else {
-			us.rollLeft.set(ControlMode.PercentOutput, -1.0);
-			us.rollRight.set(ControlMode.PercentOutput, 1.0);
+		else {    // rollers out
+			us.rollLeft.set(ControlMode.PercentOutput, 0.5);
+			us.rollRight.set(ControlMode.PercentOutput, 0.5);
 		}
 	}
 	
@@ -38,6 +40,7 @@ public class AutoSimplify{
 	     us.cubeClaw.set(true);  // open grabber
 	}
 	
+
 	static void grabCube(Robot us) {
 		if (us.newStep) {
 			us.newStep = false;
@@ -51,9 +54,9 @@ public class AutoSimplify{
 			us.rollLeft.set(ControlMode.PercentOutput, 0);
 			us.rollRight.set(ControlMode.PercentOutput, 0);
 		}
-		else {
-			us.rollLeft.set(ControlMode.PercentOutput, 1.0);
-			us.rollRight.set(ControlMode.PercentOutput, -1.0);
+		else {   //   rollers in
+			us.rollLeft.set(ControlMode.PercentOutput, -0.65);
+			us.rollRight.set(ControlMode.PercentOutput, -0.65);
 		}
 	}
 	
@@ -311,5 +314,59 @@ public class AutoSimplify{
 			}
 
 
-		}		
-}
+		}	
+		
+		//Lucy's Elevator (Auto)
+		static void raiseElevator(Robot us, int setpoint) {
+			double height = us.encoderElevator.getRaw();
+			if (height > setpoint) {
+//			if (height < -2000)  {
+//				elevator.set(ControlMode.PercentOutput, 0.7);
+				us.reachedSetting = true;
+				us.elevator.set(ControlMode.PercentOutput, 0.05);
+				
+			}
+			else if (us.reachedSetting && height >= setpoint - 200) {
+				us.elevator.set(ControlMode.PercentOutput, 0.05);
+			}
+			else if (height < setpoint - 200 && us.reachedSetting) {
+				us.elevator.set(ControlMode.PercentOutput, 0.7);
+				us.reachedSetting = false;
+			}
+			else {
+				us.elevator.set(ControlMode.PercentOutput, 0.7);
+				us.reachedSetting = false;
+			}
+			
+//			SmartDashboard.putNumber("elevAuto", elevatorHeight.getRaw());
+		}
+		
+		static void lowerElevator(Robot us,int setpoint) {
+			double height = us.encoderElevator.getRaw();
+			if (setpoint < 100) {
+				if (us.elevatorBottomLimitSwitch.get()) {
+					us.elevator.set(ControlMode.PercentOutput, 0);
+					us.reachedSetting = true;
+				}
+				else {
+					us.elevator.set(ControlMode.PercentOutput, -0.4);
+					us.reachedSetting = false;
+				}
+			}
+			else {
+				if (height < setpoint + 200) {
+					us.elevator.set(ControlMode.PercentOutput, 0.05);
+					us.reachedSetting = true;
+				}
+				else if (us.reachedSetting) {
+					us.elevator.set(ControlMode.PercentOutput, 0.05);
+				}
+				
+				else {
+					us.elevator.set(ControlMode.PercentOutput, -0.4);
+					us.reachedSetting = false;
+				}
+			}
+		}
+	}
+

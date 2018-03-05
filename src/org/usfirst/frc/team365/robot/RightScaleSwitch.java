@@ -10,59 +10,60 @@ public class RightScaleSwitch {
 		switch (us.autoStep) {
 		
 			case 1:
+				AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE); 
+				AutoSimplify.deployGrabber(us);
 				AutoSimplify.goStraight(us, 17.0 * FEET, 0, 0.6); //209.091 in.
 				break;
 				
 			case 2:
+				AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE); 
+				AutoSimplify.deployGrabber(us);
 				AutoSimplify.turnToAngle(us, -30, 0.6);
 				break;
 				
 			case 3:
+				AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE); 
+				AutoSimplify.deployGrabber(us);
 				AutoSimplify.goStraight(us, 2.3 * FEET, -30, 0.6); //31.812 in.
 				us.autoTimer.reset();
 				break;
 				
 			case 4:
-				if(us.autoTimer.get() > 1)
-				{
-					us.autoStep = 5;
-				}
-				else
-				{
-					us.driveRobot(0,0);
-					us.raiseElevator(us.HEIGHT_FOR_SCALE); 
-					AutoSimplify.launchCube(us);
-					us.lowerElevator(us.BOTTOM_HEIGHT);
-				}
+				AutoSimplify.launchCube(us);
 				break;
 			
 			case 5:
+				AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 				AutoSimplify.turnToAngle(us, -150, 0.6);
 				break;
 				
 			case 6:
-				AutoSimplify.goStraight(us, 3 * FEET, -150, 0.6); //40 in
-				break;
-				
-			case 7:
+				AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 				AutoSimplify.turnToAngle(us, -180, 0.6);
 				us.autoTimer.reset();
 				break;
 				
+			case 7:
+				AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
+				AutoSimplify.goStraight(us, 3 * FEET, -150, 0.6); //40 in
+				break;
+				
+				
 			case 8:
-				if(us.autoTimer.get() > 1)
-				{
-					us.autoStep = 9;
-				}
-				else
-				{
-					us.driveRobot(0,0);
-					AutoSimplify.launchCube(us);
-				}
+				AutoSimplify.grabCube(us);
 				break;
 				
 			case 9:
+				AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 				AutoSimplify.goStraight(us, .55 * FEET, -180, 0.5); //9.091 in.
+				break;
+				
+			case 10:
+				AutoSimplify.launchCube(us);
+				break;
+				
+			case 11:
+				us.driveRobot(0, 0);
 				break;
 				
 		}

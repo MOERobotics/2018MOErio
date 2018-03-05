@@ -14,7 +14,7 @@ public class CenterLeftSwitchThenCube
 		switch(us.autoStep) {
 		
 		case 1:
-			us.raiseElevator(us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(us);
 			if (us.navX.getYaw() < -49) {
 				us.driveRobot(0, 0);
@@ -25,13 +25,13 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 2:
-			us.raiseElevator(us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.goStraight(us, 3.6 * FEET, -52.0, 0.55);
 			break;
 			
 		case 3:	
-			us.raiseElevator(us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(us);
 			if (us.navX.getYaw() >= -3) {
 				us.driveRobot(0, 0);
@@ -43,42 +43,41 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 4: 
-			us.raiseElevator(us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.goStraight(us, 1.2 * FEET, 0, 0.6);
 			us.autoTimer.reset();
 			break;
 			
 		case 5:
-			us.raiseElevator(us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.launchCube(us);
 			break;
 			
 			
 		case 6:
 			AutoSimplify.goStraight(us, 3.25 * FEET, 0, -0.5);
-			us.lowerElevator(us.BOTTOM_HEIGHT);
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			break;
 			
 		case 7: 
-			us.lowerElevator(us.BOTTOM_HEIGHT);
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.openGrabber(us);
 			AutoSimplify.turnToAngle(us, 90, 0.6);
 			break;
 			
 		case 8:
-			us.lowerElevator(us.BOTTOM_HEIGHT);
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.goStraight(us, 3.5 * FEET, 90, 0.6);
 			break;
 		
 		case 9:
-			us.lowerElevator(us.BOTTOM_HEIGHT);
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.turnToAngle(us, 0, 0.6);
 			break;
 		
 			
 		case 10:
-			us.lowerElevator(us.BOTTOM_HEIGHT);
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.goStraight(us, 0.5 * FEET, 0, 0.5); 
 			break;
 			
