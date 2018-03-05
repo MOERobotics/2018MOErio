@@ -362,11 +362,9 @@ public class Robot extends TimedRobot {
 		encoderWrist.reset();
 	}
 	
-	public void resetDistanceEncoders() {
+	public void resetDriveEncoders() {
 		encoderL.reset();
 		encoderR.reset();
-		encoderElevator.reset();
-		encoderWrist.reset();
 	}
 
 	public double getEncoderMax() {
@@ -399,7 +397,7 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void rollOut() {
-		driveRoll(0.70);
+		driveRoll(1.0);
 	}
 	
 	//wrist down or up 
