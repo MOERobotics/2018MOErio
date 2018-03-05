@@ -277,7 +277,7 @@ public class AutoSimplify{
 				us.rampUpPower = 0.4;
 				us.newStep = false;
 				us.driveRobot(0,0);
-				us.resetDistanceEncoders();
+				us.resetDriveEncoders();
 				us.driveStraight.setSetpoint(setPoint);
 				us.driveStraight.enable();
 				
