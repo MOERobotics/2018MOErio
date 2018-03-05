@@ -67,7 +67,7 @@ public class AutoSimplify{
 
 		static void goStraight(Robot us, double ticks, double setPoint, double power) {
 			if (us.newStep) {
-				us.resetEncoders();
+				us.resetDistanceEncoders();
 				us.driveStraight.reset();
 				us.driveStraight.setSetpoint(setPoint);
 				us.driveStraight.enable();
@@ -95,7 +95,7 @@ public class AutoSimplify{
 
 		public static void turnToAngle(Robot us, double angle, double maxPower) {
 			if (us.newStep) {
-				us.resetEncoders();
+				us.resetDistanceEncoders();
 				us.turnRobot.reset();
 				us.turnRobot.setSetpoint(angle);
 				us.turnRobot.setOutputRange(-Math.abs(maxPower), Math.abs(maxPower));
@@ -109,7 +109,7 @@ public class AutoSimplify{
 			}
 
 			if (us.turnOnTargetCount > 3) {
-				us.resetEncoders();
+				us.resetDistanceEncoders();
 				us.driveRobot(0, 0);
 				us.turnOnTargetCount = 0;
 				us.turnRobot.reset();
@@ -174,7 +174,7 @@ public class AutoSimplify{
 			double maxOKBrakingPower = .3;
 
 			if (us.newStep) {
-				us.resetEncoders();
+				us.resetDistanceEncoders();
 				us.driveStraight.reset();
 				us.driveStraight.setSetpoint(setPoint);
 				us.driveStraight.enable();
@@ -277,7 +277,7 @@ public class AutoSimplify{
 				us.rampUpPower = 0.4;
 				us.newStep = false;
 				us.driveRobot(0,0);
-				us.resetEncoders();
+				us.resetDistanceEncoders();
 				us.driveStraight.setSetpoint(setPoint);
 				us.driveStraight.enable();
 				
@@ -287,7 +287,7 @@ public class AutoSimplify{
 				else if (us.getEncoderMax() > ticks) {
 				us.driveRobot(0, 0);
 				us.driveStraight.reset();
-//				resetEncoders();
+//				resetDistanceEncoders();
 //				autoPauseTimer.reset();
 //				autoPauseTimer.start();
 				us.autoStep++;
