@@ -369,7 +369,13 @@ public class AutoSimplify{
 				us.reachedSetting = false;
 			}
 			else if(setPoint == 0){
-				us.driveElevator(downSpeed);
+				if(us.elevatorBottomLimitSwitch.get()) {
+					us.driveElevator(0);
+					us.reachedSetting = true;
+				} else {
+					us.driveElevator(downSpeed);
+					us.reachedSetting = false;
+				}
 				//Something with reachedSetting here
 			}
 			else if(setPoint - us.encoderElevator.getRaw() < -tolerance) {
