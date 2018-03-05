@@ -27,14 +27,14 @@ public class RightScaleSwitch {
 				AutoSimplify.goStraight(us, 2.3 * FEET, -30, 0.6); //31.812 in.
 				us.autoTimer.reset();
 				break;
-				
-			case 4:
-				AutoSimplify.launchCube(us);
-				break;
 			
-			case 5:
+			case 4:
 				AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 				AutoSimplify.turnToAngle(us, -150, 0.6);
+				break;
+				
+			case 5:
+				AutoSimplify.launchCube(us);
 				break;
 				
 			case 6:
