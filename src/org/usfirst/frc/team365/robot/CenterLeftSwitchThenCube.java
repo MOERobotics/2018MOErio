@@ -34,7 +34,7 @@ public class CenterLeftSwitchThenCube
 			AutoSimplify.deployGrabber(us);
 			if (us.navX.getYaw() >= -3) {
 				us.driveRobot(0, 0);
-				us.resetDistanceEncoders();
+				us.resetDriveEncoders();
 				us.autoStep = 4;
 			}
 			else 

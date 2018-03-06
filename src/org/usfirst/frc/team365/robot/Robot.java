@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
 
 	// Sensors
 	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 50);
-	Encoder      encoderL  = new Encoder(0, 1, false, EncodingType.k1X);
+	Encoder      encoderL  = new Encoder(0, 1, true, EncodingType.k1X);
 	Encoder      encoderR  = new Encoder(2, 3, true, EncodingType.k1X);
 	Encoder encoderElevator = new Encoder(4, 5, true, EncodingType.k2X);
 	Encoder encoderWrist = new Encoder(8, 9, true, EncodingType.k2X);
@@ -282,9 +282,13 @@ public class Robot extends TimedRobot {
 		double yJoy = -driveStick.getY();
 		double xJoy = driveStick.getX();
 		if (shifter.get()) {
-			double left = yJoy + xJoy;
+			
+			//Climbing using the Function Stick
+			driveRobot(-Math.abs(functionStick.getY(Hand.kLeft)), -Math.abs(functionStick.getY(Hand.kRight)));
+			
+			/*double left = yJoy + xJoy;
 			double right = yJoy - xJoy;
-			driveRobot(-Math.abs(left), -Math.abs(right));
+			driveRobot(-Math.abs(left), -Math.abs(right));*/
 		} else {
 			if (driveStick.getTrigger()) {
 				driveRobot(yJoy, yJoy);
@@ -358,11 +362,9 @@ public class Robot extends TimedRobot {
 		encoderWrist.reset();
 	}
 	
-	public void resetDistanceEncoders() {
+	public void resetDriveEncoders() {
 		encoderL.reset();
 		encoderR.reset();
-		encoderElevator.reset();
-		encoderWrist.reset();
 	}
 
 	public double getEncoderMax() {
@@ -395,7 +397,7 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void rollOut() {
-		driveRoll(0.70);
+		driveRoll(1.0);
 	}
 	
 	//wrist down or up 
