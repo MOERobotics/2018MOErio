@@ -12,11 +12,22 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 
 public class Robot extends TimedRobot {
 	//Motors
@@ -271,9 +282,13 @@ public class Robot extends TimedRobot {
 		double yJoy = -driveStick.getY();
 		double xJoy = driveStick.getX();
 		if (shifter.get()) {
-			double left = yJoy + xJoy;
+			
+			//Climbing using the Function Stick
+			driveRobot(-Math.abs(functionStick.getY(Hand.kLeft)), -Math.abs(functionStick.getY(Hand.kRight)));
+			
+			/*double left = yJoy + xJoy;
 			double right = yJoy - xJoy;
-			driveRobot(-Math.abs(left), -Math.abs(right));
+			driveRobot(-Math.abs(left), -Math.abs(right));*/
 		} else {
 			if (driveStick.getTrigger()) {
 				driveRobot(yJoy, yJoy);
@@ -346,6 +361,11 @@ public class Robot extends TimedRobot {
 		encoderElevator.reset();
 		encoderWrist.reset();
 	}
+	
+	public void resetDriveEncoders() {
+		encoderL.reset();
+		encoderR.reset();
+	}
 
 	public double getEncoderMax() {
 		return Math.abs(encoderL.getRaw()) > Math.abs(encoderR.getRaw()) ? Math.abs(encoderL.getRaw()) : Math.abs(encoderR.getRaw());
@@ -377,7 +397,7 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void rollOut() {
-		driveRoll(0.70);
+		driveRoll(1.0);
 	}
 	
 	//wrist down or up 
