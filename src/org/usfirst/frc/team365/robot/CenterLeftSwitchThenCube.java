@@ -14,7 +14,6 @@ public class CenterLeftSwitchThenCube
 		switch(us.autoStep) {
 		
 		case 1:
-			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(us);
 			if (us.navX.getYaw() < -49) {
 				us.driveRobot(0, 0);
