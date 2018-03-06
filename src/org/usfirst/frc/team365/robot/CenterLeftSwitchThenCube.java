@@ -15,13 +15,14 @@ public class CenterLeftSwitchThenCube
 		
 		case 1:
 			AutoSimplify.deployGrabber(us);
-			if (us.navX.getYaw() < -49) {
+			AutoSimplify.halfTurnLeft(us, -52, 0.6);
+			/*if (us.navX.getYaw() < -49) {
 				us.driveRobot(0, 0);
 				us.autoStep = 2;
 			}
 			else 
 				us.driveRobot(0, 0.6);
-			break;
+			break;*/
 			
 		case 2:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
@@ -32,14 +33,15 @@ public class CenterLeftSwitchThenCube
 		case 3:	
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(us);
-			if (us.navX.getYaw() >= -3) {
+			AutoSimplify.halfTurnRight(us, -3, 0.6);
+			/*if (us.navX.getYaw() >= -3) {
 				us.driveRobot(0, 0);
 				us.resetDriveEncoders();
 				us.autoStep = 4;
 			}
 			else 
 				us.driveRobot(0.6, 0);
-			break;
+			break;*/
 			
 		case 4: 
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
@@ -54,7 +56,7 @@ public class CenterLeftSwitchThenCube
 			
 			
 		case 6:
-			AutoSimplify.goStraight(us, 3.25 * FEET, 0, -0.5);
+			AutoSimplify.goStraight(us, 4.25 * FEET, 0, -0.5);
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			break;
 			
@@ -66,7 +68,7 @@ public class CenterLeftSwitchThenCube
 			
 		case 8:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 3.5 * FEET, 90, 0.6);
+			AutoSimplify.goStraight(us, 3.9 * FEET, 90, 0.6);
 			break;
 		
 		case 9:

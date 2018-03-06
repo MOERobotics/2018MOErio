@@ -18,7 +18,8 @@ public class RightScaleSwitch {
 			case 2:
 				AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE); 
 				AutoSimplify.deployGrabber(us);
-				AutoSimplify.turnToAngle(us, -30, 0.6);
+				AutoSimplify.autoPIDTurn(us, -30);
+				//AutoSimplify.turnToAngle(us, -30, 0.6);
 				break;
 				
 			case 3:
@@ -30,7 +31,8 @@ public class RightScaleSwitch {
 			
 			case 4:
 				AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-				AutoSimplify.turnToAngle(us, -150, 0.6);
+				AutoSimplify.autoPIDTurn(us, -150);
+				//AutoSimplify.turnToAngle(us, -150, 0.6);
 				break;
 				
 			case 5:
@@ -39,7 +41,8 @@ public class RightScaleSwitch {
 				
 			case 6:
 				AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-				AutoSimplify.turnToAngle(us, -180, 0.6);
+				AutoSimplify.autoPIDTurn(us, -180);
+				//AutoSimplify.turnToAngle(us, -180, 0.6);
 				us.autoTimer.reset();
 				break;
 				
