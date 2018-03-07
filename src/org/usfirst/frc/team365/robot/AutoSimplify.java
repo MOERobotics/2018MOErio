@@ -17,6 +17,16 @@ public class AutoSimplify{
 		else us.wrist.set(ControlMode.PercentOutput, 0);
 	}
 	
+	static boolean deployGrabber(Robot us, boolean a) {
+		if (us.encoderWrist.getRaw() < 1100) {
+			us.driveWrist(-.8);
+			return false;
+		} else {
+			us.driveWrist(0);
+			return true;
+		}
+	}
+	
 	static void launchCube(Robot us) {
 		
 		if (us.newStep) {
@@ -318,6 +328,10 @@ public class AutoSimplify{
 
 
 		}	
+		
+		
+		
+		
 		
 		//Lucy's Elevator (Auto)
 		static void raiseElevator(Robot us, int setpoint) {

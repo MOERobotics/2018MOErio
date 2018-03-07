@@ -400,17 +400,21 @@ public class Robot extends TimedRobot {
 		driveRoll(1.0);
 	}
 	
+	public void rollOutSlow() {
+		driveRoll(.5);
+	}
+	
 	//wrist down or up 
 	public void driveWrist(double power) {
 		wrist.set(ControlMode.PercentOutput, power);
 	}
 	
 	public void wristUp() {
-		driveWrist(0.4);
+		driveWrist(0.8);
 	}
 	
 	public void wristDown() {
-		driveWrist(-0.4);
+		driveWrist(-0.5);
 	}
 	
 	//cubeClaw holds or lets go of cube
