@@ -330,6 +330,24 @@ public class AutoSimplify{
 		}	
 		
 		
+		static void elevatorAuto(Robot us, int setPoint) {
+			double tolerance = 100;
+			double upSpeed = 0.8;
+			double downSpeed = -0.4;
+			if(setPoint > us.encoderElevator.getRaw()) {
+				us.driveElevator(upSpeed);
+			}
+			else if(setPoint == 0 || setPoint - us.encoderElevator.getRaw() < -tolerance) {
+				us.driveElevator(downSpeed);
+			}
+			else {
+				us.driveElevator(0);
+			}
+			
+		}
+		
+		
+		
 		
 		
 		
