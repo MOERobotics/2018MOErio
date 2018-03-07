@@ -13,34 +13,37 @@ public class Right_Switch_Cube_Plus {
 			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 			AutoSimplify.goStraight(robot, 18*FEET, 0, 0.6);
 			AutoSimplify.deployGrabber(robot);
+			//ROBOT GOES STRAIGHT
 			break;
 
 		case 2:
 			AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
 			AutoSimplify.turnToAngle(robot, -30, 0.6);
 			AutoSimplify.deployGrabber(robot);
+			//ROBOT TURNS AND GRABBER LOWERS
 			break;
 
 		case 3:
 			AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
 			AutoSimplify.goStraight(robot, 1.1*FEET, -30, 0.6);
-
+			// ROBOT GOES STRAIGHT
 			break;
 
 		case 4:
 			AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
 			AutoSimplify.launchCube(robot);
-
-			// Elevator up and rollers out
+			//GRABBERS LAUNCH CUBE ONTO SWITCH
 
 			break;
 
 		case 5: 
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.goStraight(robot, 2.5*FEET, -30, -0.6);
+			//ELEVEATOR DOWN AND MOVING BACKWARDS
 			break;
 		case 6:
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
+			//ROBOT TURNS TO LANE
 			/*	
 			AutoSimplify.turnToAngle(robot, -150, 0.6);
 			break;
@@ -56,25 +59,29 @@ public class Right_Switch_Cube_Plus {
 		case 7:
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.goStraight(robot, 3*FEET, -90, 0.6);
+			//ROBOT GOES STRAIGHT
 
 			break;
 
 		case 8:
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.turnToAngle(robot, 180, 0.6);
+			//ROBOT TURNS TO FACE CUBE TO PICK UP
 			break;
 		case 9:
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.goStraight(robot, 1.3*FEET, 180, 0.4);
-			robot.autoTimer.reset();
+			//ROBOT GOES STRAIGHT AND CLOSE TO CUBE
 			break;
 		case 10:
-			//grabber rollers in
+		
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.grabCube(robot);
+			//GRABBERS PICK UP CUBE
 			break;
 		case 11:
 			robot.driveRobot(0.0,0.0);
+			//END PROGRAM
 			break;
 		}
 		/*	case 1:
