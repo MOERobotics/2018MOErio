@@ -8,41 +8,50 @@ public class RightSwitchThenCube {
 		switch(robot.autoStep) {
 		case 1:
 			//goStraight(encoderTicks, navx setPoint, startPower - forwards/backwards is pos/neg)
-			AutoSimplify.goStraight(robot, 11 * FEET + 4 * INCHES, 0, .7);
+			AutoSimplify.deployGrabber(robot);
+			AutoSimplify.goStraight(robot, 11 * FEET, 0, .7);
+			
+			if(robot.getEncoderMax() > 4 * FEET) {
+				AutoSimplify.raiseElevator(robot, 2000);
+			}
+			
 			break;
 		case 2:
 			//turnToAngle(navxsetPoint, maxPower)
+			AutoSimplify.raiseElevator(robot, 2000);
 			AutoSimplify.turnToAngle(robot, -90);
 			break;
 		case 3:
 			AutoSimplify.goStraight(robot, .5 * FEET, -90, .5);
 			break;
 		case 4:
-			AutoSimplify.pause(robot, 1);
+			AutoSimplify.launchCube(robot);
 			break;
 		case 5:
 			AutoSimplify.goStraight(robot, .5 * FEET, -90, -.5);
 			break;
 		case 6:
-			AutoSimplify.turnToAngle(robot, 0);
-			break;
-		case 7:
-			AutoSimplify.goStraight(robot, 6 * FEET, 0, .5);
-			break;
-		case 8:
-			AutoSimplify.turnToAngle(robot, -90);
-			break;
-		case 9:
-			AutoSimplify.goStraight(robot, 4 * FEET, -90, .5);
-			break;
-		case 10:
 			AutoSimplify.turnToAngle(robot, -180);
 			break;
-		case 11:
-			AutoSimplify.goStraight(robot, 1 * FEET, -180, .5);
+		case 7:
+			AutoSimplify.goStraight(robot, 6 * FEET, -180, -.5);
+			AutoSimplify.lowerElevator(robot, 0);
 			break;
-		case 12:
+		case 8:
+			AutoSimplify.turnToAngle(robot, -135);
+			robot.cubeClawOpen();
+			break;
+		case 9:
+			AutoSimplify.goStraight(robot, 4 * FEET, -135, .5);
+			break;
+		case 10:
+			AutoSimplify.grabCube(robot);
+			break;
+		default:
 			robot.driveRobot(0,0);
+			robot.driveWrist(0);
+			robot.driveRoll(0);
+			robot.driveElevator(0);
 			break;
 			
 		}
