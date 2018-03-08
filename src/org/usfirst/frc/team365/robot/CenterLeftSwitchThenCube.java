@@ -11,11 +11,11 @@ public class CenterLeftSwitchThenCube
 	static void run(Robot us) {
 	
 		
-		switch(us.autoStep) {
+		switch (us.autoStep) {
 		
 		case 1:
 			AutoSimplify.deployGrabber(us);
-			AutoSimplify.halfTurnLeft(us, -52, 0.6);
+			AutoSimplify.turnToAngle(us, -49, 0.4);
 			/*if (us.navX.getYaw() < -49) {
 				us.driveRobot(0, 0);
 				us.autoStep = 2;
@@ -27,13 +27,13 @@ public class CenterLeftSwitchThenCube
 		case 2:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(us);
-			AutoSimplify.goStraight(us, 3.6 * FEET, -52.0, 0.55);
+			AutoSimplify.goStraight(us, 7.5 * FEET, -52.0, 0.5); //3.6
 			break;
 			
 		case 3:	
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(us);
-			AutoSimplify.halfTurnRight(us, -3, 0.6);
+			AutoSimplify.turnToAngle(us, -3, 0.4);
 			/*if (us.navX.getYaw() >= -3) {
 				us.driveRobot(0, 0);
 				us.resetDriveEncoders();
@@ -46,7 +46,7 @@ public class CenterLeftSwitchThenCube
 		case 4: 
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(us);
-			AutoSimplify.goStraight(us, 1.2 * FEET, 0, 0.6);
+			AutoSimplify.goStraight(us, 1.5 * FEET, 0, 0.4); //1.2
 			us.autoTimer.reset();
 			break;
 			
@@ -56,30 +56,30 @@ public class CenterLeftSwitchThenCube
 			
 			
 		case 6:
-			AutoSimplify.goStraight(us, 4.25 * FEET, 0, -0.5);
+			AutoSimplify.goStraight(us, 4 * FEET, 0, -0.45); //4.25
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			break;
 			
 		case 7: 
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.openGrabber(us);
-			AutoSimplify.turnToAngle(us, 90, 0.6);
+			AutoSimplify.turnToAngle(us, 90, 0.4);
 			break;
 			
 		case 8:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 3.9 * FEET, 90, 0.6);
+			AutoSimplify.goStraight(us, 4.5 * FEET, 90, 0.5); //3.9
 			break;
 		
 		case 9:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.turnToAngle(us, 0, 0.6);
+			AutoSimplify.turnToAngle(us, 0, 0.4);
 			break;
 		
 			
 		case 10:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 0.5 * FEET, 0, 0.5); 
+			AutoSimplify.goStraight(us, 1.2 * FEET, 0, 0.4); //.5
 			break;
 			
 		case 11:

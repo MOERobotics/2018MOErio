@@ -10,7 +10,6 @@ public class RightScaleSwitch {
 		switch (us.autoStep) {
 		
 			case 1:
-				AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE); 
 				AutoSimplify.deployGrabber(us);
 				AutoSimplify.goStraight(us, 17.0 * FEET, 0, 0.6); //209.091 in.
 				break;
@@ -25,7 +24,7 @@ public class RightScaleSwitch {
 			case 3:
 				AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE); 
 				AutoSimplify.deployGrabber(us);
-				AutoSimplify.goStraight(us, 2.3 * FEET, -30, 0.6); //31.812 in.
+				AutoSimplify.goStraight(us, 7.45 * FEET, -30, 0.4); //2.3
 				us.autoTimer.reset();
 				break;
 			
@@ -48,7 +47,7 @@ public class RightScaleSwitch {
 				
 			case 7:
 				AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-				AutoSimplify.goStraight(us, 3 * FEET, -150, 0.6); //40 in
+				AutoSimplify.goStraight(us, 3 * FEET, -150, 0.5); //40 in
 				break;
 				
 				
@@ -58,7 +57,7 @@ public class RightScaleSwitch {
 				
 			case 9:
 				AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-				AutoSimplify.goStraight(us, .55 * FEET, -180, 0.5); //9.091 in.
+				AutoSimplify.goStraight(us, .55 * FEET, -180, 0.4); //9.091 in.
 				break;
 				
 			case 10:
