@@ -84,8 +84,8 @@ public class Robot extends TimedRobot {
 	boolean oppSwitchLeft;
 	boolean reachedSetting = false;
 	
-	final int HEIGHT_FOR_SWITCH = 2000;
-	final int HEIGHT_FOR_SCALE = 5500;
+	final int HEIGHT_FOR_SWITCH = 1800;
+	final int HEIGHT_FOR_SCALE = 5400;
 	final int BOTTOM_HEIGHT = 10;
 
 
@@ -152,6 +152,9 @@ public class Robot extends TimedRobot {
         setContinuous(false);
         enable();
 	}};
+	static final double upperElevator = 0.8;
+	static final double bottomElevator = -0.4;
+	static final double backDrive = 0.1;
 	int turnOnTargetCount = 0;
 	public static final double INCHES_TO_ENCTICKS = 45;
 	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
@@ -245,7 +248,7 @@ public class Robot extends TimedRobot {
 		autoLoopCounter++;
 		switch (autoRoutine) {
 		case 1:
-			CenterRightSwitchAutonomous.run(this);
+			RightLeftScaleCube.run(this);
 			break;
 /*		case 2:
 			RightSwitchThenCube.run(this);
@@ -323,8 +326,6 @@ public class Robot extends TimedRobot {
 		if(driveStick.getRawButton(14)) mouseTrapDown();
 		else mouseTrapUp();
 		//Elevator
-		double upperElevator = 0.8;
-		double bottomElevator = -0.3;
 		if(functionStick.getTriggerAxis(Hand.kLeft) > functionStick.getTriggerAxis(Hand.kRight)) {
 			driveElevator((bottomElevator * functionStick.getTriggerAxis(Hand.kLeft)));
 		}
@@ -373,7 +374,6 @@ public class Robot extends TimedRobot {
 	//Elevator Functions (going up or down)
 	public void driveElevator(double power) {
 		double height = encoderElevator.getRaw();
-		double backDrive = 0.05;
 		if(elevatorBottomLimitSwitch.get()) { //Drive positive
 			if(power < 0) power = 0;
 		}

@@ -362,7 +362,7 @@ public class AutoSimplify{
 				}
 			}
 		}
-		//VVV and Arya's Elevator combo method (NOT DONE YET, DO NOT USE!)
+		//VVV and Arya's Elevator combo method
 		static void elevatorAuto(Robot us, int setPoint) {
 			double tolerance = 100;
 			double upSpeed = 0.8;
