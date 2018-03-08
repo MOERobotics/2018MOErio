@@ -9,15 +9,7 @@ public class AutoSimplify{
 	//   Useful Functions
 	
 
-	static void deployGrabber(Robot us) {
-		if (us.encoderWrist.getRaw() < 1100) {
-			us.wrist.set(ControlMode.PercentOutput, -0.5);
-
-		}
-		else us.wrist.set(ControlMode.PercentOutput, 0);
-	}
-	
-	static boolean deployGrabber(Robot us, boolean a) {
+	static boolean deployGrabber(Robot us) {
 		if (us.encoderWrist.getRaw() < 1100) {
 			us.driveWrist(-.8);
 			return false;
@@ -96,16 +88,11 @@ public class AutoSimplify{
 			}
 		}
 
-		public static void turnToAngle(Robot us, double angle, double maxPower, double tolerance) {
-			if (us.newStep) {
-				us.turnRobot.setAbsoluteTolerance(tolerance);
-			}
-			turnToAngle(us, angle, maxPower);
-		}
-
+		
 		public static void turnToAngle(Robot us, double angle, double maxPower) {
 			if (us.newStep) {
 				us.resetDriveEncoders();
+				us.autoTimer.reset();
 				us.turnRobot.reset();
 				us.turnRobot.setSetpoint(angle);
 				us.turnRobot.setOutputRange(-Math.abs(maxPower), Math.abs(maxPower));
@@ -169,51 +156,9 @@ public class AutoSimplify{
 				us.driveRobot(power, 0);
 			}
 		}
-		/**
-		 * 
-		 * Below is a modification to goStraight that will ramp up and ramp down the
-		 * speed of the bot to minimize tipping. The 4 doubles at the start of
-		 * goStraightSS need to be tweaked for goodness - especially the last 2.
-		 */
 
 		
-		public static void goStraightSS(Robot us, double ticks, double setPoint, double maxPower) {
-			double deltaSpeedIncrease = .01;
-			double deltaSpeedDecrease = .01;
-			double distAwayFromTargetToStartBraking = 24 * us.INCHES_TO_ENCTICKS;
-			double maxOKBrakingPower = .3;
-
-			if (us.newStep) {
-				us.resetDriveEncoders();
-				us.driveStraight.reset();
-				us.driveStraight.setSetpoint(setPoint);
-				us.driveStraight.enable();
-				us.newStep = false;
-			}
-
-			if (Math.abs(us.getEncoderMax()) > ticks) {
-				us.driveRobot(0, 0);
-				us.driveStraight.reset();
-				us.autoTimer.reset();
-				us.autoStep++;
-				us.newStep = true;
-			} else {
-				if (ticks - Math.abs(us.getEncoderMax()) < distAwayFromTargetToStartBraking
-						&& getStraightPower(us) > maxOKBrakingPower) {
-					us.driveRobot(getStraightPower(us) - deltaSpeedDecrease + us.driveStraightCorrection.correctionValue,
-							getStraightPower(us) - deltaSpeedDecrease - us.driveStraightCorrection.correctionValue);
-				}
-
-				else if (getStraightPower(us) < maxPower) {
-					us.driveRobot(getStraightPower(us) + deltaSpeedIncrease + us.driveStraightCorrection.correctionValue,
-							getStraightPower(us) + deltaSpeedIncrease - us.driveStraightCorrection.correctionValue);
-				} else {
-					us.driveRobot(maxPower + us.driveStraightCorrection.correctionValue,
-							maxPower - us.driveStraightCorrection.correctionValue);
-				}
-			}
-
-		}
+		
 		/******************
 		 * Lucy's Mods to VVVSimplify *
 		 ******************/
@@ -348,6 +293,23 @@ public class AutoSimplify{
 		
 		
 		
+		
+	static void setElevator(Robot us, double setPoint) {
+		double height = us.encoderElevator.getRaw();
+		double upSpeed = 0.8;
+		double downSpeed = -.4;
+		double tolerance = 200;
+
+		if (setPoint == 0)
+			us.driveElevator(downSpeed);
+		else if (height < setPoint)
+			us.driveElevator(upSpeed);
+		else if (height - setPoint > tolerance)
+			us.driveElevator(downSpeed);
+		else
+			us.driveElevator(0);
+
+	}
 		
 		
 		
