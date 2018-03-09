@@ -246,7 +246,7 @@ public class Robot extends TimedRobot {
 		autoLoopCounter++;
 		switch (autoRoutine) {
 		case 1:
-			Right_Switch_Cube_Plus.run(this);
+			Right_Scale_Cube_Plus.run(this);
 			
 			break;
 /*		case 2:
@@ -258,14 +258,14 @@ public class Robot extends TimedRobot {
 		case 4:
 			RightScaleSwitch.run(this);
 			break;*/
-		case 5:
+		/*case 5:
 //			GoStraightAutonomous.autoGoStraightTurnTest(this);
 			GoStraightAutonomous.autoScaleTest(this);
 			break; 
 		default:
 			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
 			break;
-
+*/
 		}
 
 	}

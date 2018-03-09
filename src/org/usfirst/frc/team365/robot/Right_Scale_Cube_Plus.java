@@ -9,7 +9,7 @@ public class Right_Scale_Cube_Plus {
 	public static void run(Robot robot) {
 		switch(robot.autoStep) {
 
-
+/*
 		case 1:
 			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 			AutoSimplify.goStraight(robot, 15.75*FEET, 0, 0.6);
@@ -72,7 +72,8 @@ public class Right_Scale_Cube_Plus {
 			//END PROGRAM
 			break;
 		}
-		/*
+		*/
+	
 	case 1:
 		AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 		AutoSimplify.goStraight(robot, 15.75*FEET, 0, 0.6);
@@ -101,18 +102,18 @@ public class Right_Scale_Cube_Plus {
 		break;
 	case 5: 
 		AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
-		AutoSimplify.goStraight(robot, 1.8*FEET, -25, -0.6);
+		AutoSimplify.goStraight(robot, .8*FEET, -25, -0.6);
 		//ELEVATOR DOWN AND MOVING BACKWARDS
 
 		break;
 	case 6:
 		AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 		//ROBOT TURNS TO LANE
-		AutoSimplify.turnToAngle(robot, -150, 0.6);
+		AutoSimplify.turnToAngle(robot, -130, 0.6);
 		break;
 	case 7:
 		AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
-		AutoSimplify.goStraight(robot, 2.4*FEET, -150, 0.6);
+		AutoSimplify.goStraight(robot, 2*FEET, -150, 0.6);
 		//ROBOT GOES STRAIGHT
 		break;
 	case 8:
@@ -124,6 +125,6 @@ public class Right_Scale_Cube_Plus {
 		//END PROGRAM
 		break;
 	}
-		 */
+		 
 	}
 }
