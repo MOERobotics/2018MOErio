@@ -10,69 +10,91 @@ public class CenterLeftSwitchThenCube
 	
 	static void run(Robot us) {
 	
-		
 		switch(us.autoStep) {
 		
 		case 1:
-			if (us.navX.getYaw() < -49) {
+			AutoSimplify.autoPIDStraight(us, 2 * FEET, 0, 0.4);
+			AutoSimplify.deployGrabber(us);
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+			break;
+			
+		case 2:
+			AutoSimplify.autoPIDTurn(us, -52);
+			AutoSimplify.deployGrabber(us);
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+			/*if (us.navX.getYaw() < -49) {
 				us.driveRobot(0, 0);
 				us.autoStep = 2;
 			}
 			else 
-				us.driveRobot(0, 0.6);
+				us.driveRobot(0, 0.6);*/
 			break;
 			
-		case 2:
-			AutoSimplify.goStraight(us, 3.6 * FEET, -52.0, 0.55);
+		case 3:
+			AutoSimplify.goStraight(us, 6 * FEET, -52.0, 0.55); //3.6
+			AutoSimplify.deployGrabber(us);
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			break;
 			
-		case 3:	
-			if (us.navX.getYaw() >= -3) {
+		case 4:	
+			AutoSimplify.autoPIDTurn(us, 0);
+			AutoSimplify.deployGrabber(us);
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+			/*if (us.navX.getYaw() >= -3) {
 				us.driveRobot(0, 0);
 				us.resetDriveEncoders();
 				us.autoStep = 4;
 			}
 			else 
-				us.driveRobot(0.6, 0);
+				us.driveRobot(0.6, 0); */
 			break;
 			
-		case 4: 
-			AutoSimplify.goStraight(us, 1.2 * FEET, 0, 0.6);
+		case 5: 
+			AutoSimplify.goStraight(us, 1.24 * FEET, 0, 0.6); //1.2
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			us.autoTimer.reset();
 			break;
 			
-		case 5:
-			if (us.autoTimer.get() > 1.0) {
-				us.autoTimer.reset();
-				us.autoStep = 6;
-			}
-			else {
-				us.driveRobot(0, 0);
-				AutoSimplify.launchCube(us); //changed autoSimplify code,,, not sure if okay (made launchCube static)
-				
-			}
-			break;
-			
 		case 6:
-			AutoSimplify.goStraight(us, 2.75 * FEET, 0, -0.5);
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.launchCube(us); //changed autoSimplify code,,, not sure if okay (made launchCube static)
 			break;
 			
-		case 7: 
-			AutoSimplify.turnToAngle(us, 90, 0.6);
+		case 7:
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
+			AutoSimplify.goStraight(us, 4.6 * FEET, 0, -0.5); //2.75
 			break;
 			
 		case 8:
-			AutoSimplify.goStraight(us, 3.2 * FEET, 90, 0.6);
-			break;
-		
-		case 9:
-			AutoSimplify.turnToAngle(us, 0, 0.6);
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
+			AutoSimplify.openGrabber(us);
+			AutoSimplify.autoPIDTurn(us, 90);
 			break;
 			
+		case 9:
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
+			AutoSimplify.openGrabber(us);
+			AutoSimplify.goStraight(us, 4.167 * FEET, 90, 0.6); //3.2
+			break;
+		
 		case 10:
-			AutoSimplify.goStraight(us, 1 * FEET, 0, 0.5);
-			AutoSimplify.openGrabber(us); //this too
-			AutoSimplify.grabCube(us); //and this
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
+			AutoSimplify.autoPIDTurn(us, 0);
+			AutoSimplify.openGrabber(us);
+			break;
+			
+		case 11:
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
+			AutoSimplify.goStraight(us, 1 * FEET, 0, 0.5); //1.2
+			break;
+		
+			
+		case 12:
+			AutoSimplify.grabCube(us); 
+			break;
+			
+		case 13:
+			us.driveRobot(0, 0);
 			break;
 
 			

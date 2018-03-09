@@ -245,25 +245,50 @@ public class Robot extends TimedRobot {
 
 		autoLoopCounter++;
 		switch (autoRoutine) {
-		case 1:
-			CenterRightSwitchAutonomous.run(this);
+		case 1:		/* Starting at the center */
+			if (switchLeft)
+				CenterLeftSwitchThenCube.run(this);
+			else
+				CenterRightSwitchAutonomous.run(this);
 			break;
-/*		case 2:
+		case 2:		/* Starting at the right. */
+			if (scaleLeft)
+				RightLeftScaleCube.run(this);
+			else
+				Right_Scale_Cube_Plus.run(this);
+			break;
+/*		case 3:
+			if (switchLeft)
+				LeftSwitchThenCube.run(this);
+			else
+				if (scaleLeft)
+*/					
+					
+/*
+		case 3:
 			RightSwitchThenCube.run(this);
 			break;
-		//case 3:
+*/			
+/*		case 1:
+			CenterRightSwitchAutonomous.run(this);
+			break;
+		case 2:
+			RightSwitchThenCube.run(this);
+			break;
+		case 3:
 			// Right_Switch_Cube_Plus.run(this);
 			//break;
 		case 4:
 			RightScaleSwitch.run(this);
 			break;*/
-		case 5:
-//			GoStraightAutonomous.autoGoStraightTurnTest(this);
+/*		case 5:
+			GoStraightAutonomous.autoGoStraightTurnTest(this);
 			GoStraightAutonomous.autoScaleTest(this);
 			break; 
 		default:
 			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
 			break;
+			*/
 
 		}
 

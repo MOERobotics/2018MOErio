@@ -1,6 +1,6 @@
 package org.usfirst.frc.team365.robot;
 
-public class RightSwitchThenCube {
+public class LeftSwitchThenCube {
 	public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
 	public static final double FEET = 12 * INCHES;
 	
@@ -19,16 +19,16 @@ public class RightSwitchThenCube {
 		case 2:
 			//turnToAngle(navxsetPoint, maxPower)
 			AutoSimplify.raiseElevator(robot, 2000);
-			AutoSimplify.turnToAngle(robot, -90);
+			AutoSimplify.turnToAngle(robot, 90);
 			break;
 		case 3:
-			AutoSimplify.goStraight(robot, .5 * FEET, -90, .5);
+			AutoSimplify.goStraight(robot, .5 * FEET, 90, .5);
 			break;
 		case 4:
 			AutoSimplify.launchCube(robot);
 			break;
 		case 5:
-			AutoSimplify.goStraight(robot, .5 * FEET, -90, -.5);
+			AutoSimplify.goStraight(robot, .5 * FEET, 90, -.5);
 			break;
 		case 6:
 			AutoSimplify.turnToAngle(robot, -180);
@@ -38,11 +38,11 @@ public class RightSwitchThenCube {
 			AutoSimplify.lowerElevator(robot, 0);
 			break;
 		case 8:
-			AutoSimplify.turnToAngle(robot, -135);
+			AutoSimplify.turnToAngle(robot, -215);
 			robot.cubeClawOpen();
 			break;
 		case 9:
-			AutoSimplify.goStraight(robot, 4 * FEET, -135, .5);
+			AutoSimplify.goStraight(robot, 4 * FEET, -215, .5);
 			break;
 		case 10:
 			AutoSimplify.grabCube(robot);
