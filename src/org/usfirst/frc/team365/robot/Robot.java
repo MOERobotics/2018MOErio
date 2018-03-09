@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
 
 	// Sensors
 	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 50);
-	Encoder      encoderL  = new Encoder(0, 1, false, EncodingType.k1X);
+	Encoder      encoderL  = new Encoder(0, 1, true, EncodingType.k1X);
 	Encoder      encoderR  = new Encoder(2, 3, true, EncodingType.k1X);
 	Encoder encoderElevator = new Encoder(4, 5, true, EncodingType.k2X);
 	Encoder encoderWrist = new Encoder(8, 9, true, EncodingType.k2X);
