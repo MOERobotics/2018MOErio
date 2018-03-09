@@ -29,7 +29,7 @@ public class CenterLeftSwitchThenCube
 		case 3:	
 			if (us.navX.getYaw() >= -3) {
 				us.driveRobot(0, 0);
-				us.resetEncoders();
+				us.resetDriveEncoders();
 				us.autoStep = 4;
 			}
 			else 

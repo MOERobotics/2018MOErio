@@ -12,11 +12,22 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 
 public class Robot extends TimedRobot {
 	//Motors
@@ -41,7 +52,7 @@ public class Robot extends TimedRobot {
 
 	// Sensors
 	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 50);
-	Encoder      encoderL  = new Encoder(0, 1, false, EncodingType.k1X);
+	Encoder      encoderL  = new Encoder(0, 1, true, EncodingType.k1X);
 	Encoder      encoderR  = new Encoder(2, 3, true, EncodingType.k1X);
 	Encoder encoderElevator = new Encoder(4, 5, true, EncodingType.k2X);
 	Encoder encoderWrist = new Encoder(8, 9, true, EncodingType.k2X);
@@ -198,6 +209,7 @@ public class Robot extends TimedRobot {
 		if (driveStick.getRawButton(8)) autoRoutine = 2;
 		if (driveStick.getRawButton(10)) autoRoutine = 3;
 		if (driveStick.getRawButton(12)) autoRoutine = 4;
+		if (driveStick.getRawButton(11)) autoRoutine = 5;
     }
 
 	/**************
@@ -219,12 +231,12 @@ public class Robot extends TimedRobot {
 		resetEncoders();
 
 		autoTimer.reset();
-		autoTimer.start();
+//		autoTimer.start();
 
 		driveStraight.reset();
 		turnRobot.reset();
 
-		SmartDashboardUtil.getFromSmartDashboard(this); //force update
+//		SmartDashboardUtil.getFromSmartDashboard(this); //force update
 
 	}
 
@@ -245,10 +257,11 @@ public class Robot extends TimedRobot {
 			//break;
 		case 4:
 			RightScaleSwitch.run(this);
-			break;
+			break;*/
 		case 5:
-			GoStraightAutonomous.autoGoStraightTurnTest(this);
-			break; */
+//			GoStraightAutonomous.autoGoStraightTurnTest(this);
+			GoStraightAutonomous.autoScaleTest(this);
+			break; 
 		default:
 			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
 			break;
@@ -272,9 +285,13 @@ public class Robot extends TimedRobot {
 		double yJoy = -driveStick.getY();
 		double xJoy = driveStick.getX();
 		if (shifter.get()) {
-			double left = yJoy + xJoy;
+			
+			//Climbing using the Function Stick
+			driveRobot(-Math.abs(functionStick.getY(Hand.kLeft)), -Math.abs(functionStick.getY(Hand.kRight)));
+			
+			/*double left = yJoy + xJoy;
 			double right = yJoy - xJoy;
-			driveRobot(-Math.abs(left), -Math.abs(right));
+			driveRobot(-Math.abs(left), -Math.abs(right));*/
 		} else {
 			if (driveStick.getTrigger()) {
 				driveRobot(yJoy, yJoy);
@@ -347,6 +364,11 @@ public class Robot extends TimedRobot {
 		encoderElevator.reset();
 		encoderWrist.reset();
 	}
+	
+	public void resetDriveEncoders() {
+		encoderL.reset();
+		encoderR.reset();
+	}
 
 	public double getEncoderMax() {
 		return Math.abs(encoderL.getRaw()) > Math.abs(encoderR.getRaw()) ? Math.abs(encoderL.getRaw()) : Math.abs(encoderR.getRaw());
@@ -378,7 +400,7 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void rollOut() {
-		driveRoll(0.70);
+		driveRoll(1.0);
 	}
 	
 	//wrist down or up 
