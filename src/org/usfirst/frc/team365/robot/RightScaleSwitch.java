@@ -40,7 +40,7 @@ public class RightScaleSwitch {
 				
 			case 6:
 				AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-				AutoSimplify.autoPIDTurn(us, -180);
+				AutoSimplify.autoPIDTurn(us, -150);
 				//AutoSimplify.turnToAngle(us, -180, 0.6);
 				us.autoTimer.reset();
 				break;
@@ -49,7 +49,6 @@ public class RightScaleSwitch {
 				AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 				AutoSimplify.goStraight(us, 3 * FEET, -150, 0.5); //40 in
 				break;
-				
 				
 			case 8:
 				AutoSimplify.grabCube(us);

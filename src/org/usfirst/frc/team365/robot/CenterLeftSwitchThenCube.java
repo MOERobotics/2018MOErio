@@ -15,7 +15,7 @@ public class CenterLeftSwitchThenCube
 		
 		case 1:
 			AutoSimplify.deployGrabber(us);
-			AutoSimplify.turnToAngle(us, -49, 0.4);
+			AutoSimplify.autoPIDTurn(us, -49);
 			/*if (us.navX.getYaw() < -49) {
 				us.driveRobot(0, 0);
 				us.autoStep = 2;
@@ -33,7 +33,7 @@ public class CenterLeftSwitchThenCube
 		case 3:	
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(us);
-			AutoSimplify.turnToAngle(us, -3, 0.4);
+			AutoSimplify.autoPIDTurn(us, -3);
 			/*if (us.navX.getYaw() >= -3) {
 				us.driveRobot(0, 0);
 				us.resetDriveEncoders();
@@ -63,7 +63,7 @@ public class CenterLeftSwitchThenCube
 		case 7: 
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.openGrabber(us);
-			AutoSimplify.turnToAngle(us, 90, 0.4);
+			AutoSimplify.autoPIDTurn(us, 90);
 			break;
 			
 		case 8:
@@ -73,7 +73,7 @@ public class CenterLeftSwitchThenCube
 		
 		case 9:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.turnToAngle(us, 0, 0.4);
+			AutoSimplify.autoPIDTurn(us, 0);
 			break;
 		
 			
@@ -97,8 +97,8 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 2:
-			//turnToAngle(navx setPoint, maxPower)
-			us.turnToAngle(-52, 1);
+			//autoPIDTurn(navx setPoint, maxPower)
+			us.autoPIDTurn(-52, 1);
 			break;
 			
 		case 3:
@@ -106,7 +106,7 @@ public class CenterLeftSwitchThenCube
 			break;
 		
 		case 4:
-			us.turnToAngle(0, 1);
+			us.autoPIDTurn(0, 1);
 			break;
 			
 		case 5:
@@ -126,7 +126,7 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 8: 
-			us.turnToAngle(90, 1);
+			us.autoPIDTurn(90, 1);
 			break;
 			
 		case 9:
@@ -134,7 +134,7 @@ public class CenterLeftSwitchThenCube
 			break;
 		
 		case 10:
-			us.turnToAngle(0, 1);
+			us.autoPIDTurn(0, 1);
 			break;
 		
 		
