@@ -1,6 +1,7 @@
 package org.usfirst.frc.team365.robot;
 
-public class Right_Switch_Cube_Plus {
+public class Right_Scale_Cube_Plus {
+	
 	public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
 	public static final double FEET = 12 * INCHES;
 
@@ -39,20 +40,11 @@ public class Right_Switch_Cube_Plus {
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.goStraight(robot, 2.5*FEET, -25, -0.6);
 			//ELEVATOR DOWN AND MOVING BACKWARDS
+
 			break;
 		case 6:
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			//ROBOT TURNS TO LANE
-			/*	
-			AutoSimplify.turnToAngle(robot, -150, 0.6);
-			break;
-
-		case 7:
-			AutoSimplify.goStraight(robot, 3500, -150, 0.6);
-			break;
-			 */
-			//case 8:
-
 			AutoSimplify.turnToAngle(robot, -90, 0.6);
 			break;
 		case 7:
@@ -80,49 +72,58 @@ public class Right_Switch_Cube_Plus {
 			//END PROGRAM
 			break;
 		}
-		/*	case 1:
-			AutoSimplify.goStraight(robot,300*INCHES , 0, .7);
-			//change to 33000 for real
-			//300 inches
+		/*
+	case 1:
+		AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
+		AutoSimplify.goStraight(robot, 15.75*FEET, 0, 0.6);
+		AutoSimplify.deployGrabber(robot);
+		//ROBOT GOES STRAIGHT
+		//ELEVATOR UP
+		break;
 
-			break;
-		case 2:
-			AutoSimplify.autoPIDTurn(robot,-90);
-			break;
-			//elevator up to top
-			//rollers up
-		case 3: 
-			AutoSimplify.autoPIDTurn(robot,180);
-			break;
+	case 2:
+		AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
+		AutoSimplify.autoPIDTurn(robot, -25);
+		AutoSimplify.deployGrabber(robot);
+		//ROBOT TURNS AND GRABBER LOWERS
+		break;
 
-		case 4:
-			AutoSimplify.goStraight(robot, 54.55*INCHES , -180, .5);
-			//54.55 inches
-			break;
+	case 3:
+		AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
+		AutoSimplify.goStraight(robot, 4.083*FEET, -25, 0.6);
+		// ROBOT GOES STRAIGHT
+		break;
 
-		case 5:
-			AutoSimplify.autoPIDTurn(robot,-90);		
-			break;
+	case 4:
+		AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
+		AutoSimplify.launchCube(robot);
+		//GRABBERS LAUNCH CUBE ONTO SWITCH
+		break;
+	case 5: 
+		AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
+		AutoSimplify.goStraight(robot, 1.8*FEET, -25, -0.6);
+		//ELEVATOR DOWN AND MOVING BACKWARDS
 
-		case 6:
-			AutoSimplify.goStraight(robot,80*INCHES, -90, .5);
-			//80 inches
-			break;
-
-		case 7:	
-			AutoSimplify.autoPIDTurn(robot,-180);
-			break;
-
-		case 8:
-			AutoSimplify.goStraight(robot,36.36*INCHES , -180, .5);
-			//36.36 inches
-			break;
-			//rollers in
-
-		case 9:
-			robot.driveRobot(0.0,0.0);
-			break;
-		}
+		break;
+	case 6:
+		AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
+		//ROBOT TURNS TO LANE
+		AutoSimplify.turnToAngle(robot, -150, 0.6);
+		break;
+	case 7:
+		AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
+		AutoSimplify.goStraight(robot, 2.4*FEET, -150, 0.6);
+		//ROBOT GOES STRAIGHT
+		break;
+	case 8:
+		AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
+		AutoSimplify.grabCube(robot);
+		break;
+	case 11:
+		robot.driveRobot(0.0,0.0);
+		//END PROGRAM
+		break;
+	}
 		 */
 	}
 }
