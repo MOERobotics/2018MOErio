@@ -384,13 +384,14 @@ public class Robot extends TimedRobot {
 		if(elevatorBottomLimitSwitch.get() && bottom) { //Drive positive
 			if(power < 0) power = 0;
 		}
-		else if(top = elevatorTopLimitSwitch.get() && top) {//Drive negative
+		else if(elevatorTopLimitSwitch.get() && top) {//Drive negative
 			if(power > 0) power = 0;
 		}
 		else if(power < backDrive && power > -0.005) {
 			power = backDrive;
 		}
 		elevator.set(ControlMode.PercentOutput, power);
+		elevatorOutput = power;
 	}
 	
 	//Roller in or out
