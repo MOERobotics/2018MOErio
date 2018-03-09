@@ -11,21 +11,22 @@ public class Right_Switch_Cube_Plus {
 
 		case 1:
 			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
-			AutoSimplify.goStraight(robot, 18*FEET, 0, 0.6);
+			AutoSimplify.goStraight(robot, 15.75*FEET, 0, 0.6);
 			AutoSimplify.deployGrabber(robot);
 			//ROBOT GOES STRAIGHT
+			//ELEVATOR UP
 			break;
 
 		case 2:
 			AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
-			AutoSimplify.turnToAngle(robot, -30, 0.6);
+			AutoSimplify.autoPIDTurn(robot, -25);
 			AutoSimplify.deployGrabber(robot);
 			//ROBOT TURNS AND GRABBER LOWERS
 			break;
 
 		case 3:
 			AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
-			AutoSimplify.goStraight(robot, 1.1*FEET, -30, 0.6);
+			AutoSimplify.goStraight(robot, 4.083*FEET, -25, 0.6);
 			// ROBOT GOES STRAIGHT
 			break;
 
@@ -33,13 +34,11 @@ public class Right_Switch_Cube_Plus {
 			AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
 			AutoSimplify.launchCube(robot);
 			//GRABBERS LAUNCH CUBE ONTO SWITCH
-
 			break;
-
 		case 5: 
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(robot, 2.5*FEET, -30, -0.6);
-			//ELEVEATOR DOWN AND MOVING BACKWARDS
+			AutoSimplify.goStraight(robot, 2.5*FEET, -25, -0.6);
+			//ELEVATOR DOWN AND MOVING BACKWARDS
 			break;
 		case 6:
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
@@ -60,9 +59,7 @@ public class Right_Switch_Cube_Plus {
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.goStraight(robot, 3*FEET, -90, 0.6);
 			//ROBOT GOES STRAIGHT
-
 			break;
-
 		case 8:
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.turnToAngle(robot, 180, 0.6);
@@ -74,7 +71,6 @@ public class Right_Switch_Cube_Plus {
 			//ROBOT GOES STRAIGHT AND CLOSE TO CUBE
 			break;
 		case 10:
-		
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.grabCube(robot);
 			//GRABBERS PICK UP CUBE
