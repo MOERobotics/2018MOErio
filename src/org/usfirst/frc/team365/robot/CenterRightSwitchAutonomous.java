@@ -44,6 +44,7 @@ public class CenterRightSwitchAutonomous {
 			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 			//AutoSimplify.autoPIDTurn(robot, -90);
 			AutoSimplify.autoPIDTurn(robot, -90);
+			AutoSimplify.openGrabber(robot);
 			break;
 		case 9:
 			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
