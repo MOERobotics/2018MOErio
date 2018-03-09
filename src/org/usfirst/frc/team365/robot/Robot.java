@@ -234,7 +234,6 @@ public class Robot extends TimedRobot {
 
 		driveStraight.reset();
 		turnRobot.reset();
-
 		SmartDashboardUtil.getFromSmartDashboard(this); //force update
 
 	}
