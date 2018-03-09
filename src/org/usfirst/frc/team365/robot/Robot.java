@@ -75,6 +75,7 @@ public class Robot extends TimedRobot {
 	double  lastOffYaw  = 0;
 	boolean newStep      = true;
 	double  rampUpPower = 0;
+	boolean buttonPress = false;
 //	boolean newTime     = true;
 
 	// GameData Stuff
@@ -374,10 +375,16 @@ public class Robot extends TimedRobot {
 	//Elevator Functions (going up or down)
 	public void driveElevator(double power) {
 		double height = encoderElevator.getRaw();
-		if(elevatorBottomLimitSwitch.get()) { //Drive positive
+		boolean bottom = true;
+		boolean top = true;
+		if(functionStick.getStickButtonPressed(Hand.kLeft) && functionStick.getStickButtonPressed(Hand.kRight)) {
+			bottom = false;
+			top = false;
+		}
+		if(elevatorBottomLimitSwitch.get() && bottom) { //Drive positive
 			if(power < 0) power = 0;
 		}
-		else if(elevatorTopLimitSwitch.get()) {//Drive negative
+		else if(top = elevatorTopLimitSwitch.get() && top) {//Drive negative
 			if(power > 0) power = 0;
 		}
 		else if(power < backDrive && power > -0.005) {
@@ -397,7 +404,10 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void rollOut() {
-		driveRoll(1.0);
+		double power = 0.5;
+		if(functionStick.getY(Hand.kLeft) > 0.8) power = 1;
+		else power = 0.5;
+		driveRoll(power);
 	}
 	
 	//wrist down or up 
@@ -406,7 +416,7 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void wristUp() {
-		driveWrist(0.4);
+		driveWrist(0.8);
 	}
 	
 	public void wristDown() {
