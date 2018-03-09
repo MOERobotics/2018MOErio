@@ -11,7 +11,7 @@ public class AutoSimplify{
 
 	static void deployGrabber(Robot us) {
 		if (us.encoderWrist.getRaw() < 1100) {
-			us.wrist.set(ControlMode.PercentOutput, -0.5);
+			us.wrist.set(ControlMode.PercentOutput, -0.9);
 
 		}
 		else us.wrist.set(ControlMode.PercentOutput, 0);
@@ -297,20 +297,13 @@ public class AutoSimplify{
 			else {
 //				us.rampUpPower = us.rampUpPower + 0.05;
 				if (power > 0) {
-//					if (us.rampUpPower < power) {
-//						us.driveRobot(us.rampUpPower + us.driveStraightCorrection.correctionValue,  us.rampUpPower - us.driveStraightCorrection.correctionValue);
-//						//					rampUpPower = power;
-//					}
-//					else 
-						if (us.getEncoderMax() > ticks - 500) power = 0.3;
+ 
+						if (us.getEncoderMax() > ticks - 400) power = 0.4;
 					
 				}
 				else {
-//					if (-us.rampUpPower > power)  {
-//.driveRobot(-us.rampUpPower + us.driveStraightCorrection.correctionValue,  -us.rampUpPower - us.driveStraightCorrection.correctionValue);
-//					}
-//					else 
-						if (us.getEncoderMax() > ticks - 500) power = -0.3;
+
+						if (us.getEncoderMax() > ticks - 400) power = -0.4;
 				}
 				us.driveRobot(power + us.driveStraightCorrection.correctionValue,
 						power - us.driveStraightCorrection.correctionValue);
@@ -322,25 +315,31 @@ public class AutoSimplify{
 		//Lucy's Elevator (Auto)
 		static void raiseElevator(Robot us, int setpoint) {
 			double height = us.encoderElevator.getRaw();
-			if (height > setpoint) {
-//			if (height < -2000)  {
-//				elevator.set(ControlMode.PercentOutput, 0.7);
-				us.reachedSetting = true;
-				us.elevator.set(ControlMode.PercentOutput, 0.05);
-				
-			}
-			else if (us.reachedSetting && height >= setpoint - 200) {
-				us.elevator.set(ControlMode.PercentOutput, 0.05);
-			}
-			else if (height < setpoint - 200 && us.reachedSetting) {
-				us.elevator.set(ControlMode.PercentOutput, 0.7);
-				us.reachedSetting = false;
+			if (us.encoderWrist.getRaw() > 900)   {     //     && !us.elevatorTopLimitSwitch.get()) {
+				if (height > setpoint) {
+					//			if (height < -2000)  {
+					//				elevator.set(ControlMode.PercentOutput, 0.7);
+					us.reachedSetting = true;
+					us.elevator.set(ControlMode.PercentOutput, 0.1);
+
+				}
+				else if (us.reachedSetting && height >= setpoint - 200) {
+					us.elevator.set(ControlMode.PercentOutput, 0.1);
+				}
+				else if (height < setpoint - 200 && us.reachedSetting) {
+					us.elevator.set(ControlMode.PercentOutput, 0.7);
+					us.reachedSetting = false;
+				}
+				else {
+					us.elevator.set(ControlMode.PercentOutput, 0.7);
+					us.reachedSetting = false;
+				}
 			}
 			else {
-				us.elevator.set(ControlMode.PercentOutput, 0.7);
-				us.reachedSetting = false;
+				us.elevator.set(ControlMode.PercentOutput, 0);
+
 			}
-			
+
 //			SmartDashboard.putNumber("elevAuto", elevatorHeight.getRaw());
 		}
 		
@@ -358,14 +357,14 @@ public class AutoSimplify{
 			}
 			else {
 				if (height < setpoint + 200) {
-					us.elevator.set(ControlMode.PercentOutput, 0.05);
+					us.elevator.set(ControlMode.PercentOutput, 0.1);
 					us.reachedSetting = true;
 				}
 				else if (us.reachedSetting) {
-					us.elevator.set(ControlMode.PercentOutput, 0.05);
+					us.elevator.set(ControlMode.PercentOutput, 0.1);
 				}
 				
-				else {
+				else if (!us.elevatorBottomLimitSwitch.get()) {
 					us.elevator.set(ControlMode.PercentOutput, -0.4);
 					us.reachedSetting = false;
 				}
