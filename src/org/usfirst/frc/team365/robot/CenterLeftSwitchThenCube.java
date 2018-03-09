@@ -10,7 +10,6 @@ public class CenterLeftSwitchThenCube
 	
 	static void run(Robot us) {
 	
-		
 		switch(us.autoStep) {
 		
 		case 1:
