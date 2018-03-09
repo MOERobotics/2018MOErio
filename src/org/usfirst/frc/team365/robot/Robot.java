@@ -249,7 +249,7 @@ public class Robot extends TimedRobot {
 		autoLoopCounter++;
 		switch (autoRoutine) {
 		case 1:
-			RightLeftScaleCube.run(this);
+			RightLeftScaleCube.rightStart(this);
 			break;
 /*		case 2:
 			RightSwitchThenCube.run(this);
