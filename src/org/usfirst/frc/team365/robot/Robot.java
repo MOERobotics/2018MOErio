@@ -268,6 +268,10 @@ public class Robot extends TimedRobot {
 			else
 				RightLeftScaleCube.leftStart(this);
 			break;
+		default:
+			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
+			break;
+
 /*
 		case 3:
 			RightSwitchThenCube.run(this);
