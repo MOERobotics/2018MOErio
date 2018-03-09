@@ -373,10 +373,10 @@ public class Robot extends TimedRobot {
 		return Math.abs(encoderL.getRaw()) > Math.abs(encoderR.getRaw()) ? Math.abs(encoderL.getRaw()) : Math.abs(encoderR.getRaw());
 	}	
 	//Elevator Functions (going up or down)
+	boolean bottom = true;
+	boolean top = true;
 	public void driveElevator(double power) {
 		double height = encoderElevator.getRaw();
-		boolean bottom = true;
-		boolean top = true;
 		if(functionStick.getStickButtonPressed(Hand.kLeft) && functionStick.getStickButtonPressed(Hand.kRight)) {
 			bottom = false;
 			top = false;
