@@ -209,6 +209,7 @@ public class Robot extends TimedRobot {
 		if (driveStick.getRawButton(8)) autoRoutine = 2;
 		if (driveStick.getRawButton(10)) autoRoutine = 3;
 		if (driveStick.getRawButton(12)) autoRoutine = 4;
+		if (driveStick.getRawButton(11)) autoRoutine = 5;
     }
 
 	/**************
@@ -230,12 +231,12 @@ public class Robot extends TimedRobot {
 		resetEncoders();
 
 		autoTimer.reset();
-		autoTimer.start();
+//		autoTimer.start();
 
 		driveStraight.reset();
 		turnRobot.reset();
 
-		SmartDashboardUtil.getFromSmartDashboard(this); //force update
+//		SmartDashboardUtil.getFromSmartDashboard(this); //force update
 
 	}
 
@@ -255,10 +256,11 @@ public class Robot extends TimedRobot {
 			//break;
 		case 4:
 			RightScaleSwitch.run(this);
-			break;
+			break;*/
 		case 5:
-			GoStraightAutonomous.autoGoStraightTurnTest(this);
-			break; */
+//			GoStraightAutonomous.autoGoStraightTurnTest(this);
+			GoStraightAutonomous.autoScaleTest(this);
+			break; 
 		default:
 			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
 			break;
