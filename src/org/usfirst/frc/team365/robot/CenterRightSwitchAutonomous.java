@@ -10,7 +10,7 @@ public class CenterRightSwitchAutonomous {
 		switch (robot.autoStep) {
 		case 1:
 			AutoSimplify.deployGrabber(robot);
-			AutoSimplify.goStraight(robot, 2 * FEET, 0, .5);
+			AutoSimplify.goStraight(robot, 2 * FEET, 0, .4);
 			break;
 		case 2:
 			AutoSimplify.deployGrabber(robot);
@@ -20,7 +20,7 @@ public class CenterRightSwitchAutonomous {
 		case 3:
 			AutoSimplify.deployGrabber(robot);
 			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(robot, 72.7 * INCHES, 45, .5);
+			AutoSimplify.goStraight(robot, 72.7 * INCHES, 45, .4);
 			break;
 		case 4:
 			AutoSimplify.deployGrabber(robot);
@@ -30,7 +30,7 @@ public class CenterRightSwitchAutonomous {
 		case 5:
 			AutoSimplify.deployGrabber(robot);
 			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(robot, 9 * INCHES, 0, .5);
+			AutoSimplify.goStraight(robot, 1 * INCHES, 0, .4);
 			break;
 		case 6:
 			//AutoSimplify.pause(robot, 1.0);
@@ -38,7 +38,7 @@ public class CenterRightSwitchAutonomous {
 			break;
 		case 7:
 			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(robot, 48 * INCHES, 0, -.5);
+			AutoSimplify.goStraight(robot, 48 * INCHES, 0, -.4);
 			break;
 		case 8:
 			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
@@ -56,7 +56,7 @@ public class CenterRightSwitchAutonomous {
 			break;
 		case 11:
 			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(robot, 9 * INCHES, 0, .5);
+			AutoSimplify.goStraight(robot, 9 * INCHES, 0, .4);
 			break;
 		case 12:
 			AutoSimplify.grabCube(robot);

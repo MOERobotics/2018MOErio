@@ -9,7 +9,7 @@ public class LeftSwitchThenCube {
 		case 1:
 			//goStraight(encoderTicks, navx setPoint, startPower - forwards/backwards is pos/neg)
 			AutoSimplify.deployGrabber(robot);
-			AutoSimplify.goStraight(robot, 11 * FEET, 0, .7);
+			AutoSimplify.goStraight(robot, 10.25 * FEET, 0, .7);
 			
 			if(robot.getEncoderMax() > 4 * FEET) {
 				AutoSimplify.raiseElevator(robot, 2000);
@@ -19,10 +19,12 @@ public class LeftSwitchThenCube {
 		case 2:
 			//turnToAngle(navxsetPoint, maxPower)
 			AutoSimplify.raiseElevator(robot, 2000);
-			AutoSimplify.turnToAngle(robot, 90);
+			AutoSimplify.autoPIDTurn(robot, 90);
 			break;
 		case 3:
+			
 			AutoSimplify.goStraight(robot, .5 * FEET, 90, .5);
+			AutoSimplify.raiseElevator(robot, 2000);
 			break;
 		case 4:
 			AutoSimplify.launchCube(robot);
@@ -31,14 +33,14 @@ public class LeftSwitchThenCube {
 			AutoSimplify.goStraight(robot, .5 * FEET, 90, -.5);
 			break;
 		case 6:
-			AutoSimplify.turnToAngle(robot, -180);
+			AutoSimplify.autoPIDTurn(robot, -180);
 			break;
 		case 7:
 			AutoSimplify.goStraight(robot, 6 * FEET, -180, -.5);
 			AutoSimplify.lowerElevator(robot, 0);
 			break;
 		case 8:
-			AutoSimplify.turnToAngle(robot, -215);
+			AutoSimplify.autoPIDTurn(robot, -215);
 			robot.cubeClawOpen();
 			break;
 		case 9:

@@ -23,7 +23,7 @@ public class AutoSimplify{
 			us.newStep = false;
 			us.autoTimer.reset();
 		}
-		else if (us.autoTimer.get() > 0.5) {
+		else if (us.autoTimer.get() > 1.0) {
 			us.rollLeft.set(ControlMode.PercentOutput, 0);
 			us.rollRight.set(ControlMode.PercentOutput, 0);
 			us.autoStep++;
@@ -244,10 +244,10 @@ public class AutoSimplify{
 					double newPower = us.turnP * offYaw + us.turnSum + us.turnD * (offYaw - us.lastOffYaw);
 
 					// limit output power
-					if (newPower > 0.65)
-						newPower = 0.65;
-					else if (newPower < -0.65)
-						newPower = -0.65;
+					if (newPower > 0.5)
+						newPower = 0.5;
+					else if (newPower < -0.5)
+						newPower = -0.5;
 					us.driveRobot(newPower, -newPower);
 				}
 				// if robot is within yaw tolerance stop robot and increase onCount
@@ -298,12 +298,12 @@ public class AutoSimplify{
 //				us.rampUpPower = us.rampUpPower + 0.05;
 				if (power > 0) {
  
-						if (us.getEncoderMax() > ticks - 400) power = 0.4;
+						if (us.getEncoderMax() > ticks - 400) power = 0.35;
 					
 				}
 				else {
 
-						if (us.getEncoderMax() > ticks - 400) power = -0.4;
+						if (us.getEncoderMax() > ticks - 400) power = -0.35;
 				}
 				us.driveRobot(power + us.driveStraightCorrection.correctionValue,
 						power - us.driveStraightCorrection.correctionValue);
@@ -351,7 +351,7 @@ public class AutoSimplify{
 					us.reachedSetting = true;
 				}
 				else {
-					us.elevator.set(ControlMode.PercentOutput, -0.4);
+					us.elevator.set(ControlMode.PercentOutput, -0.35);
 					us.reachedSetting = false;
 				}
 			}
@@ -365,7 +365,7 @@ public class AutoSimplify{
 				}
 				
 				else if (!us.elevatorBottomLimitSwitch.get()) {
-					us.elevator.set(ControlMode.PercentOutput, -0.4);
+					us.elevator.set(ControlMode.PercentOutput, -0.35);
 					us.reachedSetting = false;
 				}
 			}

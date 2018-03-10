@@ -86,7 +86,7 @@ public class Robot extends TimedRobot {
 	boolean reachedSetting = false;
 	
 	final int HEIGHT_FOR_SWITCH = 1800;
-	final int HEIGHT_FOR_SCALE = 5400;
+	final int HEIGHT_FOR_SCALE = 5300;
 	final int BOTTOM_HEIGHT = 10;
 
 
@@ -153,7 +153,7 @@ public class Robot extends TimedRobot {
         setContinuous(false);
         enable();
 	}};
-	static final double upperElevator = 0.8;
+	static final double upperElevator = 1;
 	static final double bottomElevator = -0.4;
 	static final double backDrive = 0.1;
 	int turnOnTargetCount = 0;
@@ -184,7 +184,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotPeriodic() {
-		SmartDashboardUtil.dashboardPeriodic(this);
+//		SmartDashboardUtil.dashboardPeriodic(this);
 		// If this isn't still good when you print it again, we did something bad.
 		statusMessage = "Everything is good!";
 	}
@@ -201,6 +201,8 @@ public class Robot extends TimedRobot {
 		shiftDrive();
 		cubeClawClose();
 	//	autoPauseTimer.start();
+		top = true;
+		bottom = true;
 	}
 
 	@Override
@@ -213,7 +215,10 @@ public class Robot extends TimedRobot {
 		if (driveStick.getRawButton(8)) autoRoutine = 2;
 		if (driveStick.getRawButton(10)) autoRoutine = 3;
 		if (driveStick.getRawButton(12)) autoRoutine = 4;
-    }
+    	
+	SmartDashboardUtil.dashboardPeriodic(this);
+	
+	}
 
 	/**************
 	 * Autonomous *
@@ -227,8 +232,8 @@ public class Robot extends TimedRobot {
 		oppSwitchLeft = gameData.charAt(2) == 'L';
 
 		autoLoopCounter = 0;
-
 		autoStep = 1;
+		newStep = true;
 
 		navX.zeroYaw();
 		resetEncoders();
@@ -239,7 +244,7 @@ public class Robot extends TimedRobot {
 		driveStraight.reset();
 		turnRobot.reset();
 
-		SmartDashboardUtil.getFromSmartDashboard(this); //force update
+//		SmartDashboardUtil.getFromSmartDashboard(this); //force update
 
 	}
 
@@ -268,10 +273,9 @@ public class Robot extends TimedRobot {
 			else
 				RightLeftScaleCube.leftStart(this);
 			break;
-		default:
-			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
+		case 4:
+			testPID.run(this);
 			break;
-
 /*
 		case 3:
 			RightSwitchThenCube.run(this);
@@ -309,7 +313,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		// force update
-		SmartDashboardUtil.getFromSmartDashboard(this);
+//		SmartDashboardUtil.getFromSmartDashboard(this);
 	}
 
 	@Override
@@ -364,6 +368,8 @@ public class Robot extends TimedRobot {
 		else {
 			driveElevator((upperElevator * functionStick.getTriggerAxis(Hand.kRight)));
 		}
+		
+		SmartDashboardUtil.dashboardPeriodic(this);
 		
 
 	}

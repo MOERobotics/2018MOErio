@@ -47,15 +47,16 @@ public class RightLeftScaleCube {
 			break;
 		case 7:
 			AutoSimplify.goStraight(us, 2.5 * FEET, 0, -0.4); //36.364 in
-			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
+			AutoSimplify.lowerElevator(us, us.HEIGHT_FOR_SWITCH);
 			break;
 		case 8:
 			AutoSimplify.autoPIDTurn(us, 180);
-			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
+			AutoSimplify.lowerElevator(us, us.HEIGHT_FOR_SWITCH);
 			break;
 		case 9:
 			AutoSimplify.goStraight(us, 0 * FEET, 180, 0.4); //13.636 in
-			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
+			AutoSimplify.lowerElevator(us, us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.openGrabber(us);
 			break;
 		case 10:
 			us.driveRobot(0, 0);
@@ -105,15 +106,16 @@ public class RightLeftScaleCube {
 			break;
 		case 7:
 			AutoSimplify.goStraight(us, 2.5 * FEET, 0, -0.4); //36.364 in
-			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
+			AutoSimplify.lowerElevator(us, us.HEIGHT_FOR_SWITCH);
 			break;
 		case 8:
 			AutoSimplify.autoPIDTurn(us, 180);
-			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
+			AutoSimplify.lowerElevator(us, us.HEIGHT_FOR_SWITCH);
 			break;
 		case 9:
 			AutoSimplify.goStraight(us, 0 * FEET, 180, 0.4); //13.636 in
-			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
+			AutoSimplify.lowerElevator(us, us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.openGrabber(us);
 			break;
 		case 10:
 			us.driveRobot(0, 0);

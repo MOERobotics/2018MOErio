@@ -31,7 +31,7 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 3:
-			AutoSimplify.goStraight(us, 6 * FEET, -52.0, 0.55); //3.6
+			AutoSimplify.goStraight(us, 6 * FEET, -52.0, 0.4); //3.6
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			break;
@@ -50,7 +50,7 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 5: 
-			AutoSimplify.goStraight(us, 1.24 * FEET, 0, 0.6); //1.2
+			AutoSimplify.goStraight(us, 0.6 * FEET, 0, 0.4); //1.2
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			us.autoTimer.reset();
 			break;
@@ -62,7 +62,7 @@ public class CenterLeftSwitchThenCube
 			
 		case 7:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 4.6 * FEET, 0, -0.5); //2.75
+			AutoSimplify.goStraight(us, 4.6 * FEET, 0, -0.4); //2.75
 			break;
 			
 		case 8:
@@ -74,7 +74,7 @@ public class CenterLeftSwitchThenCube
 		case 9:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.openGrabber(us);
-			AutoSimplify.goStraight(us, 4.167 * FEET, 90, 0.6); //3.2
+			AutoSimplify.goStraight(us, 4.6 * FEET, 90, 0.4); //3.2
 			break;
 		
 		case 10:
@@ -85,7 +85,7 @@ public class CenterLeftSwitchThenCube
 			
 		case 11:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 1 * FEET, 0, 0.5); //1.2
+			AutoSimplify.goStraight(us, 1 * FEET, 0, 0.4); //1.2
 			break;
 		
 			
