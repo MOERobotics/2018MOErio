@@ -11,13 +11,14 @@ public class RightSwitchThenCube {
 			AutoSimplify.deployGrabber(robot);
 			AutoSimplify.goStraight(robot, 10.25 * FEET, 0, .7);
 			
-			if(robot.getEncoderMax() > 4 * FEET) {
+			//if(robot.getEncoderMax() > 4 * FEET) {
 				AutoSimplify.raiseElevator(robot, 2000);
-			}
+			//}
 			
 			break;
 		case 2:
 			//turnToAngle(navxsetPoint, maxPower)
+			AutoSimplify.deployGrabber(robot);
 			AutoSimplify.raiseElevator(robot, 2000);
 			AutoSimplify.autoPIDTurn(robot, -90);
 			break;

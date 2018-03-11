@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
 
 	int autoLoopCounter = 0;
     	Timer  autoTimer    = new Timer();
-
+    Timer grabTimer = new Timer();
 	double  turnSum     = 0;
 	double  lastOffYaw  = 0;
 	boolean newStep      = true;
@@ -203,6 +203,7 @@ public class Robot extends TimedRobot {
 	//	autoPauseTimer.start();
 		top = true;
 		bottom = true;
+		grabTimer.start();
 	}
 
 	@Override
@@ -243,6 +244,7 @@ public class Robot extends TimedRobot {
 
 		driveStraight.reset();
 		turnRobot.reset();
+		grabTimer.reset();
 
 //		SmartDashboardUtil.getFromSmartDashboard(this); //force update
 
@@ -258,6 +260,7 @@ public class Robot extends TimedRobot {
 				CenterLeftSwitchThenCube.run(this);
 			else
 				CenterRightSwitchAutonomous.run(this);
+			//GoStraightAutonomous.autoLineSwitch(this);
 			break;
 		case 2:		/* Starting at the right. */
 			if (scaleLeft)

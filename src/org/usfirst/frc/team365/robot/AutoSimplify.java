@@ -10,11 +10,11 @@ public class AutoSimplify{
 	
 
 	static void deployGrabber(Robot us) {
-		if (us.encoderWrist.getRaw() < 1100) {
+		if (us.encoderWrist.getRaw() < 1100 || us.grabTimer.get() < 0.8) {
 			us.wrist.set(ControlMode.PercentOutput, -0.9);
 
 		}
-		else us.wrist.set(ControlMode.PercentOutput, 0);
+		else us.wrist.set(ControlMode.PercentOutput, 0); 
 	}
 	
 	static void launchCube(Robot us) {
@@ -208,6 +208,8 @@ public class AutoSimplify{
 		 * Lucy's Mods to VVVSimplify *
 		 ******************/
 		public static void autoPIDTurn(Robot us, double desiredYaw) {
+			double pTurn = 0.025;
+			double pDer = 0.02;
 			double currentYaw = us.navX.getYaw();
 			double offYaw = desiredYaw - currentYaw;
 
@@ -241,7 +243,7 @@ public class AutoSimplify{
 							us.turnSum = us.turnSum - 0.015;
 					}
 					// calculate new correction value
-					double newPower = us.turnP * offYaw + us.turnSum + us.turnD * (offYaw - us.lastOffYaw);
+					double newPower = pTurn * offYaw + us.turnSum + pDer* (offYaw - us.lastOffYaw);
 
 					// limit output power
 					if (newPower > 0.5)
@@ -315,7 +317,8 @@ public class AutoSimplify{
 		//Lucy's Elevator (Auto)
 		static void raiseElevator(Robot us, int setpoint) {
 			double height = us.encoderElevator.getRaw();
-			if (us.encoderWrist.getRaw() > 900)   {     //     && !us.elevatorTopLimitSwitch.get()) {
+			//if (us.encoderWrist.getRaw() > 900)   {     //     && !us.elevatorTopLimitSwitch.get()) {
+			if(us.grabTimer.get() > 0.8 || us.encoderWrist.getRaw() > 900){
 				if (height > setpoint) {
 					//			if (height < -2000)  {
 					//				elevator.set(ControlMode.PercentOutput, 0.7);
