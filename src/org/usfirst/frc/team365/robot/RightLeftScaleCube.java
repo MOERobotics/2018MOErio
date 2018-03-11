@@ -44,7 +44,7 @@ public class RightLeftScaleCube {
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
 		case 6:
-			AutoSimplify.launchCube(us);
+			AutoSimplify.dropCube(us);
 			break;
 		case 7:
 			AutoSimplify.goStraight(us, 3 * FEET, 3, -0.4); //36.364 in
@@ -105,7 +105,7 @@ public class RightLeftScaleCube {
 		AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 		break;
 	case 6:
-		AutoSimplify.launchCube(us);
+		AutoSimplify.dropCube(us);
 		break;
 	case 7:
 		AutoSimplify.goStraight(us, 3 * FEET, -3, -0.4); //36.364 in

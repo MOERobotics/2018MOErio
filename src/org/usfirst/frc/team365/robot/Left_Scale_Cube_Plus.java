@@ -100,7 +100,7 @@ public class Left_Scale_Cube_Plus {
 		break;
 	case 5: 
 		AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
-		AutoSimplify.goStraight(robot, 3*FEET, 25, -0.4);
+		AutoSimplify.goStraight(robot, 8*FEET, 23, -0.4);//Original is 3 ft
 		//ELEVATOR DOWN AND MOVING BACKWARDS
 		break;
 	case 6:

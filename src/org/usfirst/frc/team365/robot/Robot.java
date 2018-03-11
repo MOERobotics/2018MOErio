@@ -499,5 +499,5 @@ public class Robot extends TimedRobot {
 	
 	public void flySwatterClose() {
 		flySwatter.set(90);
-	}
+	}	
 }

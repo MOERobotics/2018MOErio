@@ -31,8 +31,26 @@ public class AutoSimplify{
 			us.newStep = true;
 		}
 		else {    // rollers out
-			us.rollLeft.set(ControlMode.PercentOutput, 0.5);
-			us.rollRight.set(ControlMode.PercentOutput, 0.5);
+			us.rollLeft.set(ControlMode.PercentOutput, 0.35);
+			us.rollRight.set(ControlMode.PercentOutput, 0.35);
+		}
+	}
+	
+static void dropCube(Robot us) {
+		
+		if (us.newStep) {
+			us.newStep = false;
+			us.autoTimer.reset();
+		}
+		else if (us.autoTimer.get() > 1.0) {
+			us.rollLeft.set(ControlMode.PercentOutput, 0);
+			us.rollRight.set(ControlMode.PercentOutput, 0);
+			us.autoStep++;
+			us.autoTimer.reset();
+			us.newStep = true;
+		}
+		else {    //Open Cube
+			us.cubeClawOpen();
 		}
 	}
 	
