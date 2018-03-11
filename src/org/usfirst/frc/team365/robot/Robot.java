@@ -269,9 +269,10 @@ public class Robot extends TimedRobot {
 				Right_Scale_Cube_Plus.run(this);
 			break;
 		case 3:
-			if (switchLeft)
-				LeftSwitchThenCube.run(this);
-			else if (scaleLeft)
+//			if (switchLeft)
+//				LeftSwitchThenCube.run(this);
+//			else 
+			if (scaleLeft)
 				Left_Scale_Cube_Plus.run(this);
 			else
 				RightLeftScaleCube.leftStart(this);
