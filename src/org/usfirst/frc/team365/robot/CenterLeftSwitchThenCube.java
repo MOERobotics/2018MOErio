@@ -74,7 +74,7 @@ public class CenterLeftSwitchThenCube
 		case 9:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.openGrabber(us);
-			AutoSimplify.goStraight(us, 4.167 * FEET, 90, 0.6); //3.2
+			AutoSimplify.goStraight(us, 4.18 * FEET, 90, 0.6); //4.167
 			break;
 		
 		case 10:
@@ -85,7 +85,7 @@ public class CenterLeftSwitchThenCube
 			
 		case 11:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 1 * FEET, 0, 0.5); //1.2
+			AutoSimplify.goStraight(us, 1.5 * FEET, 0, 0.5); //1.0
 			break;
 		
 			
