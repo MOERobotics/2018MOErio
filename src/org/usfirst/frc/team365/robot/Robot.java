@@ -89,7 +89,6 @@ public class Robot extends TimedRobot {
 	final int HEIGHT_FOR_SCALE = 5300;
 	final int BOTTOM_HEIGHT = 10;
 
-
 	//Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
 	String shifterStatus = "Climb";
