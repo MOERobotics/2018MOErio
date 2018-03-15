@@ -10,10 +10,10 @@ public class CenterLeftSwitchThenCube
 	
 	static void run(Robot us) {
 	
-		switch(us.autoStep) {
+switch(us.autoStep) {
 		
 		case 1:
-			AutoSimplify.autoPIDStraight(us, 2 * FEET, 0, 0.4);
+			AutoSimplify.autoPIDStraight(us, 2 * FEET, 0, 0.5);
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			break;
@@ -31,7 +31,7 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 3:
-			AutoSimplify.goStraight(us, 6 * FEET, -52.0, 0.55); //3.6
+			AutoSimplify.goStraight(us, 6 * FEET, -52.0, 0.6); //3.6
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			break;
@@ -50,7 +50,7 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 5: 
-			AutoSimplify.goStraight(us, 1.24 * FEET, 0, 0.6); //1.2
+			AutoSimplify.goStraight(us, 1.24 * FEET, 0, 0.5); //1.2
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			us.autoTimer.reset();
 			break;
@@ -88,15 +88,33 @@ public class CenterLeftSwitchThenCube
 			AutoSimplify.goStraight(us, 1.2 * FEET, 0, 0.5); //1.0
 			break;
 		
-			
 		case 12:
 			AutoSimplify.grabCube(us); 
 			break;
 			
 		case 13:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.autoPIDTurn(us, -30);
+			break;
+			
+		case 14:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.autoPIDStraight(us, 5.5 * FEET, -30, 0.5); //not sure about this value
+			break;
+			
+		case 15:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.autoPIDTurn(us, 0);
+			break;
+			
+		case 16:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.launchCube(us);
+			break;
+			
+		case 17:
 			us.driveRobot(0, 0);
 			break;
-
 			
 		/* case 1:
 			//goStraight(encoderTicks, navx setPoint, startPower - forwards/backwards is pos/neg)
