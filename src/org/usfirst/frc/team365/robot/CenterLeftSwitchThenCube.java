@@ -113,6 +113,10 @@ switch(us.autoStep) {
 			break;
 			
 		case 17:
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
+			break;
+			
+		case 18:
 			us.driveRobot(0, 0);
 			break;
 			
