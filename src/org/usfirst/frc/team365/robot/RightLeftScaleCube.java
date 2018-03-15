@@ -10,7 +10,7 @@ public class RightLeftScaleCube {
 		switch (us.autoStep)
 		{
 		case 1: 
-			AutoSimplify.goStraight(us, 16* FEET, 0, 0.7);
+			AutoSimplify.goStraight(us, 16* FEET, 0, 0.9); // "2" "RRR" 3.1 sec at 0.7
 			// AutoSimplify.deployGrabber(us);
 			break;
 /*		case 2:
