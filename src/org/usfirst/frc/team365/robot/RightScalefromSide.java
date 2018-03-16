@@ -10,21 +10,23 @@ public class RightScalefromSide {
 		AutoSimplify.goStraight(robot, 24.5*FEET, 0, 0.8);
 		AutoSimplify.deployGrabber(robot);
 	AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
-		
+	break;
 	case 2:
 		AutoSimplify.autoPIDTurn(robot, -80);
 		AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
-		//raise elevator to scale height
-		
+		break;
 	case 3:
 		AutoSimplify.launchCube(robot);
-		
+		break;
 	case 4:
 		AutoSimplify.autoPIDTurn(robot, 0);
+		break;
 	case 5:
 		AutoSimplify.lowerElevator(robot, 0);
+		break;
 	case 6:
 		robot.driveRobot(0, 0);
+		break;
 }
 	}
 }
