@@ -94,6 +94,30 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 13:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.autoPIDTurn(us, -30);
+			break;
+			
+		case 14:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.autoPIDStraight(us, 5.5 * FEET, -30, 0.5); //not sure about this value
+			break;
+			
+		case 15:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.autoPIDTurn(us, 0);
+			break;
+			
+		case 16:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.launchCube(us);
+			break;
+			
+		case 17:
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
+			break;
+			
+		case 18:
 			us.driveRobot(0, 0);
 			break;
 
