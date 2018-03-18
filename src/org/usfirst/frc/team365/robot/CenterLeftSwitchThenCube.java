@@ -57,7 +57,7 @@ public class CenterLeftSwitchThenCube
 			
 		case 6:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.launchCube(us); //changed autoSimplify code,,, not sure if okay (made launchCube static)
+			AutoSimplify.launchCube(us); 
 			break;
 			
 		case 7:
@@ -95,17 +95,25 @@ public class CenterLeftSwitchThenCube
 			
 		case 13:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDTurn(us, -30);
+			AutoSimplify.autoPIDTurn(us, -70);
 			break;
 			
 		case 14:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDStraight(us, 5.5 * FEET, -30, 0.5); //not sure about this value
+			AutoSimplify.autoPIDStraight(us, 6 * FEET, -30, 0.5); //check distance? i'm guessing to short
 			break;
 			
 		case 15:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDTurn(us, 0);
+			AutoSimplify.halfTurnRight(us, 0, 0.6);
+			/*if (us.navX.getYaw() >= -3) {
+				us.driveRobot(0, 0);
+				us.resetDriveEncoders();
+				us.autoStep = 4;
+			}
+			else 
+				us.driveRobot(0.6, 0);*/
+			//AutoSimplify.autoPIDTurn(us, 0);
 			break;
 			
 		case 16:
