@@ -23,7 +23,7 @@ public class AutoSimplify{
 			us.newStep = false;
 			us.autoTimer.reset();
 		}
-		else if (us.autoTimer.get() > 1.0) {
+		else if (us.autoTimer.get() > 0.75) {
 			us.rollLeft.set(ControlMode.PercentOutput, 0);
 			us.rollRight.set(ControlMode.PercentOutput, 0);
 			us.autoStep++;
@@ -65,7 +65,7 @@ static void dropCube(Robot us) {
 			us.autoTimer.reset();
 			us.cubeClaw.set(false);
 		}
-		else if (us.autoTimer.get() > 1) {
+		else if (us.autoTimer.get() > 0.75) {
 			us.autoStep++;
 			us.autoTimer.reset();
 			us.newStep = true;
@@ -202,7 +202,7 @@ static void dropCube(Robot us) {
 			if (Math.abs(us.getEncoderMax()) > ticks) {
 				us.driveRobot(0, 0);
 				us.driveStraight.reset();
-				us.autoTimer.reset();
+	//			us.autoTimer.reset();
 				us.autoStep++;
 				us.newStep = true;
 			} else {
@@ -256,24 +256,24 @@ static void dropCube(Robot us) {
 					// only add to error sum when close to target value
 					if (offYaw < 20 && offYaw > -20) {
 						if (offYaw > 0)
-							us.turnSum = us.turnSum + 0.015;
+							us.turnSum = us.turnSum + 0.017;
 						else
-							us.turnSum = us.turnSum - 0.015;
+							us.turnSum = us.turnSum - 0.017;
 					}
 					// calculate new correction value
 					double newPower = pTurn * offYaw + us.turnSum + pDer* (offYaw - us.lastOffYaw);
 
 					// limit output power
-					if (newPower > 0.5)
-						newPower = 0.5;
-					else if (newPower < -0.5)
-						newPower = -0.5;
+					if (newPower > 0.6)
+						newPower = 0.6;
+					else if (newPower < -0.6)
+						newPower = -0.6;
 					us.driveRobot(newPower, -newPower);
 				}
 				// if robot is within yaw tolerance stop robot and increase onCount
 				else {
 					us.turnOnTargetCount++;
-					if (us.turnOnTargetCount > 3) {
+					if (us.turnOnTargetCount > 2) {
 						us.turnOnTargetCount = 0;
 						us.autoStep++;
 						us.driveRobot(0, 0);
@@ -348,11 +348,11 @@ static void dropCube(Robot us) {
 					us.elevator.set(ControlMode.PercentOutput, 0.1);
 				}
 				else if (height < setpoint - 200 && us.reachedSetting) {
-					us.elevator.set(ControlMode.PercentOutput, 0.7);
+					us.elevator.set(ControlMode.PercentOutput, 0.8);
 					us.reachedSetting = false;
 				}
 				else {
-					us.elevator.set(ControlMode.PercentOutput, 0.7);
+					us.elevator.set(ControlMode.PercentOutput, 0.8);
 					us.reachedSetting = false;
 				}
 			}
@@ -364,6 +364,39 @@ static void dropCube(Robot us) {
 //			SmartDashboard.putNumber("elevAuto", elevatorHeight.getRaw());
 		}
 		
+		static void upElevatorStep(Robot us, int setpoint) {
+			double height = us.encoderElevator.getRaw();
+			if (height > setpoint) {
+				us.autoStep++;
+				us.elevator.set(ControlMode.PercentOutput, 0.1);
+			}
+						else {
+				us.elevator.set(ControlMode.PercentOutput, 0.8);				
+			}
+		}
+		
+		static void downElevatorStep(Robot us, int setpoint) {
+			double height = us.encoderElevator.getRaw();
+			if (setpoint < 100) {
+				if (us.elevatorBottomLimitSwitch.get()) {
+					us.elevator.set(ControlMode.PercentOutput, 0);
+					us.autoStep++;
+				}
+				else {
+					us.elevator.set(ControlMode.PercentOutput, -0.4);					
+				}
+			}
+			else {
+				if (height < setpoint + 200) {
+					us.elevator.set(ControlMode.PercentOutput, 0.1);
+					us.autoStep++;
+				}				
+				else if (!us.elevatorBottomLimitSwitch.get()) {
+					us.elevator.set(ControlMode.PercentOutput, -0.4);					
+				}
+			}
+		}
+		
 		static void lowerElevator(Robot us,int setpoint) {
 			double height = us.encoderElevator.getRaw();
 			if (setpoint < 100) {
@@ -372,7 +405,7 @@ static void dropCube(Robot us) {
 					us.reachedSetting = true;
 				}
 				else {
-					us.elevator.set(ControlMode.PercentOutput, -0.35);
+					us.elevator.set(ControlMode.PercentOutput, -0.4);
 					us.reachedSetting = false;
 				}
 			}
@@ -386,7 +419,7 @@ static void dropCube(Robot us) {
 				}
 				
 				else if (!us.elevatorBottomLimitSwitch.get()) {
-					us.elevator.set(ControlMode.PercentOutput, -0.35);
+					us.elevator.set(ControlMode.PercentOutput, -0.4);
 					us.reachedSetting = false;
 				}
 			}
