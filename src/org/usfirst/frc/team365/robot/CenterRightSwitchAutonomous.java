@@ -62,7 +62,34 @@ public class CenterRightSwitchAutonomous {
 			AutoSimplify.grabCube(robot);
 			break;
 		case 13:
-			robot.driveRobot(0, 0);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.goStraight(robot, 9 * INCHES, 0, -.5);
+			break;
+		case 14:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.autoPIDTurn(robot, 45);
+			break;
+		case 15:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.goStraight(robot, 60 * INCHES, 45, .5);
+			break;
+		case 16:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.autoPIDTurn(robot, 0);
+			break;
+		case 17:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.goStraight(robot, 4 * INCHES, 0, .5);
+			break;
+		case 18:
+			//AutoSimplify.pause(robot, 1.0);
+			AutoSimplify.launchCube(robot);
+			break;
+		case 19:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			break;
+		case 20:
+			robot.driveRobot(0.0,0.0);
 			break;
 		}
 	}
