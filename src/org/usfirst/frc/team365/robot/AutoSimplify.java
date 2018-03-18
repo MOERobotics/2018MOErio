@@ -161,20 +161,20 @@ static void dropCube(Robot us) {
 		}
 
 		public static void halfTurnLeft(Robot us, double angle, double power) {
-			if (Math.abs(us.navX.getYaw() - angle) < 3) {
+			if (Math.abs(us.navX.getYaw() - angle) < 4) {
 				us.driveRobot(0, 0);
 				us.autoStep++;
 			} else {
-				us.driveRobot(0, power);
+				us.driveRobot(0.01, power);
 			}
 		}
 
 		public static void halfTurnRight(Robot us, double angle, double power) {
-			if (Math.abs(us.navX.getYaw() - angle) < 3) {
+			if (Math.abs(us.navX.getYaw() - angle) < 4) {
 				us.driveRobot(0, 0);
 				us.autoStep++;
 			} else {
-				us.driveRobot(power, 0);
+				us.driveRobot(power, 0.01);
 			}
 		}
 		/**
