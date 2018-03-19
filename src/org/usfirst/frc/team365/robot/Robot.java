@@ -256,7 +256,8 @@ public class Robot extends TimedRobot {
 		switch (autoRoutine) {
 		case 1:		/* Starting at the center */
 			if (switchLeft)
-				CenterLeftSwitchThenCube.run(this);
+				//CenterLeftSwitchThenCube.run(this);
+				CenterLeftGentleTurns.run(this);
 			else
 				CenterRightSwitchAutonomous.run(this);
 			//GoStraightAutonomous.autoLineSwitch(this);

@@ -50,7 +50,7 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 5: 
-			AutoSimplify.goStraight(us, 0.6 * FEET, 0, 0.4); //1.2
+			AutoSimplify.goStraight(us, 1.2 * FEET, 0, 0.4); //1.2
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			us.autoTimer.reset();
 			break;
@@ -74,7 +74,7 @@ public class CenterLeftSwitchThenCube
 		case 9:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.openGrabber(us);
-			AutoSimplify.goStraight(us, 4.6 * FEET, 90, 0.4); //3.2
+			AutoSimplify.goStraight(us, 4.2 * FEET, 90, 0.4); //3.2,, 4.6
 			break;
 		
 		case 10:
@@ -85,7 +85,7 @@ public class CenterLeftSwitchThenCube
 			
 		case 11:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 1 * FEET, 0, 0.4); //1.2
+			AutoSimplify.goStraight(us, 1.2 * FEET, 0, 0.4); //1.2
 			break;
 		
 			
@@ -95,17 +95,17 @@ public class CenterLeftSwitchThenCube
 			
 		case 13:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDTurn(us, -70);
+			AutoSimplify.autoPIDTurn(us, -75); //-70 
 			break;
 			
 		case 14:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDStraight(us, 6 * FEET, -30, 0.5); //check distance? i'm guessing to short
+			AutoSimplify.autoPIDStraight(us, 4 * FEET, -75, 0.5); //check distance? i'm guessing to short,, nope too long
 			break;
 			
 		case 15:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.halfTurnRight(us, 0, 0.6);
+			AutoSimplify.halfTurnRight(us, 0, 0.8);
 			/*if (us.navX.getYaw() >= -3) {
 				us.driveRobot(0, 0);
 				us.resetDriveEncoders();
@@ -122,12 +122,9 @@ public class CenterLeftSwitchThenCube
 			break;
 			
 		case 17:
-			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			break;
-			
-		case 18:
 			us.driveRobot(0, 0);
 			break;
+
 
 			
 		/* case 1:
