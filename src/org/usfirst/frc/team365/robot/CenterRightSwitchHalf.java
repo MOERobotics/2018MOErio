@@ -56,29 +56,25 @@ public class CenterRightSwitchHalf {
 			break;
 		case 12:
 			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(robot, 0 * INCHES, 0, -.5);
+			AutoSimplify.autoPIDTurn(robot, 70);
 			break;
 		case 13:
 			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDTurn(robot, 70);
+			AutoSimplify.goStraight(robot, 50 * INCHES, 70, .5);
 			break;
 		case 14:
 			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(robot, 50 * INCHES, 70, .5);
+			AutoSimplify.autoPIDTurn(robot, 0);
 			break;
 		case 15:
 			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDTurn(robot, 0);
-			break;
-		case 16:
-			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			AutoSimplify.goStraight(robot, 13 * INCHES, 0, .5);
 			break;
-		case 17:
+		case 16:
 			//AutoSimplify.pause(robot, 1.0);
 			AutoSimplify.launchCube(robot);
 			break;
-		case 18:
+		case 17:
 			robot.driveRobot(0.0,0.0);
 			break;
 		}
