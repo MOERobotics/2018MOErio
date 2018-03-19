@@ -10,9 +10,9 @@ public class AutoSimplify{
 	
 
 	static void deployGrabber(Robot us) {
-		if (us.encoderWrist.getRaw() > 1100 || us.grabTimer.get() > 0.7) {
+		//if (us.encoderWrist.getRaw() > 1100 || us.grabTimer.get() > 0.7) {
+			if (us.encoderWrist.getRaw() > 1100) {
 			us.wrist.set(ControlMode.PercentOutput, 0);
-
 		}
 		else us.wrist.set(ControlMode.PercentOutput, -0.9); 
 	}

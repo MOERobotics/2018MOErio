@@ -88,9 +88,6 @@ public class CenterRightSwitchAutonomous {
 			AutoSimplify.launchCube(robot);
 			break;
 		case 19:
-			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
-			break;
-		case 20:
 			robot.driveRobot(0.0,0.0);
 			break;
 		}
