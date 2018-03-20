@@ -14,11 +14,12 @@ public class CenterLeftGentleTurns {
 		case 1:
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.halfTurnLeft(us, -45, .8);
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			break;
 		case 2:
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 60 * INCHES, 40, .5);
+			AutoSimplify.goStraight(us, 60 * INCHES, -45, .5);
 			break;
 		case 3:
 			AutoSimplify.deployGrabber(us);
@@ -39,7 +40,7 @@ public class CenterLeftGentleTurns {
 			
 		case 6:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 4.6 * FEET, 0, -0.4); //2.75
+			AutoSimplify.goStraight(us, 49 * INCHES, 0, -0.4); //2.75
 			break;
 			
 		case 7:
@@ -62,7 +63,7 @@ public class CenterLeftGentleTurns {
 			
 		case 10:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 1.2 * FEET, 0, 0.4); //1.2
+			AutoSimplify.goStraight(us, 9 * INCHES, 0, 0.4); //1.2
 			break;
 		
 			
@@ -72,12 +73,12 @@ public class CenterLeftGentleTurns {
 			
 		case 12:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDTurn(us, -75); //-70 
+			AutoSimplify.autoPIDTurn(us, -70); //-70 
 			break;
 			
 		case 13:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDStraight(us, 4 * FEET, -75, 0.5); //check distance? i'm guessing to short,, nope too long
+			AutoSimplify.autoPIDStraight(us, 4.1 * FEET, -70, 0.5); //check distance? i'm guessing to short,, nope too long
 			break;
 			
 		case 14:
