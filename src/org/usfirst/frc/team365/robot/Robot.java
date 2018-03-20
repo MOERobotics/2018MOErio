@@ -256,7 +256,7 @@ public class Robot extends TimedRobot {
 		switch (autoRoutine) {
 		case 1:		/* Starting at the center */
 			if (switchLeft)
-				CenterLeftSwitchThenCube.run(this);
+				RightScalefromSide.run(this);
 			else
 				CenterRightSwitchAutonomous.run(this);
 			//GoStraightAutonomous.autoLineSwitch(this);
@@ -265,14 +265,16 @@ public class Robot extends TimedRobot {
 			if (scaleLeft)
 				RightLeftScaleCube.rightStart(this);
 			else
-				Right_Scale_Cube_Plus.run(this);
+				//RightScaleBackUp.run(this);
+				//RightScaleGrabCube.run(this);
+				RightScalefromSide.run(this);
 			break;
 		case 3:
 //			if (switchLeft)
 //				LeftSwitchThenCube.run(this);
 //			else 
 			if (scaleLeft)
-				Left_Scale_Cube_Plus.run(this);
+				LeftScaleBackUp.run(this);
 			else
 				RightLeftScaleCube.leftStart(this);
 			break;

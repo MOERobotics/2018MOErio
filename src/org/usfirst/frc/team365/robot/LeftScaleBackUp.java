@@ -1,6 +1,6 @@
 package org.usfirst.frc.team365.robot;
 
-public class Left_Scale_Cube_Plus {
+public class LeftScaleBackUp {
 	public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
 	public static final double FEET = 12 * INCHES;
 
