@@ -70,11 +70,12 @@ public class Robot extends TimedRobot {
 
 	int autoLoopCounter = 0;
     	Timer  autoTimer    = new Timer();
-
+    Timer grabTimer = new Timer();
 	double  turnSum     = 0;
 	double  lastOffYaw  = 0;
 	boolean newStep      = true;
 	double  rampUpPower = 0;
+	boolean buttonPress = false;
 //	boolean newTime     = true;
 
 	// GameData Stuff
@@ -84,10 +85,9 @@ public class Robot extends TimedRobot {
 	boolean oppSwitchLeft;
 	boolean reachedSetting = false;
 	
-	final int HEIGHT_FOR_SWITCH = 2000;
-	final int HEIGHT_FOR_SCALE = 5500;
+	final int HEIGHT_FOR_SWITCH = 1800;
+	final int HEIGHT_FOR_SCALE = 5300;
 	final int BOTTOM_HEIGHT = 10;
-
 
 	//Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
@@ -152,6 +152,9 @@ public class Robot extends TimedRobot {
         setContinuous(false);
         enable();
 	}};
+	static final double upperElevator = 1;
+	static final double bottomElevator = -0.4;
+	static final double backDrive = 0.1;
 	int turnOnTargetCount = 0;
 	public static final double INCHES_TO_ENCTICKS = 45;
 	public static final double FEET_TO_ENCTICKS = 12 * INCHES_TO_ENCTICKS;
@@ -180,7 +183,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotPeriodic() {
-		SmartDashboardUtil.dashboardPeriodic(this);
+//		SmartDashboardUtil.dashboardPeriodic(this);
 		// If this isn't still good when you print it again, we did something bad.
 		statusMessage = "Everything is good!";
 	}
@@ -197,6 +200,9 @@ public class Robot extends TimedRobot {
 		shiftDrive();
 		cubeClawClose();
 	//	autoPauseTimer.start();
+		top = true;
+		bottom = true;
+		grabTimer.start();
 	}
 
 	@Override
@@ -209,8 +215,10 @@ public class Robot extends TimedRobot {
 		if (driveStick.getRawButton(8)) autoRoutine = 2;
 		if (driveStick.getRawButton(10)) autoRoutine = 3;
 		if (driveStick.getRawButton(12)) autoRoutine = 4;
-		if (driveStick.getRawButton(11)) autoRoutine = 5;
-    }
+    	
+	SmartDashboardUtil.dashboardPeriodic(this);
+	
+	}
 
 	/**************
 	 * Autonomous *
@@ -224,17 +232,18 @@ public class Robot extends TimedRobot {
 		oppSwitchLeft = gameData.charAt(2) == 'L';
 
 		autoLoopCounter = 0;
-
 		autoStep = 1;
+		newStep = true;
 
 		navX.zeroYaw();
 		resetEncoders();
 
 		autoTimer.reset();
-//		autoTimer.start();
+		autoTimer.start();
 
 		driveStraight.reset();
 		turnRobot.reset();
+		grabTimer.reset();
 
 //		SmartDashboardUtil.getFromSmartDashboard(this); //force update
 
@@ -245,25 +254,60 @@ public class Robot extends TimedRobot {
 
 		autoLoopCounter++;
 		switch (autoRoutine) {
-		case 1:
-			RightScalefromSide.run(this);
+
+		case 1:		/* Starting at the center */
+			if (switchLeft)
+				RightScalefromSide.run(this);
+			else
+				CenterRightSwitchAutonomous.run(this);
+			//GoStraightAutonomous.autoLineSwitch(this);
 			break;
-/*		case 2:
+		case 2:		/* Starting at the right. */
+			if (scaleLeft)
+				RightLeftScaleCube.rightStart(this);
+			else
+				//RightScaleBackUp.run(this);
+				//RightScaleGrabCube.run(this);
+				RightScalefromSide.run(this);
+			break;
+		case 3:
+//			if (switchLeft)
+//				LeftSwitchThenCube.run(this);
+//			else 
+			if (scaleLeft)
+				LeftScaleBackUp.run(this);
+			else
+				RightLeftScaleCube.leftStart(this);
+			break;
+		case 4:
+			testPID.run(this);
+			break;
+/*
+		case 3:
 			RightSwitchThenCube.run(this);
 			break;
-		//case 3:
+*/			
+/*		case 1:
+			CenterRightSwitchAutonomous.run(this);
+			break;
+		case 2:
+			RightSwitchThenCube.run(this);
+			break;
+		case 3:
 			// Right_Switch_Cube_Plus.run(this);
 			//break;
 		case 4:
 			RightScaleSwitch.run(this);
 			break;*/
-		case 5:
-//			GoStraightAutonomous.autoGoStraightTurnTest(this);
-			//GoStraightAutonomous.autoScaleTest(this);
+
+/*		case 5:
+			GoStraightAutonomous.autoGoStraightTurnTest(this);
+			GoStraightAutonomous.autoScaleTest(this);
 			break; 
 		default:
 			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
 			break;
+			*/
 
 		}
 
@@ -276,7 +320,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		// force update
-		SmartDashboardUtil.getFromSmartDashboard(this);
+//		SmartDashboardUtil.getFromSmartDashboard(this);
 	}
 
 	@Override
@@ -325,14 +369,14 @@ public class Robot extends TimedRobot {
 		if(driveStick.getRawButton(14)) mouseTrapDown();
 		else mouseTrapUp();
 		//Elevator
-		double upperElevator = 0.8;
-		double bottomElevator = -0.3;
 		if(functionStick.getTriggerAxis(Hand.kLeft) > functionStick.getTriggerAxis(Hand.kRight)) {
 			driveElevator((bottomElevator * functionStick.getTriggerAxis(Hand.kLeft)));
 		}
 		else {
 			driveElevator((upperElevator * functionStick.getTriggerAxis(Hand.kRight)));
 		}
+		
+		SmartDashboardUtil.dashboardPeriodic(this);
 		
 
 	}
@@ -373,19 +417,25 @@ public class Robot extends TimedRobot {
 		return Math.abs(encoderL.getRaw()) > Math.abs(encoderR.getRaw()) ? Math.abs(encoderL.getRaw()) : Math.abs(encoderR.getRaw());
 	}	
 	//Elevator Functions (going up or down)
+	boolean bottom = true;
+	boolean top = true;
 	public void driveElevator(double power) {
 		double height = encoderElevator.getRaw();
-		double backDrive = 0.05;
-		if(elevatorBottomLimitSwitch.get()) { //Drive positive
+		if(functionStick.getStickButtonPressed(Hand.kLeft) && functionStick.getStickButtonPressed(Hand.kRight)) {
+			bottom = false;
+			top = false;
+		}
+		if(elevatorBottomLimitSwitch.get() && bottom) { //Drive positive
 			if(power < 0) power = 0;
 		}
-		else if(elevatorTopLimitSwitch.get()) {//Drive negative
+		else if(elevatorTopLimitSwitch.get() && top) {//Drive negative
 			if(power > 0) power = 0;
 		}
 		else if(power < backDrive && power > -0.005) {
 			power = backDrive;
 		}
 		elevator.set(ControlMode.PercentOutput, power);
+		elevatorOutput = power;
 	}
 	
 	//Roller in or out
@@ -399,7 +449,10 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void rollOut() {
-		driveRoll(1.0);
+		double power = 0.5;
+		if(functionStick.getY(Hand.kLeft) > 0.8) power = 1;
+		else power = 0.5;
+		driveRoll(power);
 	}
 	
 	//wrist down or up 
@@ -408,7 +461,7 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void wristUp() {
-		driveWrist(0.4);
+		driveWrist(0.8);
 	}
 	
 	public void wristDown() {
@@ -449,5 +502,5 @@ public class Robot extends TimedRobot {
 	
 	public void flySwatterClose() {
 		flySwatter.set(90);
-	}
+	}	
 }

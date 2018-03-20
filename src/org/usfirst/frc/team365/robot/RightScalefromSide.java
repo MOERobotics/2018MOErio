@@ -7,24 +7,44 @@ public class RightScalefromSide {
 	static void run(Robot robot) {
 	switch(robot.autoStep) {
 	case 1:
-		AutoSimplify.goStraight(robot, 24.5*FEET, 0, 0.8);
+
+		AutoSimplify.autoPIDStraight(robot, 21*FEET, 0, 0.7);
+
 		AutoSimplify.deployGrabber(robot);
 	AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 	break;
 	case 2:
-		AutoSimplify.autoPIDTurn(robot, -80);
-		AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
+AutoSimplify.upElevatorStep(robot, robot.HEIGHT_FOR_SCALE);
 		break;
 	case 3:
-		AutoSimplify.launchCube(robot);
+		AutoSimplify.autoPIDTurn(robot, -60);
 		break;
 	case 4:
+		AutoSimplify.launchCube(robot);
+		break;
+	/*case 5:
 		AutoSimplify.autoPIDTurn(robot, 0);
 		break;
-	case 5:
+	case 6:
 		AutoSimplify.lowerElevator(robot, 0);
 		break;
-	case 6:
+	case 7: 
+		AutoSimplify.goStraight(robot, 6*FEET, 0, -0.6);
+		break;
+	case 8:
+		AutoSimplify.autoPIDTurn(robot, -90);
+		break;
+	case 9:
+		AutoSimplify.goStraight(robot, 3.83*FEET, -90, 0.4);
+		break;
+	case 10:
+		AutoSimplify.autoPIDTurn(robot, 180);
+		break;
+	case 11:
+		AutoSimplify.goStraight(robot, 1.5*FEET, 180, 0.3);
+		*/
+	default:
+
 		robot.driveRobot(0, 0);
 		break;
 }
