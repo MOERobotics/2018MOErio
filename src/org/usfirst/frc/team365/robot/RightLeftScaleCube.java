@@ -23,7 +23,7 @@ public class RightLeftScaleCube {
 		switch (us.autoStep)
 		{
 		case 1: 
-			AutoSimplify.goStraight(us, 16.666 * FEET, 0, 0.7); //206.173 in
+			AutoSimplify.goStraight(us, 16.1 * FEET, 0, 0.9); //206.173 in
 			AutoSimplify.deployGrabber(us);
 			break;
 		case 2:
@@ -32,19 +32,19 @@ public class RightLeftScaleCube {
 			break;
 		case 3:
 			AutoSimplify.deployGrabber(us);
-			AutoSimplify.goStraight(us, 15.333 * FEET, -90, 0.5); //176.727 in
-			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
+			AutoSimplify.goStraight(us, 15 * FEET, -90, 0.8); //176.727 in
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			break;
 		case 4:
 			AutoSimplify.autoPIDTurn(us, 3);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
 		case 5:
-			AutoSimplify.goStraight(us, 3.4 * FEET, 3, 0.4); //38.182 in
+			AutoSimplify.goStraight(us, 3 * FEET, 3, 0.4); //38.182 in
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
 		case 6:
-			AutoSimplify.dropCube(us);
+			us.driveRoll(0.3);
 			break;
 		case 7:
 			AutoSimplify.goStraight(us, 3 * FEET, 3, -0.4); //36.364 in
@@ -84,7 +84,7 @@ public class RightLeftScaleCube {
 		
 		switch (us.autoStep){
 	case 1: 
-		AutoSimplify.goStraight(us, 16.666 * FEET, 0, 0.7); //206.173 in
+		AutoSimplify.goStraight(us, 16.1 * FEET, 0, 0.9); //206.173 in
 		AutoSimplify.deployGrabber(us);
 		break;
 	case 2:
@@ -93,19 +93,19 @@ public class RightLeftScaleCube {
 		break;
 	case 3:
 		AutoSimplify.deployGrabber(us);
-		AutoSimplify.goStraight(us, 15.333 * FEET, 90, 0.5); //176.727 in
-		AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
+		AutoSimplify.goStraight(us, 15 * FEET, 90, 0.8); //176.727 in
+		AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 		break;
 	case 4:
 		AutoSimplify.autoPIDTurn(us, -3);
 		AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 		break;
 	case 5:
-		AutoSimplify.goStraight(us, 3.4 * FEET, -3, 0.4); //38.182 in
+		AutoSimplify.goStraight(us, 3 * FEET, -3, 0.4); //38.182 in
 		AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 		break;
 	case 6:
-		AutoSimplify.dropCube(us);
+		us.driveRoll(0.3);
 		break;
 	case 7:
 		AutoSimplify.goStraight(us, 3 * FEET, -3, -0.4); //36.364 in
