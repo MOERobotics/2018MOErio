@@ -30,7 +30,7 @@ public class CenterLeftGentleTurns {
 		case 4:
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 14 * INCHES, 0, .5);
+			AutoSimplify.goStraight(us, 13 * INCHES, 0, .5);
 			break;
 			
 		case 5:
@@ -40,19 +40,22 @@ public class CenterLeftGentleTurns {
 			
 		case 6:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 49 * INCHES, 0, -0.4); //2.75
+//			AutoSimplify.goStraight(us, 54 * INCHES, 0, -0.4); //2.75
+			AutoSimplify.goStraight(us, 2.1*FEET, 0, -0.5);  // alternate back up with slow turns
 			break;
 			
 		case 7:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.openGrabber(us);
-			AutoSimplify.autoPIDTurn(us, 90);
+//			AutoSimplify.autoPIDTurn(us, 90);
+			AutoSimplify.halfTurnLeft(us, -65, -0.8);  // alternate back up with slow turns
 			break;
 			
 		case 8:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.openGrabber(us);
-			AutoSimplify.goStraight(us, 4.2 * FEET, 90, 0.4); //3.2,, 4.6
+//			AutoSimplify.goStraight(us, 4.0 * FEET, 90, 0.4); //3.2,, 4.6
+			AutoSimplify.goStraight(us, 3.1*FEET, -65, -0.5);  // alternate back up with slow turns
 			break;
 		
 		case 9:
@@ -63,7 +66,7 @@ public class CenterLeftGentleTurns {
 			
 		case 10:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 9 * INCHES, 0, 0.4); //1.2
+			AutoSimplify.goStraight(us, 15 * INCHES, 0, 0.4); //1.2
 			break;
 		
 			
@@ -78,12 +81,12 @@ public class CenterLeftGentleTurns {
 			
 		case 13:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDStraight(us, 4.1 * FEET, -70, 0.5); //check distance? i'm guessing to short,, nope too long
+			AutoSimplify.goStraight(us, 3.0 * FEET, -70, 0.5); //check distance? i'm guessing to short,, nope too long
 			break;
 			
 		case 14:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.halfTurnRight(us, 0, 0.8);
+			AutoSimplify.halfTurnRight(us, -2, 0.8);
 			/*if (us.navX.getYaw() >= -3) {
 				us.driveRobot(0, 0);
 				us.resetDriveEncoders();
@@ -93,13 +96,18 @@ public class CenterLeftGentleTurns {
 				us.driveRobot(0.6, 0);*/
 			//AutoSimplify.autoPIDTurn(us, 0);
 			break;
-			
 		case 15:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.launchCube(us);
+			AutoSimplify.goStraight(us, 12 * INCHES, -2, 0.5);
 			break;
 			
 		case 16:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+			AutoSimplify.launchCube(us);
+			us.driveRobot(0, 0);
+			break;
+			
+		case 17:
 			us.driveRobot(0, 0);
 			break;
 

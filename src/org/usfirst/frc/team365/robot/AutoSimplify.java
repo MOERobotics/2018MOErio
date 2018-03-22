@@ -10,7 +10,7 @@ public class AutoSimplify{
 	
 
 	static void deployGrabber(Robot us) {
-		if (us.encoderWrist.getRaw() > 1100 || us.grabTimer.get() > 0.8) {
+		if (us.encoderWrist.getRaw() > 1100 || us.grabTimer.get() > 1.1) {
 			us.wrist.set(ControlMode.PercentOutput, 0);
 
 		}
@@ -164,18 +164,20 @@ static void dropCube(Robot us) {
 			if (Math.abs(us.navX.getYaw() - angle) < 4) {
 				us.driveRobot(0, 0);
 				us.autoStep++;
-			} else {
+			} else if (power > 0) {
 				us.driveRobot(0.01, power);
 			}
+			else us.driveRobot(power, -0.01);
 		}
 
 		public static void halfTurnRight(Robot us, double angle, double power) {
 			if (Math.abs(us.navX.getYaw() - angle) < 4) {
 				us.driveRobot(0, 0);
 				us.autoStep++;
-			} else {
+			} else if (power > 0) {
 				us.driveRobot(power, 0.01);
 			}
+			else us.driveRobot(-0.01, power);
 		}
 		/**
 		 * 
