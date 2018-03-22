@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 	//Motors
@@ -77,7 +78,9 @@ public class Robot extends TimedRobot {
 	double  rampUpPower = 0;
 	boolean buttonPress = false;
 //	boolean newTime     = true;
-
+	boolean engagePTO = false;
+	int pov = 0;
+	int POVReadOut = functionStick.getPOV(pov);
 	// GameData Stuff
 	String  gameData = "";
 	boolean switchLeft;
@@ -215,10 +218,9 @@ public class Robot extends TimedRobot {
 		if (driveStick.getRawButton(8)) autoRoutine = 2;
 		if (driveStick.getRawButton(10)) autoRoutine = 3;
 		if (driveStick.getRawButton(12)) autoRoutine = 4;
-    	
-	SmartDashboardUtil.dashboardPeriodic(this);
+    	SmartDashboardUtil.dashboardPeriodic(this);
 	
-	}
+	}//yayhappyface
 
 	/**************
 	 * Autonomous *
@@ -324,20 +326,25 @@ public class Robot extends TimedRobot {
 		double yJoy = -driveStick.getY();
 		double xJoy = driveStick.getX();
 		if (shifter.get()) {
+			if(-Math.abs(functionStick.getY(Hand.kLeft)) < -0.2 || (-Math.abs(functionStick.getY(Hand.kRight)) < -0.2))
+			{
 			
 			//Climbing using the Function Stick
 			driveRobot(-Math.abs(functionStick.getY(Hand.kLeft)), -Math.abs(functionStick.getY(Hand.kRight)));
-			
+			}
+			else {
+				driveRobot(0,0);
+			}
 			/*double left = yJoy + xJoy;
 			double right = yJoy - xJoy;
 			driveRobot(-Math.abs(left), -Math.abs(right));*/
 		} else {
 			if (driveStick.getTrigger()) {
 				driveRobot(yJoy, yJoy);
-			} else if (driveStick.getRawButton(2)) { // turn robot left
-				driveRobot(-0.3, 0.3);
-			} else if (driveStick.getRawButton(4)) {
-				driveRobot(0.3, -0.3);
+			} else if (functionStick.getPOV(0) > 45 && functionStick.getPOV(0) < 135 && !engagePTO) { // turn robot left
+				driveRobot(0.6, -0.6);
+			} else if (functionStick.getPOV(0) > 225 && functionStick.getPOV(0) < 315 && !engagePTO) {
+				driveRobot(-0.6, 0.6);
 			} else {
 				double left = yJoy + xJoy;
 				double right = yJoy - xJoy;
@@ -345,26 +352,26 @@ public class Robot extends TimedRobot {
 			}
 		}
 		//Shifting
-		if(driveStick.getRawButton(11)) shiftClimb();
-		if(driveStick.getRawButton(12)) shiftDrive();
-		//Rollers
+		if(functionStick.getStartButtonPressed()) shiftClimb();
+		if(functionStick.getBackButtonPressed()) shiftDrive();
+		//Rollers DONE
 		if(functionStick.getAButton()) rollIn();
 		else if(functionStick.getBButton()) rollOut();
 		else driveRoll(0);
-		//cubeClaw
+		//cubeClaw SAME
 		if(functionStick.getXButton()) cubeClawClose();
 		else if(functionStick.getYButton()) cubeClawOpen();
-		//wrist
+		//wrist SAME
 		if(functionStick.getBumper(Hand.kLeft)) wristDown();
 		else if(functionStick.getBumper(Hand.kRight)) wristUp();
 		else driveWrist(0);
-		//flySwatter
-		if(functionStick.getBackButton() && functionStick.getStartButton()) flySwatterShoot();
+		//flySwatter SAME
+		if(functionStick.getStickButtonPressed(Hand.kRight) && functionStick.getX(Hand.kRight) > 0.9) flySwatterShoot();
 		else flySwatterClose();
-		//mouseTrap
+		//mouseTrap SAME
 		if(driveStick.getRawButton(14)) mouseTrapDown();
 		else mouseTrapUp();
-		//Elevator
+		//Elevator SAME
 		if(functionStick.getTriggerAxis(Hand.kLeft) > functionStick.getTriggerAxis(Hand.kRight)) {
 			driveElevator((bottomElevator * functionStick.getTriggerAxis(Hand.kLeft)));
 		}
@@ -442,11 +449,15 @@ public class Robot extends TimedRobot {
 	
 	public void rollIn() {
 		driveRoll(-0.70);
+		double power = -0.70;
+		if(functionStick.getStickButtonPressed(Hand.kLeft)) power = -1;
+		else power = -0.70;
+		driveRoll(power);
 	}
 	
 	public void rollOut() {
 		double power = 0.5;
-		if(functionStick.getY(Hand.kLeft) > 0.8) power = 1;
+		if(functionStick.getStickButtonPressed(Hand.kLeft)) power = 1;
 		else power = 0.5;
 		driveRoll(power);
 	}
@@ -476,10 +487,12 @@ public class Robot extends TimedRobot {
 	//Shifting to either drive or climb
 	public void shiftDrive() {
 		shifter.set(false);
+		engagePTO = false;
 	}
 	
 	public void shiftClimb() {
 		shifter.set(true);
+		engagePTO = true;
 	}
 	
 	//mouseTrap functions
