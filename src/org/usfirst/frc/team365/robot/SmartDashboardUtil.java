@@ -55,6 +55,7 @@ public class SmartDashboardUtil {
 		SmartDashboard.putNumber( "driveOutputRight", ourselves.driveOutputRight              );
 		SmartDashboard.putNumber(   "elevatorOutput", ourselves.elevatorOutput                );
 		SmartDashboard.putString(    "shifterStatus", ourselves.shifterStatus                 );
+		SmartDashboard.putNumber("D-pad int: ", ourselves.POVReadOut);
 
 		//navx
 		SmartDashboard.putNumber(              "Yaw", ourselves.navX.getYaw()                 );
