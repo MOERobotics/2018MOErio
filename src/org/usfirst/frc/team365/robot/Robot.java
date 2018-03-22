@@ -39,8 +39,8 @@ public class Robot extends TimedRobot {
 	 TalonSRX driveRA   = new TalonSRX( 1) {{ setNeutralMode(NeutralMode.Brake); }};
 	 TalonSRX driveRB   = new TalonSRX(14) {{ setNeutralMode(NeutralMode.Brake); }};
 	 TalonSRX elevator  = new TalonSRX( 2) {{ setNeutralMode(NeutralMode.Brake); }};
-	 TalonSRX rollLeft  = new TalonSRX( 3) {{ setNeutralMode(NeutralMode.Brake); }};
-	 TalonSRX rollRight = new TalonSRX(12) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX rollLeft  = new TalonSRX(12) {{ setNeutralMode(NeutralMode.Brake); }};
+	 TalonSRX rollRight = new TalonSRX( 3) {{ setNeutralMode(NeutralMode.Brake); }};
 	 TalonSRX wrist     = new TalonSRX( 4) {{ setNeutralMode(NeutralMode.Brake); }};
 
     //Solenoids
@@ -258,16 +258,16 @@ public class Robot extends TimedRobot {
 		switch (autoRoutine) {
 		case 1:		/* Starting at the center */
 			if (switchLeft)
-				CenterLeftSwitchThenCube.run(this);
+				CenterLeftGentleTurns.run(this);
 			else
-				CenterRightSwitchAutonomous.run(this);
+				CenterRightSwitchHalf.run(this);
 			//GoStraightAutonomous.autoLineSwitch(this);
 			break;
 		case 2:		/* Starting at the right. */
 			if (scaleLeft)
 				RightLeftScaleCube.rightStart(this);
 			else
-				Right_Scale_Cube_Plus.run(this);
+				RightScalefromSide.run(this);
 			break;
 		case 3:
 //			if (switchLeft)
