@@ -102,6 +102,7 @@ public class CenterLeftGentleTurns {
 			break;
 			
 		case 16:
+			//sets wrist back to level -- don't know if works
 			if (us.encoderWrist.getRaw() < 1100) {
 				us.wrist.set(ControlMode.PercentOutput, 0);
 			}
