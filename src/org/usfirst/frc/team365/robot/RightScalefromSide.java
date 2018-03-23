@@ -5,24 +5,22 @@ public class RightScalefromSide {
 	public static final double FEET = 12 * INCHES;
 
 	static void run(Robot robot) {
-	switch(robot.autoStep) {
-	case 1:
-
-		AutoSimplify.autoPIDStraight(robot, 21*FEET, 0, 0.7);
-
-		AutoSimplify.deployGrabber(robot);
-	AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
-	break;
-	case 2:
-AutoSimplify.upElevatorStep(robot, robot.HEIGHT_FOR_SCALE);
-		break;
-	case 3:
-		AutoSimplify.autoPIDTurn(robot, -60);
-		break;
-	case 4:
-		AutoSimplify.launchCube(robot);
-		break;
-	/*case 5:
+		switch(robot.autoStep) {
+		case 1:
+			AutoSimplify.autoPIDStraight(robot, 21*FEET, 0, 0.7);
+			AutoSimplify.deployGrabber(robot);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			break;
+		case 2:
+			AutoSimplify.upElevatorStep(robot, robot.HEIGHT_FOR_SCALE);
+			break;
+		case 3:
+			AutoSimplify.autoPIDTurn(robot, -60);
+			break;
+		case 4:
+			AutoSimplify.launchCube(robot);
+			break;
+			/*case 5:
 		AutoSimplify.autoPIDTurn(robot, 0);
 		break;
 	case 6:
@@ -42,11 +40,11 @@ AutoSimplify.upElevatorStep(robot, robot.HEIGHT_FOR_SCALE);
 		break;
 	case 11:
 		AutoSimplify.goStraight(robot, 1.5*FEET, 180, 0.3);
-		*/
-	default:
+			 */
+		default:
 
-		robot.driveRobot(0, 0);
-		break;
-}
+			robot.driveRobot(0, 0);
+			break;
+		}
 	}
 }
