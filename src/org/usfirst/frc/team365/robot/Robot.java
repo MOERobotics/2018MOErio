@@ -267,7 +267,7 @@ public class Robot extends TimedRobot {
 			if (scaleLeft)
 				RightLeftScaleCube.rightStart(this);
 			else
-				RightScalefromSide.run(this);
+				RightScaleGrabCube.run(this);
 			break;
 		case 3:
 //			if (switchLeft)
