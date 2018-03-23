@@ -1,5 +1,8 @@
 package org.usfirst.frc.team365.robot;
-
+/*
+ * @Author: Arya Shajpaul
+ * Far scale auto routine
+ */
 public class RightLeftScaleCube {
 	
 	public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
