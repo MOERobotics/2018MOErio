@@ -36,7 +36,7 @@ public class RightScaleGrabCube {
 			break;
 		case 5: 
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(robot, 2.4*FEET, -25, -0.4);
+			AutoSimplify.goStraight(robot, 2.9*FEET, -25, -0.4);
 			//ELEVATOR DOWN AND MOVING BACKWARDS
 
 			break;
@@ -59,7 +59,7 @@ public class RightScaleGrabCube {
 			break;
 		case 9:
 			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(robot, 0.5*FEET, 180, 0.4);
+			AutoSimplify.goStraight(robot, 1.6*FEET, 180, 0.4);
 			//ROBOT GOES STRAIGHT AND CLOSE TO CUBE
 			break;
 		case 10:
