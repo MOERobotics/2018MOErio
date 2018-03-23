@@ -1,5 +1,7 @@
 package org.usfirst.frc.team365.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 // Original author: Audrey
 
 public class CenterLeftGentleTurns {
@@ -15,11 +17,13 @@ public class CenterLeftGentleTurns {
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.halfTurnLeft(us, -45, .8);
 			break;
+			
 		case 2:
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 60 * INCHES, 40, .5);
+			AutoSimplify.goStraight(us, 60 * INCHES, -45, .5);
 			break;
+			
 		case 3:
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
@@ -39,7 +43,7 @@ public class CenterLeftGentleTurns {
 			
 		case 6:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 4.6 * FEET, 0, -0.4); //2.75
+			AutoSimplify.goStraight(us, 4.4 * FEET, 0, -0.5); //4.6
 			break;
 			
 		case 7:
@@ -51,7 +55,7 @@ public class CenterLeftGentleTurns {
 		case 8:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.openGrabber(us);
-			AutoSimplify.goStraight(us, 4.2 * FEET, 90, 0.4); //3.2,, 4.6
+			AutoSimplify.goStraight(us, 4.4 * FEET, 90, 0.6); //4.3
 			break;
 		
 		case 9:
@@ -65,7 +69,6 @@ public class CenterLeftGentleTurns {
 			AutoSimplify.goStraight(us, 1.2 * FEET, 0, 0.4); //1.2
 			break;
 		
-			
 		case 11:
 			AutoSimplify.grabCube(us); 
 			break;
@@ -77,7 +80,7 @@ public class CenterLeftGentleTurns {
 			
 		case 13:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDStraight(us, 4 * FEET, -75, 0.5); //check distance? i'm guessing to short,, nope too long
+			AutoSimplify.autoPIDStraight(us, 4.5 * FEET, -75, 0.6); //4
 			break;
 			
 		case 14:
@@ -99,10 +102,14 @@ public class CenterLeftGentleTurns {
 			break;
 			
 		case 16:
+			if (us.encoderWrist.getRaw() < 1100) {
+				us.wrist.set(ControlMode.PercentOutput, 0);
+			}
+			else us.wrist.set(ControlMode.PercentOutput, 0.9); 
 			us.driveRobot(0, 0);
 			break;
-
-
+			
+		
 			
 		/* case 1:
 			//goStraight(encoderTicks, navx setPoint, startPower - forwards/backwards is pos/neg)
