@@ -44,18 +44,21 @@ public class CenterLeftGentleTurns {
 		case 6:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.goStraight(us, 4.4 * FEET, 0, -0.5); //4.6
+			//AutoSimplify.goStraght(us, 2.1 * FEET, 0, -0.5); Alternative Gentle turn routine
 			break;
 			
 		case 7:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.openGrabber(us);
 			AutoSimplify.autoPIDTurn(us, 90);
+			//AutoSimplify.halfTurnLeft(us, -65, -0.8); (Alternative)
 			break;
 			
 		case 8:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.openGrabber(us);
 			AutoSimplify.goStraight(us, 4.4 * FEET, 90, 0.6); //4.3
+			//AutoSimplify.goStraight(us, 3.1 * FEET, -65, -0.5); (Alternative)
 			break;
 		
 		case 9:

@@ -165,17 +165,22 @@ static void dropCube(Robot us) {
 			if (Math.abs(us.navX.getYaw() - angle) < 4) {
 				us.driveRobot(0, 0);
 				us.autoStep++;
-			} else {
+			} else if(power > 0) {
 				us.driveRobot(0.01, power);
+			} else{
+				us.driveRobot(power, -0.01);
 			}
+			
 		}
 
 		public static void halfTurnRight(Robot us, double angle, double power) {
 			if (Math.abs(us.navX.getYaw() - angle) < 4) {
 				us.driveRobot(0, 0);
 				us.autoStep++;
-			} else {
+			} else if(power > 0){
 				us.driveRobot(power, 0.01);
+			} else{
+				us.driveRobot(-0.01, power);
 			}
 		}
 		/**
@@ -400,6 +405,9 @@ static void dropCube(Robot us) {
 		
 		static void lowerElevator(Robot us,int setpoint) {
 			double height = us.encoderElevator.getRaw();
+			if(height > 3500 && height < 4000){			//Makes sure that the claw is closed before going down any further
+				us.cubeClaw.set(false);
+			}
 			if (setpoint < 100) {
 				if (us.elevatorBottomLimitSwitch.get()) {
 					us.elevator.set(ControlMode.PercentOutput, 0);

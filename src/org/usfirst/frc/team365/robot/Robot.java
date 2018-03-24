@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
      DoubleSolenoid mouseTrap = new DoubleSolenoid(0,1);
 
 	// Servos
-	 Servo flySwatter = new Servo(0);
+//	Servo flySwatter = new Servo(0);
 
 	// Sensors
 	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 50);
@@ -278,8 +278,17 @@ public class Robot extends TimedRobot {
 			else
 				RightLeftScaleCube.leftStart(this);
 			break;
-		case 4:
-			testPID.run(this);
+		case 4: //Starts from the right
+			if (scaleLeft)
+				RightLeftScaleCube.rightStart(this);
+			else
+				Right_Scale_Cube_Plus.run(this); 
+			break;
+		case 5: //Starts from the left
+			if (scaleLeft)
+				Left_Scale_Cube_Plus.run(this); 
+			else
+				RightLeftScaleCube.leftStart(this); 
 			break;
 /*
 		case 3:
@@ -341,9 +350,9 @@ public class Robot extends TimedRobot {
 		} else {
 			if (driveStick.getTrigger()) {
 				driveRobot(yJoy, yJoy);
-			} else if (functionStick.getPOV(0) > 45 && functionStick.getPOV(0) < 135 && !engagePTO) { // turn robot left
+			} else if (functionStick.getPOV(0) >= 45 && functionStick.getPOV(0) <= 135 && !engagePTO) { // turn robot left
 				driveRobot(0.6, -0.6);
-			} else if (functionStick.getPOV(0) > 225 && functionStick.getPOV(0) < 315 && !engagePTO) {
+			} else if (functionStick.getPOV(0) >= 225 && functionStick.getPOV(0) <= 315 && !engagePTO) {
 				driveRobot(-0.6, 0.6);
 			} else {
 				double left = yJoy + xJoy;
@@ -365,9 +374,11 @@ public class Robot extends TimedRobot {
 		if(functionStick.getBumper(Hand.kLeft)) wristDown();
 		else if(functionStick.getBumper(Hand.kRight)) wristUp();
 		else driveWrist(0);
-		//flySwatter SAME
+		//flySwatter (Not needed)
+	/**
 		if(functionStick.getStickButtonPressed(Hand.kRight) && functionStick.getX(Hand.kRight) > 0.9) flySwatterShoot();
 		else flySwatterClose();
+	*/
 		//mouseTrap SAME
 		if(driveStick.getRawButton(14)) mouseTrapDown();
 		else mouseTrapUp();
@@ -450,14 +461,14 @@ public class Robot extends TimedRobot {
 	public void rollIn() {
 		driveRoll(-0.70);
 		double power = -0.70;
-		if(functionStick.getStickButtonPressed(Hand.kLeft)) power = -1;
+		if(functionStick.getStickButton(Hand.kLeft)) power = -1;
 		else power = -0.70;
 		driveRoll(power);
 	}
 	
 	public void rollOut() {
 		double power = 0.5;
-		if(functionStick.getStickButtonPressed(Hand.kLeft)) power = 1;
+		if(functionStick.getStickButton(Hand.kLeft)) power = 1;
 		else power = 0.5;
 		driveRoll(power);
 	}
@@ -504,12 +515,14 @@ public class Robot extends TimedRobot {
 		mouseTrap.set(Value.kForward);
 	}
 	
-	//flySwatter functions
+	//flySwatter functions (Not needed)
+/**
 	public void flySwatterShoot() {
 		flySwatter.set(0);
 	}
 	
 	public void flySwatterClose() {
 		flySwatter.set(90);
-	}	
+	}
+*/	
 }
