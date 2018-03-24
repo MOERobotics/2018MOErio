@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
      DoubleSolenoid mouseTrap = new DoubleSolenoid(0,1);
 
 	// Servos
-//	Servo flySwatter = new Servo(0);
+	Servo flySwatter = new Servo(0);
 
 	// Sensors
 	AHRS         navX       = new AHRS(SPI.Port.kMXP, (byte) 50);
@@ -259,6 +259,7 @@ public class Robot extends TimedRobot {
 		case 1:		/* Starting at the center */
 			if (switchLeft)
 				CenterLeftGentleTurns.run(this);
+				//CenterLeftSwitchGentleAlternate.run(this);
 			else
 				CenterRightSwitchHalf.run(this);
 			//GoStraightAutonomous.autoLineSwitch(this);
@@ -268,6 +269,7 @@ public class Robot extends TimedRobot {
 				RightLeftScaleCube.rightStart(this);
 			else
 				RightScaleGrabCube.run(this);
+				//DoubleScaleCombo.rightStart(this);
 			break;
 		case 3:
 //			if (switchLeft)
@@ -275,6 +277,7 @@ public class Robot extends TimedRobot {
 //			else 
 			if (scaleLeft)
 				LeftScaleGrabCube.run(this);
+				//DoubleScaleCombo.leftStart(this);
 			else
 				RightLeftScaleCube.leftStart(this);
 			break;
@@ -283,10 +286,12 @@ public class Robot extends TimedRobot {
 				RightLeftScaleCube.rightStart(this);
 			else
 				Right_Scale_Cube_Plus.run(this); 
+				//ScaleSwitchCombo.rightStart(this);
 			break;
 		case 5: //Starts from the left
 			if (scaleLeft)
 				Left_Scale_Cube_Plus.run(this); 
+				//ScaleSwitchCombo.leftStart(this);
 			else
 				RightLeftScaleCube.leftStart(this); 
 			break;
@@ -374,11 +379,9 @@ public class Robot extends TimedRobot {
 		if(functionStick.getBumper(Hand.kLeft)) wristDown();
 		else if(functionStick.getBumper(Hand.kRight)) wristUp();
 		else driveWrist(0);
-		//flySwatter (Not needed)
-	/**
-		if(functionStick.getStickButtonPressed(Hand.kRight) && functionStick.getX(Hand.kRight) > 0.9) flySwatterShoot();
+		//flySwatter 
+		if(functionStick.getStickButton(Hand.kRight) && functionStick.getX(Hand.kRight) > 0.9) flySwatterShoot();
 		else flySwatterClose();
-	*/
 		//mouseTrap SAME
 		if(driveStick.getRawButton(14)) mouseTrapDown();
 		else mouseTrapUp();
@@ -515,8 +518,8 @@ public class Robot extends TimedRobot {
 		mouseTrap.set(Value.kForward);
 	}
 	
-	//flySwatter functions (Not needed)
-/**
+	//flySwatter functions 
+
 	public void flySwatterShoot() {
 		flySwatter.set(0);
 	}
@@ -524,5 +527,5 @@ public class Robot extends TimedRobot {
 	public void flySwatterClose() {
 		flySwatter.set(90);
 	}
-*/	
+	
 }

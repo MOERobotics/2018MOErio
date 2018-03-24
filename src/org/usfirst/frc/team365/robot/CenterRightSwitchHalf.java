@@ -52,7 +52,7 @@ public class CenterRightSwitchHalf {
 			break;
 		case 10:
 			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(robot, 12 * INCHES, 0, .5);
+			AutoSimplify.goStraight(robot, 16 * INCHES, 0, .5);
 			break;
 		case 11:
 			AutoSimplify.grabCube(robot);
@@ -71,7 +71,7 @@ public class CenterRightSwitchHalf {
 			break;
 		case 15:
 			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(robot, 13 * INCHES, 0, .5);
+			AutoSimplify.goStraight(robot, 12 * INCHES, 0, .5);
 			break;
 		case 16:
 			//AutoSimplify.pause(robot, 1.0);

@@ -43,7 +43,7 @@ public class CenterLeftGentleTurns {
 			
 		case 6:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 4.4 * FEET, 0, -0.5); //4.6
+			AutoSimplify.goStraight(us, 4.1 * FEET, 0, -0.5); //4.6
 			//AutoSimplify.goStraght(us, 2.1 * FEET, 0, -0.5); Alternative Gentle turn routine
 			break;
 			
@@ -57,7 +57,7 @@ public class CenterLeftGentleTurns {
 		case 8:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.openGrabber(us);
-			AutoSimplify.goStraight(us, 4.4 * FEET, 90, 0.6); //4.3
+			AutoSimplify.goStraight(us, 4 * FEET, 90, 0.6); //4.3
 			//AutoSimplify.goStraight(us, 3.1 * FEET, -65, -0.5); (Alternative)
 			break;
 		
@@ -69,7 +69,8 @@ public class CenterLeftGentleTurns {
 			
 		case 10:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 1.2 * FEET, 0, 0.4); //1.2
+			AutoSimplify.goStraight(us, 1.7 * FEET, 0, 0.4); //1.2
+			//AutoSimplify.goStraight(us, 15*INCHES, 0, 0.4); (Alternative)
 			break;
 		
 		case 11:
@@ -79,16 +80,18 @@ public class CenterLeftGentleTurns {
 		case 12:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.autoPIDTurn(us, -75); //-70 
+			//AutoSimplify.autoPIDTurn(us, -70); (Alternative)
 			break;
 			
 		case 13:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDStraight(us, 4.5 * FEET, -75, 0.6); //4
-			break;
-			
+			AutoSimplify.autoPIDStraight(us, 4.1 * FEET, -75, 0.6); //4
+			//AutoSimplify.goStraight(us, 3*FEET, -70, 0.5); (Alternative)
+			break;	
 		case 14:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.halfTurnRight(us, 0, 0.8);
+			//AutoSimplify.halfTurnRight(us, -2, 0.8); (Alternative)
 			/*if (us.navX.getYaw() >= -3) {
 				us.driveRobot(0, 0);
 				us.resetDriveEncoders();
@@ -101,17 +104,24 @@ public class CenterLeftGentleTurns {
 			
 		case 15:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.launchCube(us);
+			AutoSimplify.launchCube(us); //Take this out if (Alternative)
+			//AutoSimplify.goStraight(us, 1*FEET, -2, 0.5);
 			break;
 			
 		case 16:
 			//sets wrist back to level -- don't know if works
+			//AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH); (Alternative)
+			//AutoSimplify.launchCube(us); //Take this out if (Alternative)
 			if (us.encoderWrist.getRaw() < 1100) {
 				us.wrist.set(ControlMode.PercentOutput, 0);
 			}
 			else us.wrist.set(ControlMode.PercentOutput, 0.9); 
+			
 			us.driveRobot(0, 0);
 			break;
+/*		case 17:
+ * 			us.driveRobot(0,0);
+ */
 			
 		
 			

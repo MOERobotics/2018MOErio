@@ -35,7 +35,7 @@ public class RightLeftScaleCube {
 			break;
 		case 3:
 			AutoSimplify.deployGrabber(us);
-			AutoSimplify.goStraight(us, 15 * FEET, -90, 0.8); //176.727 in
+			AutoSimplify.goStraight(us, 14.5 * FEET, -90, 0.7); //176.727 in
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			break;
 		case 4:
@@ -96,7 +96,7 @@ public class RightLeftScaleCube {
 		break;
 	case 3:
 		AutoSimplify.deployGrabber(us);
-		AutoSimplify.goStraight(us, 15 * FEET, 90, 0.8); //176.727 in
+		AutoSimplify.goStraight(us, 14.5 * FEET, 90, 0.7); //176.727 in
 		AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 		break;
 	case 4:

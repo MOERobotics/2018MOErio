@@ -35,38 +35,68 @@ public class LeftScaleGrabCube {
 			//GRABBERS LAUNCH CUBE ONTO SWITCH
 			break;
 		case 5: 
-			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(robot, 2.9*FEET, 25, -0.4);
+			AutoSimplify.lowerElevator(robot, 600);
+			AutoSimplify.goStraight(robot, 33*INCHES, 25, -0.4);
 			//ELEVATOR DOWN AND MOVING BACKWARDS
 
 			break;
 		case 6:
-			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
+			AutoSimplify.lowerElevator(robot, 600);
 			//ROBOT TURNS TO LANE
 			AutoSimplify.autoPIDTurn(robot, 90);
 			
 			break;
 		case 7:	
-			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
-			AutoSimplify.openGrabber(robot);
+			AutoSimplify.lowerElevator(robot, 600);
+			//AutoSimplify.openGrabber(robot);
 			AutoSimplify.goStraight(robot, 2.7*FEET, 90, 0.4);
 			//ROBOT GOES STRAIGHT
 			break;
 		case 8:
-			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
+			AutoSimplify.lowerElevator(robot, 600);
 			AutoSimplify.autoPIDTurn(robot, 180);
 			//ROBOT TURNS TO FACE CUBE TO PICK UP
 			break;
 		case 9:
-			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(robot, 1.6*FEET, 180, 0.4);
+			AutoSimplify.openGrabber(robot);
+			AutoSimplify.downElevatorStep(robot,robot.BOTTOM_HEIGHT);
+			//AutoSimplify.goStraight(robot, 1.2*FEET, 180, 0.4);
 			//ROBOT GOES STRAIGHT AND CLOSE TO CUBE
 			break;
 		case 10:
-			AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
+			//AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.grabCube(robot);
 			//GRABBERS PICK UP CUBE
 			break;
+		//TEST THIS for after getting cube (scale via gamedata)
+/*		case 11:
+ * 			if(!(robot.switchLeft)){
+ * 			AutoSimplify.halfTurnLeft(robot, 25, -0.8);
+ * 			AutoSimplify.raiseElevator(robot, robot.SCALE_HEIGHT);
+ * 			} else {
+ * 			AutoSimplify.goStraight(robot, 5*INCHES, 180, -0.4);
+ * 			AutoSimplify.raiseElevator(robot, robot.SWITCH_HEIGHT);
+ * 			}
+ * 			break;
+ * 		case 12:
+ * 			if(!(robot.switchLeft)){
+ * 			AutoSimplify.goStraight(robot, 3.5*FEET, 25, 0.5);
+ * 			AutoSimplify.raiseElevator(robot, robot.SCALE_HEIGHT);
+ * 			} else {
+ * 			AutoSimplify.upElevatorStep(robot, robot.SWITCH_HEIGHT);
+ * 			}
+ * 			break;
+ * 		case 13:
+ * 			if(!(robot.switchLeft)){
+ * 			robot.driveRobot(0, 0);
+ * 			} else {
+ * 			AutoSimplify.launchCube(robot);
+ * 			break;
+ * 		case 14:
+ * 			robot.driveRobot(0, 0);
+ * 			break;
+ */
+			
 		case 11:
 			robot.driveRobot(0.0,0.0);
 			//END PROGRAM
