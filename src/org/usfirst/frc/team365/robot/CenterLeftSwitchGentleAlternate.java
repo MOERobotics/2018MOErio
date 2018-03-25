@@ -29,7 +29,7 @@ public class CenterLeftSwitchGentleAlternate {
 			case 4:
 				AutoSimplify.deployGrabber(us);
 				AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-				AutoSimplify.goStraight(us, 13 * INCHES, 0, .5);
+				AutoSimplify.goStraight(us, 15 * INCHES, 0, .5);
 				break;
 				
 			case 5:

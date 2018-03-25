@@ -76,7 +76,7 @@ public class Right_Scale_Cube_Plus {
 	
 	case 1:
 		AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
-		AutoSimplify.autoPIDStraight(robot, 15.75 * FEET, 0, 0.6);
+		AutoSimplify.autoPIDStraight(robot, 15.75 * FEET, 0, 0.7);
 //		AutoSimplify.goStraight(robot, 15.75*FEET, 0, 0.6);
 		AutoSimplify.deployGrabber(robot);
 		//ROBOT GOES STRAIGHT

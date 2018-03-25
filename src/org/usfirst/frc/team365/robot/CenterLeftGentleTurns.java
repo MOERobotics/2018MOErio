@@ -33,7 +33,7 @@ public class CenterLeftGentleTurns {
 		case 4:
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 14 * INCHES, 0, .5);
+			AutoSimplify.goStraight(us, 15 * INCHES, 0, .5);
 			break;
 			
 		case 5:
@@ -43,7 +43,7 @@ public class CenterLeftGentleTurns {
 			
 		case 6:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 4.1 * FEET, 0, -0.5); //4.6
+			AutoSimplify.goStraight(us, 4.3 * FEET, 0, -0.5); //4.6
 			//AutoSimplify.goStraght(us, 2.1 * FEET, 0, -0.5); Alternative Gentle turn routine
 			break;
 			

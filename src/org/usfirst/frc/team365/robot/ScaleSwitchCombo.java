@@ -82,7 +82,7 @@ public class ScaleSwitchCombo {
 				AutoSimplify.goStraight(robot, 3.5*FEET, 25, 0.5);
 				AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 			} else {
-				AutoSimplify.goStraight(robot, 1.25*FEET, 180, 0.4);
+				AutoSimplify.goStraight(robot, 1.25*FEET, 170, 0.4);
 				AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			}
 			break;
@@ -177,7 +177,7 @@ public class ScaleSwitchCombo {
 					AutoSimplify.goStraight(robot, 3.5*FEET, -25, 0.5);
 					AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 				} else {
-					AutoSimplify.goStraight(robot, 1.25*FEET, -180, 0.4);
+					AutoSimplify.goStraight(robot, 1.25*FEET, -170, 0.4);
 					AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 				}
 				break;
