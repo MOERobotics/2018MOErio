@@ -35,7 +35,7 @@ public class LeftScaleGrabCube {
 			//GRABBERS LAUNCH CUBE ONTO SWITCH
 			break;
 		case 5: 
-			AutoSimplify.lowerElevator(robot, 600);
+//			AutoSimplify.lowerElevator(robot, 600);
 			AutoSimplify.goStraight(robot, 33*INCHES, 25, -0.4);
 			//ELEVATOR DOWN AND MOVING BACKWARDS
 
@@ -64,10 +64,12 @@ public class LeftScaleGrabCube {
 		case 10:
 			AutoSimplify.openGrabber(robot);
 			AutoSimplify.downElevatorStep(robot,robot.BOTTOM_HEIGHT);
-			//AutoSimplify.goStraight(robot, 1.2*FEET, 180, 0.4);
+		case 11:
+			AutoSimplify.goStraight(robot, 1.1*FEET, 180, 0.4);
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 			//ROBOT GOES STRAIGHT AND CLOSE TO CUBE
 			break;
-		case 11:
+		case 12:
 			//AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
 			AutoSimplify.grabCube(robot);
 			//GRABBERS PICK UP CUBE
@@ -101,7 +103,7 @@ public class LeftScaleGrabCube {
  * 			break;
  */
 			
-		case 12:
+		case 13:
 			robot.driveRobot(0.0,0.0);
 			//END PROGRAM
 			break;

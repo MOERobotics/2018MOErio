@@ -63,11 +63,13 @@ public class RightScaleGrabCube {
 			break;
 		case 10:
 			AutoSimplify.openGrabber(robot);
-			AutoSimplify.downElevatorStep(robot, 600);
-			//AutoSimplify.goStraight(robot, 1.2*FEET, 180, 0.4);
+			AutoSimplify.downElevatorStep(robot, robot.BOTTOM_HEIGHT);
+		case 11:
+			AutoSimplify.goStraight(robot, 1.1*FEET, 180, 0.4);
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 			//ROBOT GOES STRAIGHT AND CLOSE TO CUBE
 			break;
-		case 11:
+		case 12:
 			AutoSimplify.grabCube(robot);
 			//AutoSimplify.grabCube(robot);
 			//GRABBERS PICK UP CUBE
@@ -101,12 +103,13 @@ public class RightScaleGrabCube {
 			 * 			robot.driveRobot(0, 0);
 			 * 			break;
 			 */
-		case 12:
+		case 13:
 			robot.driveRobot(0.0,0.0);
 			//END PROGRAM
 			break;
-		case 13:
+		case 14:
 			robot.driveRobot(0, 0);
+			break;
 		}
 }
 }

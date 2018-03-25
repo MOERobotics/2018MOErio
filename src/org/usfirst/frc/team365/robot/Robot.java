@@ -91,6 +91,7 @@ public class Robot extends TimedRobot {
 	final int HEIGHT_FOR_SWITCH = 1800;
 	final int HEIGHT_FOR_SCALE = 5300;
 	final int BOTTOM_HEIGHT = 10;
+	final int HEIGHT_ABOVE_CUBE = 600;
 
 	//Output Storage
 	String statusMessage = "We use this to know what the status of the robot is";
@@ -218,6 +219,7 @@ public class Robot extends TimedRobot {
 		if (driveStick.getRawButton(8)) autoRoutine = 2;
 		if (driveStick.getRawButton(10)) autoRoutine = 3;
 		if (driveStick.getRawButton(12)) autoRoutine = 4;
+		if (driveStick.getRawButton(11)) autoRoutine = 5;
     	SmartDashboardUtil.dashboardPeriodic(this);
 	
 	}//yayhappyface
@@ -268,6 +270,7 @@ public class Robot extends TimedRobot {
 			if (scaleLeft)
 				RightLeftScaleCube.rightStart(this);
 			else
+				ScaleSwitchCombo.rightStart(this);
 				RightScaleGrabCube.run(this);
 				//DoubleScaleCombo.rightStart(this);
 			break;
@@ -276,7 +279,8 @@ public class Robot extends TimedRobot {
 //				LeftSwitchThenCube.run(this);
 //			else 
 			if (scaleLeft)
-				LeftScaleGrabCube.run(this);
+//				LeftScaleGrabCube.run(this);
+			ScaleSwitchCombo.leftStart(this);
 				//DoubleScaleCombo.leftStart(this);
 			else
 				RightLeftScaleCube.leftStart(this);
@@ -285,13 +289,16 @@ public class Robot extends TimedRobot {
 			if (scaleLeft)
 				RightLeftScaleCube.rightStart(this);
 			else
-				Right_Scale_Cube_Plus.run(this); 
-				//ScaleSwitchCombo.rightStart(this);
+//				Right_Scale_Cube_Plus.run(this); 
+//			DoubleScaleCombo.rightStart(this);
+				ScaleScaleCombo.rightStart(this);
+//				ScaleSwitchCombo.rightStart(this);
 			break;
 		case 5: //Starts from the left
 			if (scaleLeft)
-				Left_Scale_Cube_Plus.run(this); 
-				//ScaleSwitchCombo.leftStart(this);
+//				DoubleScaleCombo.leftStart(this);
+//				Left_Scale_Cube_Plus.run(this); 
+				ScaleScaleCombo.leftStart(this);
 			else
 				RightLeftScaleCube.leftStart(this); 
 			break;

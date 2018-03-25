@@ -74,7 +74,7 @@ public class DoubleScaleCombo {
 				AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 				break;
 			case 12:
-				AutoSimplify.goStraight(robot, 3.5*FEET, -25, 0.5);
+				AutoSimplify.goStraight(robot, 3.5*FEET, -25, 0.4);
 				AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 				break;
 			case 13:
@@ -155,7 +155,7 @@ public class DoubleScaleCombo {
 					AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 					break;
 				case 12:
-					AutoSimplify.goStraight(robot, 3.5*FEET, 25, 0.5);
+					AutoSimplify.goStraight(robot, 3.5*FEET, 25, 0.4);
 					AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 					break;
 				case 13:
