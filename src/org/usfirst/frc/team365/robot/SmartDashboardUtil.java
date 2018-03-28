@@ -55,7 +55,7 @@ public class SmartDashboardUtil {
 		SmartDashboard.putNumber( "driveOutputRight", ourselves.driveOutputRight              );
 		SmartDashboard.putNumber(   "elevatorOutput", ourselves.elevatorOutput                );
 		SmartDashboard.putString(    "shifterStatus", ourselves.shifterStatus                 );
-
+		SmartDashboard.putString(	"GameData:", ourselves.gameData							);
 		//navx
 		SmartDashboard.putNumber(              "Yaw", ourselves.navX.getYaw()                 );
 //		SmartDashboard.putNumber(    "accelerationX", ourselves.navX.getWorldLinearAccelX()   );

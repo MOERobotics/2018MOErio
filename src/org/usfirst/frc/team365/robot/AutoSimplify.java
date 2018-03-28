@@ -10,8 +10,8 @@ public class AutoSimplify{
 	
 
 	static void deployGrabber(Robot us) {
-		//if (us.encoderWrist.getRaw() > 1100 || us.grabTimer.get() > 0.7) {
-			if (us.encoderWrist.getRaw() > 1100) {
+		if (us.encoderWrist.getRaw() > 1100) {
+//			if (us.encoderWrist.getRaw() > 1100 || us.grabTimer.get() > 0.8) {
 			us.wrist.set(ControlMode.PercentOutput, 0);
 		}
 		else us.wrist.set(ControlMode.PercentOutput, -0.9); 
@@ -164,17 +164,22 @@ static void dropCube(Robot us) {
 			if (Math.abs(us.navX.getYaw() - angle) < 4) {
 				us.driveRobot(0, 0);
 				us.autoStep++;
-			} else {
+			} else if(power > 0) {
 				us.driveRobot(0.01, power);
+			} else{
+				us.driveRobot(power, -0.01);
 			}
+			
 		}
 
 		public static void halfTurnRight(Robot us, double angle, double power) {
 			if (Math.abs(us.navX.getYaw() - angle) < 4) {
 				us.driveRobot(0, 0);
 				us.autoStep++;
-			} else {
+			} else if(power > 0){
 				us.driveRobot(power, 0.01);
+			} else{
+				us.driveRobot(-0.01, power);
 			}
 		}
 		/**
@@ -340,20 +345,20 @@ static void dropCube(Robot us) {
 				if (height > setpoint) {
 					//			if (height < -2000)  {
 					//				elevator.set(ControlMode.PercentOutput, 0.7);
-					us.reachedSetting = true;
-					us.elevator.set(ControlMode.PercentOutput, 0.1);
+					//us.reachedSetting = true;
+					us.elevator.set(ControlMode.PercentOutput, us.backDrive);
 
 				}
-				else if (us.reachedSetting && height >= setpoint - 200) {
-					us.elevator.set(ControlMode.PercentOutput, 0.1);
+/*				else if (us.reachedSetting && height >= setpoint - 200) {
+					us.elevator.set(ControlMode.PercentOutput, us.backDrive);
 				}
 				else if (height < setpoint - 200 && us.reachedSetting) {
 					us.elevator.set(ControlMode.PercentOutput, 0.8);
 					us.reachedSetting = false;
 				}
-				else {
+*/				else {
 					us.elevator.set(ControlMode.PercentOutput, 0.8);
-					us.reachedSetting = false;
+					//us.reachedSetting = false;
 				}
 			}
 			else {
@@ -368,7 +373,7 @@ static void dropCube(Robot us) {
 			double height = us.encoderElevator.getRaw();
 			if (height > setpoint) {
 				us.autoStep++;
-				us.elevator.set(ControlMode.PercentOutput, 0.1);
+				us.elevator.set(ControlMode.PercentOutput, us.backDrive);
 			}
 						else {
 				us.elevator.set(ControlMode.PercentOutput, 0.8);				
@@ -388,7 +393,7 @@ static void dropCube(Robot us) {
 			}
 			else {
 				if (height < setpoint + 200) {
-					us.elevator.set(ControlMode.PercentOutput, 0.1);
+					us.elevator.set(ControlMode.PercentOutput, us.backDrive);
 					us.autoStep++;
 				}				
 				else if (!us.elevatorBottomLimitSwitch.get()) {
@@ -399,28 +404,31 @@ static void dropCube(Robot us) {
 		
 		static void lowerElevator(Robot us,int setpoint) {
 			double height = us.encoderElevator.getRaw();
+			if(height > 3500 && height < 4000){			//Makes sure that the claw is closed before going down any further
+				us.cubeClaw.set(false);
+			}
 			if (setpoint < 100) {
 				if (us.elevatorBottomLimitSwitch.get()) {
 					us.elevator.set(ControlMode.PercentOutput, 0);
-					us.reachedSetting = true;
+					//us.reachedSetting = true;
 				}
 				else {
 					us.elevator.set(ControlMode.PercentOutput, -0.4);
-					us.reachedSetting = false;
+					//us.reachedSetting = false;
 				}
 			}
 			else {
 				if (height < setpoint + 200) {
-					us.elevator.set(ControlMode.PercentOutput, 0.1);
-					us.reachedSetting = true;
+					us.elevator.set(ControlMode.PercentOutput, us.backDrive);
+					//us.reachedSetting = true;
 				}
-				else if (us.reachedSetting) {
-					us.elevator.set(ControlMode.PercentOutput, 0.1);
+				/*else if (us.reachedSetting) {
+					us.elevator.set(ControlMode.PercentOutput, us.backDrive);
 				}
-				
+				*/
 				else if (!us.elevatorBottomLimitSwitch.get()) {
 					us.elevator.set(ControlMode.PercentOutput, -0.4);
-					us.reachedSetting = false;
+					//us.reachedSetting = false;
 				}
 			}
 		}

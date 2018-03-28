@@ -1,6 +1,6 @@
 package org.usfirst.frc.team365.robot;
 
-public class Left_Scale_Cube_Plus {
+public class LeftScaleBackUp {
 	public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
 	public static final double FEET = 12 * INCHES;
 
@@ -74,7 +74,7 @@ public class Left_Scale_Cube_Plus {
 	
 	case 1:
 		AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
-		AutoSimplify.autoPIDStraight(robot, 15.75*FEET, 0, 0.7);
+		AutoSimplify.autoPIDStraight(robot, 15.75*FEET, 0, 0.6);
 		AutoSimplify.deployGrabber(robot);
 		//ROBOT GOES STRAIGHT
 		//ELEVATOR UP
