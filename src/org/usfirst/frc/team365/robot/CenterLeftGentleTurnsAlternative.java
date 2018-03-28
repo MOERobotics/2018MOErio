@@ -2,7 +2,7 @@ package org.usfirst.frc.team365.robot;
 
 // Original author: Audrey
 
-public class CenterLeftGentleTurns {
+public class CenterLeftGentleTurnsAlternative {
 	
 	public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
 	public static final double FEET = 12 * INCHES;
