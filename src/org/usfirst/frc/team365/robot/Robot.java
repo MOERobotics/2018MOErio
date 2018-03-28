@@ -180,7 +180,7 @@ public class Robot extends TimedRobot {
 		System.out.println("It'sa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
 		shiftDrive();
-		mouseTrapUp();
+		//mouseTrapUp();
 		cubeClawClose();
 		
 	}
@@ -389,9 +389,10 @@ public class Robot extends TimedRobot {
 		//flySwatter 
 		if(functionStick.getStickButton(Hand.kRight) && functionStick.getX(Hand.kRight) > 0.9) flySwatterShoot();
 		else flySwatterClose();
-		//mouseTrap SAME
-		if(driveStick.getRawButton(14)) mouseTrapDown();
+		//mouseTrap (It's dead now :( )
+/*		if(driveStick.getRawButton(14)) mouseTrapDown();
 		else mouseTrapUp();
+*/
 		//Elevator SAME
 		if(functionStick.getTriggerAxis(Hand.kLeft) > functionStick.getTriggerAxis(Hand.kRight)) {
 			driveElevator((bottomElevator * functionStick.getTriggerAxis(Hand.kLeft)));
@@ -516,15 +517,15 @@ public class Robot extends TimedRobot {
 		engagePTO = true;
 	}
 	
-	//mouseTrap functions
-	public void mouseTrapUp() {
+	//mouseTrap functions (It's dead now :( )
+/*	public void mouseTrapUp() {
 		mouseTrap.set(Value.kReverse);
 	}
 	
 	public void mouseTrapDown() {
 		mouseTrap.set(Value.kForward);
 	}
-	
+*/	
 	//flySwatter functions 
 
 	public void flySwatterShoot() {
