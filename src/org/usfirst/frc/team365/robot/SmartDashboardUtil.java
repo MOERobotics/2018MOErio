@@ -67,5 +67,8 @@ public class SmartDashboardUtil {
 		SmartDashboard.putNumber(        "AutoTimer", ourselves.autoTimer.get()               );
 		SmartDashboard.putBoolean("Top limit switch: ", ourselves.elevatorTopLimitSwitch.get());
 		SmartDashboard.putBoolean("Bottom limit switch", ourselves.elevatorBottomLimitSwitch.get());
+		SmartDashboard.putNumber("Gripper current left", ourselves.rollLeft.getOutputCurrent());
+		SmartDashboard.putNumber("Gripper current right", ourselves.rollRight.getOutputCurrent());
+
 	}
 }
