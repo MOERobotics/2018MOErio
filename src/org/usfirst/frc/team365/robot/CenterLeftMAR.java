@@ -35,7 +35,6 @@ public class CenterLeftMAR {
 			break;
 			
 		case 5:
-			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.launchCube(us); 
 			break;
 			
