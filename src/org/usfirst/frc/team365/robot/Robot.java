@@ -220,6 +220,8 @@ public class Robot extends TimedRobot {
 		if (driveStick.getRawButton(10)) autoRoutine = 3;
 		if (driveStick.getRawButton(12)) autoRoutine = 4;
 		if (driveStick.getRawButton(11)) autoRoutine = 5;
+		if (driveStick.getRawButton(9)) autoRoutine = 6;
+		if (driveStick.getRawButton(7)) autoRoutine = 7;
     	SmartDashboardUtil.dashboardPeriodic(this);
 	
 	}//yayhappyface
@@ -271,7 +273,7 @@ public class Robot extends TimedRobot {
 				RightLeftScaleCube.rightStart(this);
 			else
 				ScaleSwitchCombo.rightStart(this);
-				RightScaleGrabCube.run(this);
+//				RightScaleGrabCube.run(this);
 				//DoubleScaleCombo.rightStart(this);
 			break;
 		case 3:
@@ -301,6 +303,9 @@ public class Robot extends TimedRobot {
 				ScaleScaleCombo.leftStart(this);
 			else
 				RightLeftScaleCube.leftStart(this); 
+			break;
+		case 6:
+			GoStraightAutonomous.autoGoStraightTurnTestRight(this);
 			break;
 /*
 		case 3:

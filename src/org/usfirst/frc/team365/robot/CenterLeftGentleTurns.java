@@ -4,7 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 // Original author: Audrey
 
-public class CenterLeftGentleTurns {
+public class CenterLeftGentleTurns{
 	
 	public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
 	public static final double FEET = 12 * INCHES;

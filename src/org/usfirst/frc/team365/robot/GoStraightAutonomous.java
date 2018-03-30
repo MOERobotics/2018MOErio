@@ -34,13 +34,47 @@ public class GoStraightAutonomous {
 		case 4:
 			AutoSimplify.launchCube(ourselves);
 			AutoSimplify.raiseElevator(ourselves, 1800);
-			AutoSimplify.autoPIDStraight(ourselves, 1*FEET, -90, 0.4);
+//			AutoSimplify.autoPIDStraight(ourselves, 1*FEET, -90, 0.4);
 			break;
 		case 5:
-			ourselves.driveRobot(0, 0);
+			AutoSimplify.goStraight(ourselves, 6*INCHES, -90, -0.4);
+//			ourselves.driveRobot(0, 0);
 			AutoSimplify.raiseElevator(ourselves, 1800);
 			break;
+		case 6:
+			AutoSimplify.autoPIDTurn(ourselves, 0);
+			AutoSimplify.lowerElevator(ourselves, 600);
+			break;
+		case 7:
+			AutoSimplify.goStraight(ourselves, 3*FEET, 0, 0.5);
+			AutoSimplify.lowerElevator(ourselves, 600);
+			break;
+		case 8:
+			AutoSimplify.halfTurnLeft(ourselves, -90, 0.8);
+			AutoSimplify.lowerElevator(ourselves, 600);
+			break;
+		case 9:
+			AutoSimplify.autoPIDTurn(ourselves, -180);
+			AutoSimplify.lowerElevator(ourselves, 600);
+			break;
+		case 10:
+			AutoSimplify.openGrabber(ourselves);
+			AutoSimplify.lowerElevator(ourselves, ourselves.BOTTOM_HEIGHT);
+			break;
+		case 11:
+			AutoSimplify.downElevatorStep(ourselves, ourselves.BOTTOM_HEIGHT);
+			break;
+		case 12:
+			AutoSimplify.grabCube(ourselves);
+			ourselves.driveRobot(0, 0);
+			break;
+		case 13:
+			ourselves.driveRobot(0, 0);
+			break;
+			
+			
 		}	
+	
 /*		
 		if (ourselves.autoTimer.get() > 0.5) {
 			SmartDashboard.putNumber("straightCorrection", ourselves.driveStraightCorrection.correctionValue);
