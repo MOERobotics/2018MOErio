@@ -60,7 +60,7 @@ static void dropCube(Robot us) {
 	}
 	
 
-	static void grabCube(Robot us) {
+	static void grabCubeOLD(Robot us) {
 		if (us.newStep) {
 			us.newStep = false;
 			us.autoTimer.reset();
@@ -76,6 +76,50 @@ static void dropCube(Robot us) {
 		else {   //   rollers in
 			us.rollLeft.set(ControlMode.PercentOutput, -0.65);
 			us.rollRight.set(ControlMode.PercentOutput, -0.65);
+		}
+	}
+	
+	static void pushCurrentWheel(Robot us) {
+		us.currentWheelLeft[2] = us.currentWheelLeft[1]; 
+		us.currentWheelLeft[1] = us.currentWheelLeft[0]; 
+		us.currentWheelRight[2] = us.currentWheelRight[1]; 
+		us.currentWheelRight[1] = us.currentWheelRight[0]; 
+	}
+	
+	static double meanCurrentLeft(Robot us){
+		return((us.currentWheelLeft[0]+us.currentWheelLeft[1]+us.currentWheelLeft[2])/3);
+	}
+
+	static double meanCurrentRight(Robot us){
+		return((us.currentWheelRight[0]+us.currentWheelRight[1]+us.currentWheelRight[2])/3);
+	}
+	
+	static void grabCube(Robot us) {
+		if (us.newStep) {
+			us.newStep = false;
+			us.autoTimer.reset();
+			us.cubeClaw.set(false);
+		}
+		else if (us.autoTimer.get() < 0.2) {
+			us.rollLeft.set(ControlMode.PercentOutput, -0.65);
+			us.rollRight.set(ControlMode.PercentOutput, -0.65);
+			pushCurrentWheel(us);
+			us.currentWheelLeft[0] = us.rollLeft.getOutputCurrent();
+			us.currentWheelRight[0] = us.rollRight.getOutputCurrent();
+		}
+		else if ( (us.autoTimer.get() > 3) || (meanCurrentLeft(us) > 10) || (meanCurrentRight(us) > 10)) {
+			us.autoStep++;
+			us.autoTimer.reset();
+			us.newStep = true;
+			us.rollLeft.set(ControlMode.PercentOutput, 0);
+			us.rollRight.set(ControlMode.PercentOutput, 0);
+		}
+		else {   //   rollers in
+			us.rollLeft.set(ControlMode.PercentOutput, -0.65);
+			us.rollRight.set(ControlMode.PercentOutput, -0.65);
+			pushCurrentWheel(us);
+			us.currentWheelLeft[0] = us.rollLeft.getOutputCurrent();
+			us.currentWheelRight[0] = us.rollRight.getOutputCurrent();
 		}
 	}
 	

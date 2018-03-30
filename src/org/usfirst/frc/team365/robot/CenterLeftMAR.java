@@ -63,7 +63,7 @@ public class CenterLeftMAR {
 			
 		case 10:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 15 * INCHES, 0, 0.4); 
+			AutoSimplify.goStraight(us, 16.5 * INCHES, 0, 0.4); //15
 			break;
 		
 		case 11:
@@ -72,38 +72,50 @@ public class CenterLeftMAR {
 			
 		case 12:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDTurn(us, -70);
+			AutoSimplify.autoPIDTurn(us, -75); //-70
 			break;
 			
 		case 13:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 3 * FEET, -70, 0.5); 
+			AutoSimplify.goStraight(us, 3.1 * FEET, -70, 0.5); //3ft
 			break;	
 			
 		case 14:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.halfTurnRight(us, 0, 0.8); //-2º
+			AutoSimplify.halfTurnRight(us, -5, 0.8); 
 			break;
 			
 		case 15:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 1 * FEET, 0, 0.5); //-2º
+			AutoSimplify.goStraight(us, 0.7 * FEET, -5, 0.5); //1ft
 			break;
 			
 		case 16:
-			AutoSimplify.launchCube(us); //Take this out if (Alternative)
+			AutoSimplify.launchCube(us); 
 			break;
 			
 		case 17:
-			//sets wrist back to level -- don't know if works
-			us.driveRobot(0, 0);
+			//works
+			AutoSimplify.goStraight(us, 0.5 * FEET, 0, -0.5);
 			if (us.encoderWrist.getRaw() < 1100) {
 				us.wrist.set(ControlMode.PercentOutput, 0);
 			}
 			else us.wrist.set(ControlMode.PercentOutput, 0.9); 
+			break;
+			
+		case 18:
+			us.driveRobot(0,0);
+			break;
+			
 			
 		}
 		
 	}
 	
 }	
+
+/* some stuff:
+ * 	time to drop cube: 13-ish sec
+ * 	extra 2-ish sec to 
+ * 	
+ */
