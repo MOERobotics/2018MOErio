@@ -14,7 +14,7 @@ public class GoStraightAutonomous {
 
 		switch(ourselves.autoStep) {
 		case 1:
-			AutoSimplify.goStraight(ourselves, 135 * INCHES, 0, 0.6); //90.901 in
+			AutoSimplify.goStraight(ourselves, 125 * INCHES, 0, 0.6); //90.901 in
 			AutoSimplify.raiseElevator(ourselves, 1800);
 			AutoSimplify.deployGrabber(ourselves);
 //			AutoSimplify.autoPIDStraight(ourselves, 146 * INCHES, 0, 0.6); //118.182 in
@@ -29,7 +29,7 @@ public class GoStraightAutonomous {
 //			ourselves.goStraight(6.061 * FEET, 90, 0.6); //72.723 in
 			AutoSimplify.raiseElevator(ourselves, 1800);
 			AutoSimplify.deployGrabber(ourselves);
-			AutoSimplify.autoPIDStraight(ourselves, 6 * INCHES, -90, 0.5); //54.545 in
+			AutoSimplify.autoPIDStraight(ourselves, 13 * INCHES, -90, 0.5); //54.545 in
 			break;
 		case 4:
 			AutoSimplify.launchCube(ourselves);
@@ -54,14 +54,16 @@ public class GoStraightAutonomous {
 			AutoSimplify.lowerElevator(ourselves, 600);
 			break;
 		case 9:
+			AutoSimplify.goStraight(ourselves, 10*INCHES, -90, 0.4);
+			AutoSimplify.lowerElevator(ourselves, 600);
+			break;
+			
+		case 10:
 			AutoSimplify.autoPIDTurn(ourselves, -180);
 			AutoSimplify.lowerElevator(ourselves, 600);
 			break;
-		case 10:
-			AutoSimplify.openGrabber(ourselves);
-			AutoSimplify.lowerElevator(ourselves, ourselves.BOTTOM_HEIGHT);
-			break;
 		case 11:
+			AutoSimplify.openGrabber(ourselves);
 			AutoSimplify.downElevatorStep(ourselves, ourselves.BOTTOM_HEIGHT);
 			break;
 		case 12:
@@ -69,6 +71,17 @@ public class GoStraightAutonomous {
 			ourselves.driveRobot(0, 0);
 			break;
 		case 13:
+			AutoSimplify.upElevatorStep(ourselves, 1800);
+			ourselves.driveRobot(0, 0);
+			break;
+		case 14:
+			AutoSimplify.goStraight(ourselves, 10*INCHES, -170, 0.4);
+			AutoSimplify.raiseElevator(ourselves, 1800);
+//			ourselves.driveRobot(0, 0);
+			break;
+		case 15:
+			AutoSimplify.launchCube(ourselves);
+			AutoSimplify.raiseElevator(ourselves, 1800);
 			ourselves.driveRobot(0, 0);
 			break;
 			
