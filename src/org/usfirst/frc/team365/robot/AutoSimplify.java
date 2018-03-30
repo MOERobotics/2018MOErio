@@ -24,7 +24,7 @@ public class AutoSimplify{
 			us.newStep = false;
 			us.autoTimer.reset();
 		}
-		else if (us.autoTimer.get() > 0.75) {
+		else if (us.autoTimer.get() > 0.6) {
 			us.rollLeft.set(ControlMode.PercentOutput, 0);
 			us.rollRight.set(ControlMode.PercentOutput, 0);
 			us.autoStep++;
@@ -66,7 +66,7 @@ static void dropCube(Robot us) {
 			us.autoTimer.reset();
 			us.cubeClaw.set(false);
 		}
-		else if (us.autoTimer.get() > 0.75) {
+		else if (us.autoTimer.get() > 0.7) {
 			us.autoStep++;
 			us.autoTimer.reset();
 			us.newStep = true;
@@ -262,18 +262,18 @@ static void dropCube(Robot us) {
 					// only add to error sum when close to target value
 					if (offYaw < 20 && offYaw > -20) {
 						if (offYaw > 0)
-							us.turnSum = us.turnSum + 0.017;
+							us.turnSum = us.turnSum + 0.015;
 						else
-							us.turnSum = us.turnSum - 0.017;
+							us.turnSum = us.turnSum - 0.015;
 					}
 					// calculate new correction value
 					double newPower = pTurn * offYaw + us.turnSum + pDer* (offYaw - us.lastOffYaw);
 
 					// limit output power
-					if (newPower > 0.6)
-						newPower = 0.6;
-					else if (newPower < -0.6)
-						newPower = -0.6;
+					if (newPower > 0.5)
+						newPower = 0.5;
+					else if (newPower < -0.5)
+						newPower = -0.5;
 					us.driveRobot(newPower, -newPower);
 				}
 				// if robot is within yaw tolerance stop robot and increase onCount

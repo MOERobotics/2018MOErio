@@ -305,7 +305,8 @@ public class Robot extends TimedRobot {
 				RightLeftScaleCube.leftStart(this); 
 			break;
 		case 6:
-			GoStraightAutonomous.autoGoStraightTurnTestRight(this);
+//			GoStraightAutonomous.autoGoStraightTurnTestRight(this);
+			GoStraightAutonomous.autoScaleTest(this);
 			break;
 /*
 		case 3:
