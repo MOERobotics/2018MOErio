@@ -275,7 +275,7 @@ public class Robot extends TimedRobot {
 				RightLeftScaleCube.rightStart(this);
 			else
 				ScaleSwitchCombo.rightStart(this);
-				RightScaleGrabCube.run(this);
+				//RightScaleGrabCube.run(this);
 				//DoubleScaleCombo.rightStart(this);
 			break;
 		case 3:
