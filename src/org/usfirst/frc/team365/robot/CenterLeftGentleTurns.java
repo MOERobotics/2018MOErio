@@ -79,13 +79,13 @@ public class CenterLeftGentleTurns{
 			
 		case 12:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDTurn(us, -75); //-70 
+			AutoSimplify.autoPIDTurn(us, -80); //-70 
 			//AutoSimplify.autoPIDTurn(us, -70); (Alternative)
 			break;
 			
 		case 13:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDStraight(us, 4.1 * FEET, -75, 0.6); //4
+			AutoSimplify.autoPIDStraight(us, 4.35 * FEET, -75, 0.6); //4.1
 			//AutoSimplify.goStraight(us, 3*FEET, -70, 0.5); (Alternative)
 			break;	
 		case 14:

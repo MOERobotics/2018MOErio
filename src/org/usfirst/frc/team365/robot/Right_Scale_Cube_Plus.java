@@ -86,6 +86,7 @@ public class Right_Scale_Cube_Plus {
 	case 2:
 		AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
 		AutoSimplify.autoPIDTurn(robot, -25);
+		//AutoSimplify.halfTurnLeft(robot, -25, 0.6);
 		AutoSimplify.deployGrabber(robot);
 		//ROBOT TURNS AND GRABBER LOWERS
 		break;
@@ -93,6 +94,7 @@ public class Right_Scale_Cube_Plus {
 	case 3:
 		AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
 		AutoSimplify.goStraight(robot, 4.083*FEET, -25, 0.4);
+		//AutoSimplify.goStraight(robot, 3.6 * FEET, -25, 0.4);
 		// ROBOT GOES STRAIGHT
 		break;
 

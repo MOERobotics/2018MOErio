@@ -42,7 +42,8 @@ public class Robot extends TimedRobot {
 	 TalonSRX rollLeft  = new TalonSRX(12) {{ setNeutralMode(NeutralMode.Brake); }};
 	 TalonSRX rollRight = new TalonSRX( 3) {{ setNeutralMode(NeutralMode.Brake); }};
 	 TalonSRX wrist     = new TalonSRX( 4) {{ setNeutralMode(NeutralMode.Brake); }};
-
+	 
+	 
     //Solenoids
            Solenoid shifter   = new       Solenoid(2);
            Solenoid cubeClaw  = new       Solenoid(3);
@@ -87,6 +88,9 @@ public class Robot extends TimedRobot {
 	boolean scaleLeft;
 	boolean oppSwitchLeft;
 	boolean reachedSetting = false;
+	
+	double[] currentWheelLeft  = new double[3];
+	double[] currentWheelRight  = new double[3];
 	
 	final int HEIGHT_FOR_SWITCH = 1800;
 	final int HEIGHT_FOR_SCALE = 5300;
@@ -272,8 +276,6 @@ public class Robot extends TimedRobot {
 			if (scaleLeft)
 				RightLeftScaleCube.rightStart(this);
 			else
-
-//				RightScaleGrabCube.run(this);
 				ScaleScaleCombo.rightStart(this);
 			break;
 		case 3:  //starts from left and controls scale
