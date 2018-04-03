@@ -266,74 +266,55 @@ public class Robot extends TimedRobot {
 				//CenterLeftSwitchGentleAlternate.run(this);
 			else
 				CenterRightSwitchHalf.run(this);
-			//GoStraightAutonomous.autoLineSwitch(this);
+			
 			break;
-		case 2:		/* Starting at the right. */
+		case 2:		// Starts from right and controls scale
 			if (scaleLeft)
 				RightLeftScaleCube.rightStart(this);
 			else
-				ScaleSwitchCombo.rightStart(this);
+
 //				RightScaleGrabCube.run(this);
-				//DoubleScaleCombo.rightStart(this);
+				ScaleScaleCombo.rightStart(this);
 			break;
-		case 3:
-//			if (switchLeft)
-//				LeftSwitchThenCube.run(this);
-//			else 
+		case 3:  //starts from left and controls scale
+
 			if (scaleLeft)
 //				LeftScaleGrabCube.run(this);
-			ScaleSwitchCombo.leftStart(this);
-				//DoubleScaleCombo.leftStart(this);
+
+				ScaleScaleCombo.leftStart(this);
 			else
 				RightLeftScaleCube.leftStart(this);
 			break;
-		case 4: //Starts from the right
-			if (scaleLeft)
-				RightLeftScaleCube.rightStart(this);
-			else
-//				Right_Scale_Cube_Plus.run(this); 
-//			DoubleScaleCombo.rightStart(this);
+		case 4: //Starts from the right and stays on side
+			if (scaleLeft && switchLeft) 
+				RightLeftScaleCube.rightStart(this);   // change me
+			else if (scaleLeft && !switchLeft) 
+				GoStraightAutonomous.autoOnSideRightSwitchOnly(this);
+			else if (!scaleLeft && switchLeft) {
 				ScaleScaleCombo.rightStart(this);
-//				ScaleSwitchCombo.rightStart(this);
+			}
+			else ScaleScaleCombo.rightStart(this);;
+			
 			break;
-		case 5: //Starts from the left
-			if (scaleLeft)
-//				DoubleScaleCombo.leftStart(this);
-//				Left_Scale_Cube_Plus.run(this); 
-				ScaleScaleCombo.leftStart(this);
-			else
-				RightLeftScaleCube.leftStart(this); 
-			break;
-		case 6:
-//			GoStraightAutonomous.autoGoStraightTurnTestRight(this);
-			GoStraightAutonomous.autoScaleTest(this);
-			break;
-/*
-		case 3:
-			RightSwitchThenCube.run(this);
-			break;
-*/			
-/*		case 1:
-			CenterRightSwitchAutonomous.run(this);
-			break;
-		case 2:
-			RightSwitchThenCube.run(this);
-			break;
-		case 3:
-			// Right_Switch_Cube_Plus.run(this);
-			//break;
-		case 4:
-			RightScaleSwitch.run(this);
-			break;*/
-/*		case 5:
-			GoStraightAutonomous.autoGoStraightTurnTest(this);
-			GoStraightAutonomous.autoScaleTest(this);
-			break; 
-		default:
-			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
-			break;
-			*/
+		case 5: //Starts from the left and stays on side
+			if (scaleLeft && switchLeft) ScaleScaleCombo.leftStart(this);
+			else if (scaleLeft && !switchLeft) ScaleScaleCombo.leftStart(this);
+			else if (!scaleLeft && switchLeft) GoStraightAutonomous.autoOnSideLeftSwitchOnly(this);
+			else RightLeftScaleCube.leftStart(this);   // change me
 
+			break;
+		case 6:  //starts from right and does scale with partner
+			if (scaleLeft) {
+				RightLeftScaleCube.rightStart(this);
+			}
+			else GoStraightAutonomous.autoScaleLeftStart(this);
+			break;
+		case 7:  //starts from left and does scale with partner
+			if (scaleLeft) {
+				GoStraightAutonomous.autoScaleRightStart(this);
+			}
+			else RightLeftScaleCube.leftStart(this);
+			break;
 		}
 
 	}
