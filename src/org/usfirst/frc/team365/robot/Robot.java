@@ -223,6 +223,8 @@ public class Robot extends TimedRobot {
 		if (driveStick.getRawButton(10)) autoRoutine = 3;
 		if (driveStick.getRawButton(12)) autoRoutine = 4;
 		if (driveStick.getRawButton(11)) autoRoutine = 5;
+		if (driveStick.getRawButton(9)) autoRoutine = 6;
+		if (driveStick.getRawButton(7)) autoRoutine = 7;
     	SmartDashboardUtil.dashboardPeriodic(this);
 	
 	}//yayhappyface
@@ -267,29 +269,47 @@ public class Robot extends TimedRobot {
 			else
 				CenterRightSwitchHalf.run(this);
 			break;
-		case 2:		/* Starting at the right. */
+		case 2:		// Starts from right and controls scale
 			if (scaleLeft)
 				RightLeftScaleCube.rightStart(this);
 			else
 				ScaleScaleCombo.rightStart(this);
 			break;
-		case 3:
+		case 3:  //starts from left and controls scale
 			if (scaleLeft)
 				ScaleScaleCombo.leftStart(this);
 			else
 				RightLeftScaleCube.leftStart(this);
 			break;
-		case 4: //Starts from the right
-			if (scaleLeft)
-				RightLeftScaleCube.rightStart(this);
-			else
-				ScaleSwitchCombo.rightStart(this);
+		case 4: //Starts from the right and stays on side
+			if (scaleLeft && switchLeft) 
+				RightLeftScaleCube.rightStart(this);   // change me
+			else if (scaleLeft && !switchLeft) 
+				GoStraightAutonomous.autoOnSideRightSwitchOnly(this);
+			else if (!scaleLeft && switchLeft) {
+				ScaleScaleCombo.rightStart(this);
+			}
+			else ScaleScaleCombo.rightStart(this);;
+			
 			break;
-		case 5: //Starts from the left
-			if (scaleLeft)
-				ScaleSwitchCombo.leftStart(this);
-			else
-				RightLeftScaleCube.leftStart(this); 
+		case 5: //Starts from the left and stays on side
+			if (scaleLeft && switchLeft) ScaleScaleCombo.leftStart(this);
+			else if (scaleLeft && !switchLeft) ScaleScaleCombo.leftStart(this);
+			else if (!scaleLeft && switchLeft) GoStraightAutonomous.autoOnSideLeftSwitchOnly(this);
+			else RightLeftScaleCube.leftStart(this);   // change me
+
+			break;
+		case 6:  //starts from right and does scale with partner
+			if (scaleLeft) {
+				RightLeftScaleCube.rightStart(this);
+			}
+			else GoStraightAutonomous.autoScaleLeftStart(this);
+			break;
+		case 7:  //starts from left and does scale with partner
+			if (scaleLeft) {
+				GoStraightAutonomous.autoScaleRightStart(this);
+			}
+			else RightLeftScaleCube.leftStart(this);
 			break;
 		}
 
