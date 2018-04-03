@@ -8,7 +8,7 @@ public class FarScaleNoCube {
 		switch (us.autoStep)
 		{
 		case 1: 
-			AutoSimplify.goStraight(us, 16.1 * FEET, 0, 0.9); //206.173 in
+			AutoSimplify.goStraight(us, 16.1 * FEET, 0, 0.7); //206.173 in
 			AutoSimplify.deployGrabber(us);
 			break;
 		case 2:
@@ -17,19 +17,22 @@ public class FarScaleNoCube {
 			break;
 		case 3:
 			AutoSimplify.deployGrabber(us);
-			AutoSimplify.goStraight(us, 14.5 * FEET, -90, 0.7); //176.727 in
+			AutoSimplify.goStraight(us, 6 * FEET, -90, 0.6); //176.727 in
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			break;
 		case 4:
-			AutoSimplify.autoPIDTurn(us, 3);
-			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
+			us.driveRobot(0, 0);
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+	//		AutoSimplify.autoPIDTurn(us, 3);
+	//		AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
+			/*
 		case 5:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
 		case 6:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
-			break;
+			break;*/
 		}
 	}
 	
@@ -37,7 +40,7 @@ public class FarScaleNoCube {
 		switch (us.autoStep)
 		{
 		case 1: 
-			AutoSimplify.goStraight(us, 16.1 * FEET, 0, 0.9); //206.173 in
+			AutoSimplify.goStraight(us, 16.1 * FEET, 0, 0.7); //206.173 in
 			AutoSimplify.deployGrabber(us);
 			break;
 		case 2:
@@ -46,19 +49,22 @@ public class FarScaleNoCube {
 			break;
 		case 3:
 			AutoSimplify.deployGrabber(us);
-			AutoSimplify.goStraight(us, 14.5 * FEET, 90, 0.7); //176.727 in
+			AutoSimplify.goStraight(us, 6 * FEET, 90, 0.6); //176.727 in
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			break;
 		case 4:
-			AutoSimplify.autoPIDTurn(us, -3);
-			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
+			us.driveRobot(0, 0);
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+	//		AutoSimplify.autoPIDTurn(us, 3);
+	//		AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
+			/*
 		case 5:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
 		case 6:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
-			break;
+			break;  */
 		}
 	}
 }
