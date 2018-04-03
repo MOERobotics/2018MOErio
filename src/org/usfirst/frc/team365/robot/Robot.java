@@ -184,7 +184,6 @@ public class Robot extends TimedRobot {
 		System.out.println("It'sa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
 		shiftDrive();
-		mouseTrapUp();
 		cubeClawClose();
 		
 	}
@@ -265,27 +264,18 @@ public class Robot extends TimedRobot {
 		case 1:		/* Starting at the center */
 			if (switchLeft)
 				CenterLeftGentleTurns.run(this);
-				//CenterLeftSwitchGentleAlternate.run(this);
 			else
 				CenterRightSwitchHalf.run(this);
-			//GoStraightAutonomous.autoLineSwitch(this);
 			break;
 		case 2:		/* Starting at the right. */
 			if (scaleLeft)
 				RightLeftScaleCube.rightStart(this);
 			else
-				ScaleSwitchCombo.rightStart(this);
-				//RightScaleGrabCube.run(this);
-				//DoubleScaleCombo.rightStart(this);
+				ScaleScaleCombo.rightStart(this);
 			break;
 		case 3:
-//			if (switchLeft)
-//				LeftSwitchThenCube.run(this);
-//			else 
 			if (scaleLeft)
-//				LeftScaleGrabCube.run(this);
-			ScaleSwitchCombo.leftStart(this);
-				//DoubleScaleCombo.leftStart(this);
+				ScaleScaleCombo.leftStart(this);
 			else
 				RightLeftScaleCube.leftStart(this);
 			break;
@@ -293,45 +283,14 @@ public class Robot extends TimedRobot {
 			if (scaleLeft)
 				RightLeftScaleCube.rightStart(this);
 			else
-//				Right_Scale_Cube_Plus.run(this); 
-//			DoubleScaleCombo.rightStart(this);
-				ScaleScaleCombo.rightStart(this);
-//				ScaleSwitchCombo.rightStart(this);
+				ScaleSwitchCombo.rightStart(this);
 			break;
 		case 5: //Starts from the left
 			if (scaleLeft)
-//				DoubleScaleCombo.leftStart(this);
-//				Left_Scale_Cube_Plus.run(this); 
-				ScaleScaleCombo.leftStart(this);
+				ScaleSwitchCombo.leftStart(this);
 			else
 				RightLeftScaleCube.leftStart(this); 
 			break;
-/*
-		case 3:
-			RightSwitchThenCube.run(this);
-			break;
-*/			
-/*		case 1:
-			CenterRightSwitchAutonomous.run(this);
-			break;
-		case 2:
-			RightSwitchThenCube.run(this);
-			break;
-		case 3:
-			// Right_Switch_Cube_Plus.run(this);
-			//break;
-		case 4:
-			RightScaleSwitch.run(this);
-			break;*/
-/*		case 5:
-			GoStraightAutonomous.autoGoStraightTurnTest(this);
-			GoStraightAutonomous.autoScaleTest(this);
-			break; 
-		default:
-			statusMessage = "WARNING: We tried to run an invalid autonomous program!";
-			break;
-			*/
-
 		}
 
 	}
@@ -393,9 +352,6 @@ public class Robot extends TimedRobot {
 		//flySwatter 
 		if(functionStick.getStickButton(Hand.kRight) && functionStick.getX(Hand.kRight) > 0.9) flySwatterShoot();
 		else flySwatterClose();
-		//mouseTrap SAME
-		if(driveStick.getRawButton(14)) mouseTrapDown();
-		else mouseTrapUp();
 		//Elevator SAME
 		if(functionStick.getTriggerAxis(Hand.kLeft) > functionStick.getTriggerAxis(Hand.kRight)) {
 			driveElevator((bottomElevator * functionStick.getTriggerAxis(Hand.kLeft)));
