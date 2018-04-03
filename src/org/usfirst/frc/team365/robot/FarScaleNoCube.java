@@ -25,7 +25,6 @@ public class FarScaleNoCube {
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
 		case 5:
-			AutoSimplify.goStraight(us, 2.5 * FEET, 3, 0.4); //38.182 in
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
 		case 6:
@@ -55,7 +54,6 @@ public class FarScaleNoCube {
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
 		case 5:
-			AutoSimplify.goStraight(us, 2.5 * FEET, -3, 0.4); //38.182 in
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
 		case 6:
