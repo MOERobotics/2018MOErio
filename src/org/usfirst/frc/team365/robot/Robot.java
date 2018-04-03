@@ -265,8 +265,10 @@ public class Robot extends TimedRobot {
 		switch (autoRoutine) {
 		case 1:		/* Starting at the center */
 			if (switchLeft)
-				CenterLeftGentleTurns.run(this);
+				CenterLeftMAR.run(this);
+//				CenterLeftGentleTurns.run(this);
 			else
+				
 				CenterRightSwitchHalf.run(this);
 			break;
 		case 2:		// Starts from right and controls scale
@@ -283,7 +285,8 @@ public class Robot extends TimedRobot {
 			break;
 		case 4: //Starts from the right and stays on side
 			if (scaleLeft && switchLeft) 
-				RightLeftScaleCube.rightStart(this);   // change me
+				FarScaleNoCube.rightStart(this);
+//				RightLeftScaleCube.rightStart(this);   // change me
 			else if (scaleLeft && !switchLeft) 
 				GoStraightAutonomous.autoOnSideRightSwitchOnly(this);
 			else if (!scaleLeft && switchLeft) {
@@ -296,7 +299,10 @@ public class Robot extends TimedRobot {
 			if (scaleLeft && switchLeft) ScaleScaleCombo.leftStart(this);
 			else if (scaleLeft && !switchLeft) ScaleScaleCombo.leftStart(this);
 			else if (!scaleLeft && switchLeft) GoStraightAutonomous.autoOnSideLeftSwitchOnly(this);
-			else RightLeftScaleCube.leftStart(this);   // change me
+			else {
+				FarScaleNoCube.leftStart(this);
+//				RightLeftScaleCube.leftStart(this);   // change me
+			}
 
 			break;
 		case 6:  //starts from right and does scale with partner
