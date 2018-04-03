@@ -21,19 +21,19 @@ public class CenterLeftGentleTurns{
 		case 2:
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 60 * INCHES, -45, .5);
+			AutoSimplify.goStraight(us, 62 * INCHES, -45, .5);
 			break;
 			
 		case 3:
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.halfTurnRight(us, 0, .8);
+			AutoSimplify.halfTurnRight(us, 0.5, .8);
 			break;
 
 		case 4:
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 15 * INCHES, 0, .5);
+			AutoSimplify.goStraight(us, 15 * INCHES, 0.2, .5);
 			break;
 			
 		case 5:
@@ -57,7 +57,7 @@ public class CenterLeftGentleTurns{
 		case 8:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.openGrabber(us);
-			AutoSimplify.goStraight(us, 4 * FEET, 90, 0.6); //4.3
+			AutoSimplify.goStraight(us, 3.4 * FEET, 90, 0.5); //4.3
 			//AutoSimplify.goStraight(us, 3.1 * FEET, -65, -0.5); (Alternative)
 			break;
 		
@@ -79,18 +79,18 @@ public class CenterLeftGentleTurns{
 			
 		case 12:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDTurn(us, -80); //-70 
+			AutoSimplify.autoPIDTurn(us, -75); //-70 
 			//AutoSimplify.autoPIDTurn(us, -70); (Alternative)
 			break;
 			
 		case 13:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDStraight(us, 4.35 * FEET, -75, 0.6); //4.1
+			AutoSimplify.autoPIDStraight(us, 4. * FEET, -75, 0.6); //4.1
 			//AutoSimplify.goStraight(us, 3*FEET, -70, 0.5); (Alternative)
 			break;	
 		case 14:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.halfTurnRight(us, 0, 0.8);
+			AutoSimplify.halfTurnRight(us, -5, 0.8);
 			//AutoSimplify.halfTurnRight(us, -2, 0.8); (Alternative)
 			/*if (us.navX.getYaw() >= -3) {
 				us.driveRobot(0, 0);
@@ -101,14 +101,18 @@ public class CenterLeftGentleTurns{
 				us.driveRobot(0.6, 0);*/
 			//AutoSimplify.autoPIDTurn(us, 0);
 			break;
-			
 		case 15:
+			AutoSimplify.goStraight(us, 1.0*FEET, -2, 0.5);
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
+			break;
+			
+		case 16:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.launchCube(us); //Take this out if (Alternative)
 			//AutoSimplify.goStraight(us, 1*FEET, -2, 0.5);
 			break;
 			
-		case 16:
+		case 17:
 			//sets wrist back to level -- don't know if works
 			//AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH); (Alternative)
 			//AutoSimplify.launchCube(us); //Take this out if (Alternative)
