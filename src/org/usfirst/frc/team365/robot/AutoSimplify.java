@@ -107,7 +107,7 @@ static void dropCube(Robot us) {
 			us.currentWheelLeft[0] = us.rollLeft.getOutputCurrent();
 			us.currentWheelRight[0] = us.rollRight.getOutputCurrent();
 		}
-		else if ( (us.autoTimer.get() > 3) || (meanCurrentLeft(us) > 10) || (meanCurrentRight(us) > 10)) {
+		else if ( (us.autoTimer.get() > 0.7) || (meanCurrentLeft(us) > 10) || (meanCurrentRight(us) > 10)) {
 			us.autoStep++;
 			us.autoTimer.reset();
 			us.newStep = true;
