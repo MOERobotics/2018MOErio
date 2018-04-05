@@ -12,6 +12,8 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -69,7 +71,6 @@ public class Robot extends TimedRobot {
 	// Global Variables
 	int autoStep    = 0;
 	int autoRoutine = 0;
-
 	int autoLoopCounter = 0;
     	Timer  autoTimer    = new Timer();
     Timer grabTimer = new Timer();
@@ -89,6 +90,11 @@ public class Robot extends TimedRobot {
 	boolean oppSwitchLeft;
 	boolean reachedSetting = false;
 	
+	boolean cam1On = true;
+	UsbCamera cam1;
+	UsbCamera cam2;
+	VideoSink server;
+
 	double[] currentWheelLeft  = new double[3];
 	double[] currentWheelRight  = new double[3];
 	
@@ -161,7 +167,7 @@ public class Robot extends TimedRobot {
         enable();
 	}};
 	static final double upperElevator = 1;
-	static final double bottomElevator = -0.4;
+	static final double bottomElevator = -0.6;
 	static final double backDrive = 0.1;
 	int turnOnTargetCount = 0;
 	public static final double INCHES_TO_ENCTICKS = 45;
@@ -179,8 +185,11 @@ public class Robot extends TimedRobot {
 
 		// Uncomment to stream video from the camera.
 		// Documentation here on setting modes: https://wpilib.screenstepslive.com/s/currentCS/m/vision/l/669166-using-the-cameraserver-on-the-roborio
+/*		cam1 =CameraServer.getInstance().startAutomaticCapture(0);
+		cam2 = CameraServer.getInstance().startAutomaticCapture(1);
+		server = CameraServer.getInstance().getServer(); */
 		CameraServer.getInstance().startAutomaticCapture();
-
+		
 		System.out.println("It'sa me, MOERio!");
 		SmartDashboardUtil.dashboardInit(this);
 		shiftDrive();
@@ -361,6 +370,10 @@ public class Robot extends TimedRobot {
 				driveRobot(left, right);
 			}
 		}
+		//Camera
+/*		cameraToggle();
+		if(cam1On) server.setSource(cam1);
+		else server.setSource(cam2); */
 		//Shifting
 		if(functionStick.getStartButtonPressed()) shiftClimb();
 		if(functionStick.getBackButtonPressed()) shiftDrive();
@@ -374,7 +387,7 @@ public class Robot extends TimedRobot {
 		//wrist SAME
 		if(functionStick.getBumper(Hand.kLeft)) wristDown();
 		else if(functionStick.getBumper(Hand.kRight)) wristUp();
-		else driveWrist(0);
+		else backDriveWrist();
 		//flySwatter 
 		if(functionStick.getStickButton(Hand.kRight) && functionStick.getX(Hand.kRight) > 0.9) flySwatterShoot();
 		else flySwatterClose();
@@ -463,9 +476,9 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void rollOut() {
-		double power = 0.5;
+		double power = 0.4;
 		if(functionStick.getStickButton(Hand.kLeft)) power = 1;
-		else power = 0.5;
+		else power = 0.4;
 		driveRoll(power);
 	}
 	
@@ -480,6 +493,10 @@ public class Robot extends TimedRobot {
 	
 	public void wristDown() {
 		driveWrist(-0.4);
+	}
+	
+	public void backDriveWrist() {
+		driveWrist(0.06);
 	}
 	
 	//cubeClaw holds or lets go of cube
@@ -518,7 +535,15 @@ public class Robot extends TimedRobot {
 	}
 	
 	public void flySwatterClose() {
-		flySwatter.set(90);
+		flySwatter.set(0.55);
 	}
 	
+	//Camera
+	public void cameraToggle() {
+		if(driveStick.getTriggerPressed()) {
+			if(cam1On) cam1On = false;
+			else cam1On = true;
+		}
+		
+	}
 }

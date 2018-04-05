@@ -49,7 +49,7 @@ public class ScaleScaleCombo {
 		case 7:	
 			AutoSimplify.lowerElevator(robot, 600);
 			//AutoSimplify.openGrabber(robot);
-			AutoSimplify.goStraight(robot, 2.7*FEET, 90, 0.4);
+			AutoSimplify.goStraight(robot, 2.5*FEET, 90, 0.4);
 			//ROBOT GOES STRAIGHT
 			break;
 		case 8:
@@ -73,11 +73,11 @@ public class ScaleScaleCombo {
 			break;
 			//TEST THIS for after getting cube (scale via gamedata)
 		case 12:
-				AutoSimplify.halfTurnLeft(robot, 25, -0.8);
+				AutoSimplify.halfTurnLeft(robot, 30, -0.8);
 				AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 			break;
 		case 13:
-				AutoSimplify.goStraight(robot, 3.5*FEET, 25, 0.4);
+				AutoSimplify.goStraight(robot, 3.5*FEET, 30, 0.4);
 				AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 			break;
 		case 14:
@@ -135,7 +135,7 @@ public class ScaleScaleCombo {
 			case 7:	
 				AutoSimplify.lowerElevator(robot, 600);
 				//AutoSimplify.openGrabber(robot);
-				AutoSimplify.goStraight(robot, 2.7*FEET, -90, 0.4);
+				AutoSimplify.goStraight(robot, 2.5*FEET, -90, 0.4);
 				//ROBOT GOES STRAIGHT
 				break;
 			case 8:
@@ -159,11 +159,11 @@ public class ScaleScaleCombo {
 				break;
 				//TEST THIS for after getting cube (scale via gamedata)
 			case 12:
-					AutoSimplify.halfTurnRight(robot, -25, -0.8);
+					AutoSimplify.halfTurnRight(robot, -30, -0.8);
 					AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 				break;
 			case 13:
-					AutoSimplify.goStraight(robot, 3.5*FEET, -25, 0.4);
+					AutoSimplify.goStraight(robot, 3.5*FEET, -30, 0.4);
 					AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 				break;
 			case 14:

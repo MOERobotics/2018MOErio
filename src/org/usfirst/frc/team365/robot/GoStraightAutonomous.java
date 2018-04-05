@@ -283,8 +283,8 @@ public class GoStraightAutonomous {
 	case 1:
 	    AutoSimplify.raiseElevator(ourselves, ourselves.HEIGHT_FOR_SWITCH);
 		AutoSimplify.deployGrabber(ourselves);
-		AutoSimplify.goStraight(ourselves, 23.0 * FEET, 0.5, 0.7); //
-//		AutoSimplify.autoPIDStraight(ourselves, 23 * FEET, 0, 0.7); //
+//		AutoSimplify.goStraight(ourselves, 23.0 * FEET, 0.5, 0.7); //
+		AutoSimplify.autoPIDStraight(ourselves, 23 * FEET, 0.5, 0.7); //
 		break;
 	case 2:
 //		ourselves.turnToAngle(90.0, 0.7);
@@ -326,8 +326,8 @@ public class GoStraightAutonomous {
 		case 1:
 		    AutoSimplify.raiseElevator(ourselves, ourselves.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(ourselves);
-			AutoSimplify.goStraight(ourselves, 23.0 * FEET, -0.5, 0.7); //
-//			AutoSimplify.autoPIDStraight(ourselves, 23 * FEET, 0, 0.7); //
+//			AutoSimplify.goStraight(ourselves, 23.0 * FEET, -0.5, 0.7); //
+			AutoSimplify.autoPIDStraight(ourselves, 23 * FEET, -0.5, 0.7); //
 			break;
 		case 2:
 //			ourselves.turnToAngle(90.0, 0.7);

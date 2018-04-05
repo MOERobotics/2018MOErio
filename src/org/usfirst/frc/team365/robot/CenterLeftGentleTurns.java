@@ -21,7 +21,7 @@ public class CenterLeftGentleTurns{
 		case 2:
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 62 * INCHES, -50, .5);
+			AutoSimplify.goStraight(us, 59 * INCHES, -50, .5);
 			break;
 			
 		case 3:
@@ -57,7 +57,7 @@ public class CenterLeftGentleTurns{
 		case 8:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.openGrabber(us);
-			AutoSimplify.goStraight(us, 3.4 * FEET, 90, 0.5); //4.3
+			AutoSimplify.goStraight(us, 4.3 * FEET, 90, 0.5); //4.3
 			//AutoSimplify.goStraight(us, 3.1 * FEET, -65, -0.5); (Alternative)
 			break;
 		
@@ -85,7 +85,7 @@ public class CenterLeftGentleTurns{
 			
 		case 13:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDStraight(us, 3.5 * FEET, -75, 0.6); //4.1
+			AutoSimplify.autoPIDStraight(us, 3.2 * FEET, -75, 0.6); //4.1
 			//AutoSimplify.goStraight(us, 3*FEET, -70, 0.5); (Alternative)
 			break;	
 		case 14:

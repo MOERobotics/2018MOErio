@@ -26,7 +26,7 @@ public class RightLeftScaleCube {
 		switch (us.autoStep)
 		{
 		case 1: 
-			AutoSimplify.goStraight(us, 16.1 * FEET, 0, 0.9); //206.173 in
+			AutoSimplify.goStraight(us, 16.2 * FEET, 0, 0.9); //206.173 in
 			AutoSimplify.deployGrabber(us);
 			break;
 		case 2:
@@ -50,7 +50,7 @@ public class RightLeftScaleCube {
 			AutoSimplify.launchCube(us);
 			break;
 		case 7:
-			AutoSimplify.goStraight(us, 2.4 * FEET, 3, -0.4); //36.364 in
+			AutoSimplify.goStraight(us, 2.1 * FEET, 3, -0.4); //36.364 in
 			AutoSimplify.lowerElevator(us, us.HEIGHT_ABOVE_CUBE);
 			break;
 		case 8:
@@ -65,13 +65,16 @@ public class RightLeftScaleCube {
 			break;
 		case 10:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, .75*FEET, 170, 0.4);
+			AutoSimplify.goStraight(us, .75*FEET, 175, 0.4);
 			break;
 		case 11:
 			AutoSimplify.grabCube(us);
 			break;
 		case 12:
 			AutoSimplify.upElevatorStep(us, us.HEIGHT_FOR_SWITCH);
+			break;
+		case 13:
+			AutoSimplify.autoPIDTurn(us, 0);
 			break;
 		}
 	}
@@ -94,7 +97,7 @@ public class RightLeftScaleCube {
 		switch (us.autoStep)
 		{
 		case 1: 
-			AutoSimplify.goStraight(us, 16.1 * FEET, 0, 0.9); //206.173 in
+			AutoSimplify.goStraight(us, 16.2 * FEET, 0, 0.9); //206.173 in
 			AutoSimplify.deployGrabber(us);
 			break;
 		case 2:
@@ -118,7 +121,7 @@ public class RightLeftScaleCube {
 			AutoSimplify.launchCube(us);
 			break;
 		case 7:
-			AutoSimplify.goStraight(us, 2.4 * FEET, -3, -0.4); //36.364 in
+			AutoSimplify.goStraight(us, 2.1 * FEET, -3, -0.4); //36.364 in
 			AutoSimplify.lowerElevator(us, us.HEIGHT_ABOVE_CUBE);
 			break;
 		case 8:
@@ -133,13 +136,16 @@ public class RightLeftScaleCube {
 			break;
 		case 10:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, .75*FEET, -170, 0.4);
+			AutoSimplify.goStraight(us, .75*FEET, -175, 0.4);
 			break;
 		case 11:
 			AutoSimplify.grabCube(us);
 			break;
 		case 12:
 			AutoSimplify.upElevatorStep(us, us.HEIGHT_FOR_SWITCH);
+			break;
+		case 13:
+			AutoSimplify.autoPIDTurn(us, 0);
 			break;
 		}
 	}

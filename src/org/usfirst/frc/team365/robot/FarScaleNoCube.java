@@ -23,16 +23,7 @@ public class FarScaleNoCube {
 		case 4:
 			us.driveRobot(0, 0);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-	//		AutoSimplify.autoPIDTurn(us, 3);
-	//		AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
-			/*
-		case 5:
-			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
-			break;
-		case 6:
-			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
-			break;*/
 		}
 	}
 	
@@ -55,16 +46,7 @@ public class FarScaleNoCube {
 		case 4:
 			us.driveRobot(0, 0);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-	//		AutoSimplify.autoPIDTurn(us, 3);
-	//		AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
-			/*
-		case 5:
-			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
-			break;
-		case 6:
-			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
-			break;  */
 		}
 	}
 }
