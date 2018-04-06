@@ -45,7 +45,7 @@ public class GoStraightAutonomous {
 			break;
 		case 6:
 			AutoSimplify.autoPIDTurn(ourselves, 0);
-			AutoSimplify.lowerElevator(ourselves, 600);
+			AutoSimplify.lowerElevator(ourselves, ourselves.HEIGHT_ABOVE_CUBE);
 			break;
 		case 7:
 //			AutoSimplify.goStraight(ourselves, 3*FEET, 0, 0.5);
@@ -181,7 +181,7 @@ public class GoStraightAutonomous {
 			break;
 		case 6:
 			AutoSimplify.autoPIDTurn(ourselves, 0);
-			AutoSimplify.lowerElevator(ourselves, 600);
+			AutoSimplify.lowerElevator(ourselves, ourselves.HEIGHT_ABOVE_CUBE);
 			break;
 		case 7:
 //			AutoSimplify.goStraight(ourselves, 3*FEET, 0, 0.5);

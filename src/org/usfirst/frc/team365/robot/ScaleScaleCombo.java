@@ -47,13 +47,13 @@ public class ScaleScaleCombo {
 
 			break;
 		case 7:	
-			AutoSimplify.lowerElevator(robot, 600);
+			AutoSimplify.lowerElevator(robot, robot.HEIGHT_ABOVE_CUBE);
 			//AutoSimplify.openGrabber(robot);
-			AutoSimplify.goStraight(robot, 2.5*FEET, 90, 0.4);
+			AutoSimplify.goStraight(robot, 2.6*FEET, 90, 0.4);
 			//ROBOT GOES STRAIGHT
 			break;
 		case 8:
-			AutoSimplify.lowerElevator(robot, 600);
+			AutoSimplify.lowerElevator(robot, robot.HEIGHT_ABOVE_CUBE);
 			AutoSimplify.autoPIDTurn(robot, 180);
 			//ROBOT TURNS TO FACE CUBE TO PICK UP
 			break;
@@ -121,25 +121,24 @@ public class ScaleScaleCombo {
 				//GRABBERS LAUNCH CUBE ONTO SWITCH
 				break;
 			case 5: 
-				AutoSimplify.lowerElevator(robot, 600);
+				AutoSimplify.lowerElevator(robot, robot.HEIGHT_ABOVE_CUBE);
 				AutoSimplify.goStraight(robot, 33*INCHES, -25, -0.4);
 				//ELEVATOR DOWN AND MOVING BACKWARDS
 
 				break;
 			case 6:
-				AutoSimplify.lowerElevator(robot, 600);
+				AutoSimplify.lowerElevator(robot, robot.HEIGHT_ABOVE_CUBE);
 				//ROBOT TURNS TO LANE
 				AutoSimplify.autoPIDTurn(robot, -90);
-
 				break;
 			case 7:	
-				AutoSimplify.lowerElevator(robot, 600);
+				AutoSimplify.lowerElevator(robot, robot.HEIGHT_ABOVE_CUBE);
 				//AutoSimplify.openGrabber(robot);
-				AutoSimplify.goStraight(robot, 2.5*FEET, -90, 0.4);
+				AutoSimplify.goStraight(robot, 2.6*FEET, -90, 0.4);
 				//ROBOT GOES STRAIGHT
 				break;
 			case 8:
-				AutoSimplify.lowerElevator(robot, 600);
+				AutoSimplify.lowerElevator(robot, robot.HEIGHT_ABOVE_CUBE);
 				AutoSimplify.autoPIDTurn(robot, -180);
 				//ROBOT TURNS TO FACE CUBE TO PICK UP
 				break;

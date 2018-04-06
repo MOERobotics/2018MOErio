@@ -89,6 +89,7 @@ public class Robot extends TimedRobot {
 	boolean scaleLeft;
 	boolean oppSwitchLeft;
 	boolean reachedSetting = false;
+	boolean topLimitWorks;
 	
 	boolean cam1On = true;
 	UsbCamera cam1;
@@ -254,7 +255,7 @@ public class Robot extends TimedRobot {
 		newStep = true;
 
 		navX.zeroYaw();
-		resetEncoders();
+		//resetEncoders();
 
 		autoTimer.reset();
 		autoTimer.start();
@@ -262,6 +263,10 @@ public class Robot extends TimedRobot {
 		driveStraight.reset();
 		turnRobot.reset();
 		grabTimer.reset();
+		
+		if(!(elevatorTopLimitSwitch.get())) topLimitWorks = true;
+		else topLimitWorks = false;
+		
 
 //		SmartDashboardUtil.getFromSmartDashboard(this); //force update
 
@@ -327,7 +332,8 @@ public class Robot extends TimedRobot {
 			else RightLeftScaleCube.leftStart(this);
 			break;
 		}
-
+		
+		SmartDashboardUtil.dashboardPeriodic(this);
 	}
 
 	/*****************
@@ -540,7 +546,7 @@ public class Robot extends TimedRobot {
 	
 	//Camera
 	public void cameraToggle() {
-		if(driveStick.getTriggerPressed()) {
+		if(driveStick.getRawButtonPressed(12)) {
 			if(cam1On) cam1On = false;
 			else cam1On = true;
 		}

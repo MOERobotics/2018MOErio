@@ -10,12 +10,12 @@ public class AutoSimplify{
 	
 
 	static void deployGrabber(Robot us) {
-		if (us.encoderWrist.getRaw() > 1100) {
-//			if (us.encoderWrist.getRaw() > 1100 || us.grabTimer.get() > 0.8) {
-			us.wrist.set(ControlMode.PercentOutput, 0);
+//		if (us.encoderWrist.getRaw() > 1050) {
+		if (us.encoderWrist.getRaw() > 1050 || us.grabTimer.get() > 1.2) {
+			us.wrist.set(ControlMode.PercentOutput, 0.06);
 
 		}
-		else us.wrist.set(ControlMode.PercentOutput, -0.9); 
+		else us.wrist.set(ControlMode.PercentOutput, -0.75); 
 	}
 	
 	static void launchCube(Robot us) {
@@ -387,7 +387,7 @@ static void dropCube(Robot us) {
 			double height = us.encoderElevator.getRaw();
 			//if (us.encoderWrist.getRaw() > 900)   {     //     && !us.elevatorTopLimitSwitch.get()) {
 			if(us.grabTimer.get() > 0.8 || us.encoderWrist.getRaw() > 900){
-				if (height > setpoint) {
+				if (height > setpoint || (us.elevatorTopLimitSwitch.get() && us.topLimitWorks)) {
 					//			if (height < -2000)  {
 					//				elevator.set(ControlMode.PercentOutput, 0.7);
 					//us.reachedSetting = true;
@@ -416,19 +416,20 @@ static void dropCube(Robot us) {
 		
 		static void upElevatorStep(Robot us, int setpoint) {
 			double height = us.encoderElevator.getRaw();
-			if (height > setpoint) {
+			if (height > setpoint || (us.elevatorTopLimitSwitch.get() && us.topLimitWorks)) {
 				us.autoStep++;
 				us.elevator.set(ControlMode.PercentOutput, us.backDrive);
 			}
-						else {
+			else {
 				us.elevator.set(ControlMode.PercentOutput, 0.8);				
 			}
 		}
-		
+
 		static void downElevatorStep(Robot us, int setpoint) {
 			double height = us.encoderElevator.getRaw();
 			if (setpoint < 100) {
 				if (us.elevatorBottomLimitSwitch.get()) {
+					us.encoderElevator.reset();
 					us.elevator.set(ControlMode.PercentOutput, 0);
 					us.autoStep++;
 				}
@@ -454,6 +455,7 @@ static void dropCube(Robot us) {
 			}
 			if (setpoint < 100) {
 				if (us.elevatorBottomLimitSwitch.get()) {
+					us.encoderElevator.reset();
 					us.elevator.set(ControlMode.PercentOutput, 0);
 					//us.reachedSetting = true;
 				}
