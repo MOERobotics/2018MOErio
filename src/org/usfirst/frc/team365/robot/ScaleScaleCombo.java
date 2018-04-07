@@ -64,7 +64,7 @@ public class ScaleScaleCombo {
 			//ROBOT GOES STRAIGHT AND CLOSE TO CUBE
 			break;
 		case 10:
-			AutoSimplify.goStraight(robot, 1.1*FEET, 180, .4);
+			AutoSimplify.goStraight(robot, 1.3*FEET, 180, .4);
 			break;
 		case 11:
 			//AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);
@@ -149,7 +149,7 @@ public class ScaleScaleCombo {
 				//ROBOT GOES STRAIGHT AND CLOSE TO CUBE
 				break;
 			case 10:
-				AutoSimplify.goStraight(robot, 1.1*FEET, 180, .4);
+				AutoSimplify.goStraight(robot, 1.3*FEET, 180, .4);
 				break;
 			case 11:
 				//AutoSimplify.lowerElevator(robot,robot.BOTTOM_HEIGHT);

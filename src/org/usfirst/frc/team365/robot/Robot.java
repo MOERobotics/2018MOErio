@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SPI;
@@ -91,6 +92,9 @@ public class Robot extends TimedRobot {
 	boolean reachedSetting = false;
 	boolean topLimitWorks;
 	
+	boolean  luck = true;
+	int rankingPoints = 4;
+	
 	boolean cam1On = true;
 	UsbCamera cam1;
 	UsbCamera cam2;
@@ -100,7 +104,7 @@ public class Robot extends TimedRobot {
 	double[] currentWheelRight  = new double[3];
 	
 	final int HEIGHT_FOR_SWITCH = 1800;
-	final int HEIGHT_FOR_SCALE = 5300;
+	final int HEIGHT_FOR_SCALE = 5450;
 	final int BOTTOM_HEIGHT = 10;
 	final int HEIGHT_ABOVE_CUBE = 600;
 
@@ -255,7 +259,7 @@ public class Robot extends TimedRobot {
 		newStep = true;
 
 		navX.zeroYaw();
-		//resetEncoders();
+		resetEncoders();
 
 		autoTimer.reset();
 		autoTimer.start();
@@ -266,7 +270,6 @@ public class Robot extends TimedRobot {
 		
 		if(!(elevatorTopLimitSwitch.get())) topLimitWorks = true;
 		else topLimitWorks = false;
-		
 
 //		SmartDashboardUtil.getFromSmartDashboard(this); //force update
 
@@ -319,7 +322,7 @@ public class Robot extends TimedRobot {
 			}
 
 			break;
-		case 6:  //starts from right and does scale with partner
+/*		case 6:  //starts from right and does scale with partner
 			if (scaleLeft) {
 				RightLeftScaleCube.rightStart(this);
 			}
@@ -330,10 +333,24 @@ public class Robot extends TimedRobot {
 				GoStraightAutonomous.autoScaleRightStart(this);
 			}
 			else RightLeftScaleCube.leftStart(this);
+			break; */
+		case 6: //Starts from the right and stays on side (Switch priority)
+			if (!switchLeft) 
+				GoStraightAutonomous.autoOnSideRightSwitchOnly(this);
+//				RightLeftScaleCube.rightStart(this);   // change me
+			else if (scaleLeft) 
+				RightLeftScaleCube.rightStart(this);
+			else{
+				ScaleScaleCombo.rightStart(this);
+			}
+			
 			break;
+		case 7: //Starts from the left and stays on side (Switch priority)
+			if (switchLeft) GoStraightAutonomous.autoOnSideLeftSwitchOnly(this);
+			else if (scaleLeft) ScaleScaleCombo.leftStart(this);
+			else RightLeftScaleCube.leftStart(this);
 		}
-		
-		SmartDashboardUtil.dashboardPeriodic(this);
+
 	}
 
 	/*****************
@@ -404,10 +421,16 @@ public class Robot extends TimedRobot {
 		else {
 			driveElevator((upperElevator * functionStick.getTriggerAxis(Hand.kRight)));
 		}
-		
+		//Earthquake
+/*		if(DriverStation.getInstance().getMatchTime() <= 30 && DriverStation.getInstance().getMatchTime() >= 28){
+			functionStick.setRumble(RumbleType.kLeftRumble, 0.6);
+			functionStick.setRumble(RumbleType.kRightRumble, 0.6);
+		} 
+		else{
+			functionStick.setRumble(RumbleType.kLeftRumble, 0);
+			functionStick.setRumble(RumbleType.kRightRumble, 0);
+		} */
 		SmartDashboardUtil.dashboardPeriodic(this);
-		
-
 	}
 
 
@@ -546,7 +569,7 @@ public class Robot extends TimedRobot {
 	
 	//Camera
 	public void cameraToggle() {
-		if(driveStick.getRawButtonPressed(12)) {
+		if(driveStick.getTriggerPressed()) {
 			if(cam1On) cam1On = false;
 			else cam1On = true;
 		}

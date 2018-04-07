@@ -158,7 +158,7 @@ public class GoStraightAutonomous {
 		case 2:
 //			ourselves.turnToAngle(90.0, 0.7);
 //			AutoSimplify.autoPIDTurn(ourselves, -90);
-			AutoSimplify.halfTurnLeft(ourselves, 75, 0.8);
+			AutoSimplify.halfTurnRight(ourselves, 75, 0.8);
 			AutoSimplify.raiseElevator(ourselves, ourselves.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(ourselves);
 			break;
@@ -189,7 +189,7 @@ public class GoStraightAutonomous {
 			AutoSimplify.lowerElevator(ourselves, ourselves.HEIGHT_ABOVE_CUBE);
 			break;
 		case 8:
-			AutoSimplify.halfTurnLeft(ourselves, 90, 0.8);
+			AutoSimplify.halfTurnRight(ourselves, 90, 0.8);
 			AutoSimplify.lowerElevator(ourselves, ourselves.HEIGHT_ABOVE_CUBE);
 			break;
 		case 9:
@@ -217,6 +217,47 @@ public class GoStraightAutonomous {
 			AutoSimplify.upElevatorStep(ourselves, ourselves.HEIGHT_FOR_SWITCH);
 			ourselves.driveRobot(0, 0);
 			break;
+			
+			/*
+			case 15:
+				AutoSimplify.goStraight(ourselves, 10*INCHES, 170,FO 0.4);
+				AutoSimplify.raiseElevator(ourselves, ourselves.HEIGHT_R_SWITCH);
+//				ourselves.driveRobot(0, 0);
+				break;
+			case 16:
+				AutoSimplify.launchCube(ourselves);
+				AutoSimplify.raiseElevator(ourselves, ourselves.HEIGHT_FOR_SWITCH);
+				ourselves.driveRobot(0, 0);
+				break;
+			case 17:
+				AutoSimplify.goStraight(ourselves, 14*INCHES, 170, -0.4);
+				AutoSimplify.raiseElevator(ourselves, ourselves.HEIGHT_FOR_SWITCH);
+				break;
+			case 18:
+				AutoSimplify.autoPIDTurn(ourselves, 90);
+				AutoSimplify.lowerElevator(ourselves, 600);
+				break;
+			case 19:
+				AutoSimplify.goStraight(ourselves, 1.5*FEET, 90, 0.5);
+				AutoSimplify.lowerElevator(ourselves, 600);
+				break;
+			case 20:
+				AutoSimplify.autoPIDTurn(ourselves, 180);
+				AutoSimplify.lowerElevator(ourselves, 600);
+				break;
+			case 21:
+				AutoSimplify.openGrabber(ourselves);
+				AutoSimplify.downElevatorStep(ourselves, ourselves.BOTTOM_HEIGHT);
+				break;
+			case 22:
+				AutoSimplify.goStraight(ourselves, 2*INCHES, 180, 0.4);
+				AutoSimplify.lowerElevator(ourselves, ourselves.BOTTOM_HEIGHT);
+				break;
+			case 23:
+				AutoSimplify.grabCube(ourselves);
+				ourselves.driveRobot(0,0);
+				break;
+				*/
 		case 15:
 			AutoSimplify.goStraight(ourselves, 10*INCHES, 170, -0.4);
 			AutoSimplify.raiseElevator(ourselves, ourselves.HEIGHT_FOR_SWITCH);

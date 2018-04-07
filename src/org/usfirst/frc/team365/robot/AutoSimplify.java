@@ -480,4 +480,3 @@ static void dropCube(Robot us) {
 			}
 		}
 	}
-
