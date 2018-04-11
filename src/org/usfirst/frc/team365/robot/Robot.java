@@ -412,7 +412,7 @@ public class Robot extends TimedRobot {
 		else if(functionStick.getBumper(Hand.kRight)) wristUp();
 		else backDriveWrist();
 		//flySwatter 
-		if(functionStick.getStickButton(Hand.kRight) && functionStick.getX(Hand.kRight) > 0.9) flySwatterShoot();
+		if(functionStick.getStickButton(Hand.kRight) && functionStick.getY(Hand.kRight) > 0.9) flySwatterShoot();
 		else flySwatterClose();
 		//Elevator SAME
 		if(functionStick.getTriggerAxis(Hand.kLeft) > functionStick.getTriggerAxis(Hand.kRight)) {
