@@ -292,7 +292,7 @@ public class Robot extends TimedRobot {
 			if (scaleLeft)
 				RightLeftScaleCube.rightStart(this);
 			else
-				ScaleScaleCombo.rightStart(this);
+				Right_Scale_BackUp.run(this);;
 			break;
 		case 3:  //starts from left and controls scale
 			if (scaleLeft)
