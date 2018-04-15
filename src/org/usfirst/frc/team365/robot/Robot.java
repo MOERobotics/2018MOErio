@@ -422,14 +422,14 @@ public class Robot extends TimedRobot {
 			driveElevator((upperElevator * functionStick.getTriggerAxis(Hand.kRight)));
 		}
 		//Earthquake
-/*		if(DriverStation.getInstance().getMatchTime() <= 30 && DriverStation.getInstance().getMatchTime() >= 28){
+		if(DriverStation.getInstance().getMatchTime() <= 30 && DriverStation.getInstance().getMatchTime() >= 28){
 			functionStick.setRumble(RumbleType.kLeftRumble, 0.6);
 			functionStick.setRumble(RumbleType.kRightRumble, 0.6);
 		} 
 		else{
 			functionStick.setRumble(RumbleType.kLeftRumble, 0);
 			functionStick.setRumble(RumbleType.kRightRumble, 0);
-		} */
+		} 
 		SmartDashboardUtil.dashboardPeriodic(this);
 	}
 
