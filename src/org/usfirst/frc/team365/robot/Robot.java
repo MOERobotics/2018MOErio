@@ -91,6 +91,7 @@ public class Robot extends TimedRobot {
 	boolean oppSwitchLeft;
 	boolean reachedSetting = false;
 	boolean topLimitWorks;
+	boolean newClimb = true;
 	
 	boolean  luck = true;
 	int rankingPoints = 4;
@@ -224,6 +225,7 @@ public class Robot extends TimedRobot {
 		top = true;
 		bottom = true;
 		grabTimer.start();
+		newClimb = true;
 	}
 
 	@Override
@@ -423,13 +425,15 @@ public class Robot extends TimedRobot {
 		}
 		//Earthquake
 		if(DriverStation.getInstance().getMatchTime() <= 30 && DriverStation.getInstance().getMatchTime() >= 28){
-			functionStick.setRumble(RumbleType.kLeftRumble, 0.6);
-			functionStick.setRumble(RumbleType.kRightRumble, 0.6);
+			functionStick.setRumble(RumbleType.kLeftRumble, 1);
+			functionStick.setRumble(RumbleType.kRightRumble, 1);
 		} 
 		else{
 			functionStick.setRumble(RumbleType.kLeftRumble, 0);
 			functionStick.setRumble(RumbleType.kRightRumble, 0);
 		} 
+		//Auto Climb
+		if(driveStick.getRawButton(5)) climb();
 		SmartDashboardUtil.dashboardPeriodic(this);
 	}
 
@@ -574,5 +578,40 @@ public class Robot extends TimedRobot {
 			else cam1On = true;
 		}
 		
+	}
+	
+	//Auto Climb
+	public void tenseUp(double currentAvg) {
+		if(currentAvg >= 15) {
+			driveRobot(0,0);
+			newClimb = false;
+		} else {
+			driveRobot(-0.4, 0);
+			newClimb = true;
+		}
+	}
+	
+	public double currentAvg() {
+		double driveCurrent = driveLA.getOutputCurrent() + driveLB.getOutputCurrent();
+		double currentAvg = driveCurrent / 2;
+		return currentAvg;
+	}
+	
+	public void climb() {
+		double roll = navX.getRoll();
+		double pitch = navX.getPitch();
+		double tolerance = 5;
+		double climbPower = 1;
+/*		if(newClimb) {
+			tenseUp(currentAvg());
+		} else { */
+			if(roll > tolerance) {
+				driveRobot(0, -climbPower);
+			} else if(roll < -tolerance) {
+				driveRobot(-climbPower, 0);
+			} else {
+				driveRobot(-climbPower, -climbPower);
+			}
+		//}	
 	}
 }
