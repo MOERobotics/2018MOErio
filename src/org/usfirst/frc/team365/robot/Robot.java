@@ -283,7 +283,8 @@ public class Robot extends TimedRobot {
 		case 1:		/* Starting at the center */
 			if (switchLeft)
 //				CenterLeftMAR.run(this);
-				CenterLeftGentleTurns.run(this);
+				//CenterLeftGentleTurns.run(this);
+				LeftSwitch_Exchange.run(this);
 			else
 				CenterRightSwitchHalf.run(this);
 //				CenterRightSwitchHalf.run2(this);
