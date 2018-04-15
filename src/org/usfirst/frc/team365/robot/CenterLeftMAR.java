@@ -40,7 +40,7 @@ public class CenterLeftMAR {
 			
 		case 6:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 2.1 * FEET, 0, -0.5); 
+			AutoSimplify.goStraight(us, 1.6 * FEET, 0, -0.5); 
 			break;
 			
 		case 7:
@@ -63,7 +63,7 @@ public class CenterLeftMAR {
 			
 		case 10:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 16.5 * INCHES, 0, 0.4); //15
+			AutoSimplify.goStraight(us, 15.5 * INCHES, 0, 0.4); //15
 			break;
 		
 		case 11:
@@ -77,7 +77,7 @@ public class CenterLeftMAR {
 			
 		case 13:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 3.1 * FEET, -70, 0.5); //3ft
+			AutoSimplify.goStraight(us, 3.6 * FEET, -70, 0.5); //3ft
 			break;	
 			
 		case 14:
@@ -87,7 +87,7 @@ public class CenterLeftMAR {
 			
 		case 15:
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 0.7 * FEET, -5, 0.5); //1ft
+			AutoSimplify.goStraight(us, 0.6 * FEET, -5, 0.5); //1ft
 			break;
 			
 		case 16:
