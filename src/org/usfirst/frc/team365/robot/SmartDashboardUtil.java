@@ -58,6 +58,8 @@ public class SmartDashboardUtil {
 		SmartDashboard.putString(	"GameData:", ourselves.gameData							);
 		//navx
 		SmartDashboard.putNumber(              "Yaw", ourselves.navX.getYaw()                 );
+		SmartDashboard.putNumber(              "Pitch", ourselves.navX.getPitch()             );
+		SmartDashboard.putNumber(              "Roll", ourselves.navX.getRoll()               );
 //		SmartDashboard.putNumber(    "accelerationX", ourselves.navX.getWorldLinearAccelX()   );
 //		SmartDashboard.putNumber(    "accelerationY", ourselves.navX.getWorldLinearAccelY()   );
 
@@ -69,6 +71,8 @@ public class SmartDashboardUtil {
 		SmartDashboard.putBoolean("Bottom limit switch", ourselves.elevatorBottomLimitSwitch.get());
 		SmartDashboard.putNumber("Gripper current left", ourselves.rollLeft.getOutputCurrent());
 		SmartDashboard.putNumber("Gripper current right", ourselves.rollRight.getOutputCurrent());
+		SmartDashboard.putNumber("Roll: ", ourselves.navX.getRoll());
+		SmartDashboard.putNumber("Pitch: ", ourselves.navX.getPitch());
 
 	}
 }
