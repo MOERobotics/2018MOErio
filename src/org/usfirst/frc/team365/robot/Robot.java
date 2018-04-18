@@ -284,8 +284,7 @@ public class Robot extends TimedRobot {
 		switch (autoRoutine) {
 		case 1:		/* Starting at the center */
 			if (switchLeft)
-				CenterLeftMAR.run(this);
-//				CenterLeftGentleTurns.run(this);
+				LeftSwitch_Exchange.run(this);
 			else
 				CenterRightSwitchHalf.run(this);
 //				CenterRightSwitchHalf.run2(this);
@@ -294,7 +293,7 @@ public class Robot extends TimedRobot {
 			if (scaleLeft)
 				RightLeftScaleCube.rightStart(this);
 			else
-				ScaleScaleCombo.rightStart(this);
+				Right_Scale_BackUp.run(this);;
 			break;
 		case 3:  //starts from left and controls scale
 			if (scaleLeft)
