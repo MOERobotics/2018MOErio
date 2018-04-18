@@ -95,15 +95,19 @@ public class CenterLeftMAR {
 			break;
 			
 		case 17:
-			//works
+			AutoSimplify.goStraight(us, 2 * FEET, -5, -0.5);
+			break;
+			
+		case 18:
+			AutoSimplify.autoPIDTurn(us, 90);
+			break;
+			
+		case 19:
 			AutoSimplify.goStraight(us, 0.5 * FEET, 0, -0.5);
 			if (us.encoderWrist.getRaw() < 1100) {
 				us.wrist.set(ControlMode.PercentOutput, 0);
 			}
 			else us.wrist.set(ControlMode.PercentOutput, 0.9); 
-			break;
-			
-		case 18:
 			us.driveRobot(0,0);
 			break;
 			
@@ -114,8 +118,3 @@ public class CenterLeftMAR {
 	
 }	
 
-/* some stuff:
- * 	time to drop cube: 13-ish sec
- * 	extra 2-ish sec to 
- * 	
- */
