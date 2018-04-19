@@ -2,13 +2,18 @@ package org.usfirst.frc.team365.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
-public class CenterLeftMAR {
+public class CenterLeftSwitchScale {
 	
 	public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
 	public static final double FEET = 12 * INCHES;
 	
 	static void run(Robot us) {
 	
+		int side = 1;
+			
+		if (us.scaleLeft) 
+			side = -1; 
+		
 		switch(us.autoStep) {
 		
 		case 1:
@@ -19,7 +24,7 @@ public class CenterLeftMAR {
 		case 2:
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 57 * INCHES, -45, 0.5); //60
+			AutoSimplify.goStraight(us, 57 * INCHES, -45, 0.5); 
 			break;
 			
 		case 3:
@@ -31,7 +36,7 @@ public class CenterLeftMAR {
 		case 4:
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 18 * INCHES, 0, 0.5); //15
+			AutoSimplify.goStraight(us, 18 * INCHES, 0, 0.5); 
 			break;
 			
 		case 5:
@@ -63,7 +68,7 @@ public class CenterLeftMAR {
 			
 		case 10:
 			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(us, 15.5 * INCHES, 0, 0.4); //15
+			AutoSimplify.goStraight(us, 15.5 * INCHES, 0, 0.4); 
 			break;
 		
 		case 11:
@@ -71,38 +76,14 @@ public class CenterLeftMAR {
 			break;
 			
 		case 12:
-			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.autoPIDTurn(us, -75); //-70
+			AutoSimplify.autoPIDTurn(us, 80 * side);
 			break;
 			
 		case 13:
-			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 3.6 * FEET, -70, 0.5); //3ft
-			break;	
-			
+			AutoSimplify.goStraight(us, 6 * FEET, 80 * side, 0.6); //check goStraight val here
+			break;
+
 		case 14:
-			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.halfTurnRight(us, -5, 0.8); 
-			break;
-			
-		case 15:
-			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(us, 0.6 * FEET, -5, 0.5); //1ft
-			break;
-			
-		case 16:
-			AutoSimplify.launchCube(us); 
-			break;
-			
-		case 17:
-			AutoSimplify.goStraight(us, 2 * FEET, -5, -0.5);
-			break;
-			
-		case 18:
-			AutoSimplify.autoPIDTurn(us, -50);
-			break;
-			
-		case 19:
 			AutoSimplify.goStraight(us, 0.5 * FEET, 0, -0.5);
 			if (us.encoderWrist.getRaw() < 1100) {
 				us.wrist.set(ControlMode.PercentOutput, 0);
@@ -110,11 +91,8 @@ public class CenterLeftMAR {
 			else us.wrist.set(ControlMode.PercentOutput, 0.9); 
 			us.driveRobot(0,0);
 			break;
-			
-			
 		}
 		
 	}
-	
-}	
 
+}
