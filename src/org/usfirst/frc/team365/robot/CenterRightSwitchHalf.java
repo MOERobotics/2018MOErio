@@ -248,6 +248,21 @@ public class CenterRightSwitchHalf {
 		case 18:
 			robot.driveRobot(0,0);
 			break;
+//grabs third cube at the end, needs to be tested
+/*
+ * 		case 18:
+ * 			AutoSimplify.raiseElevator(robot, 600);
+ * 			AutoSimplify.autoPIDTurn(robot, 30);
+ * 			AutoSimplify.openGrabber(robot);
+ * 			break;
+ * 		case 19:
+ * 			AutoSimplify.raiseElevator(robot, 600);
+ * 			AutoSimplify.goStraight(robot, 3 * FEET, 30, .6);
+ * 			break;
+ * 		case 20:
+ * 			AutoSimplify.grabCube(robot);
+ * 			break;
+ */
 		}
 	}
 	static void vault2(Robot robot) {
