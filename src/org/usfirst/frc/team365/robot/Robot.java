@@ -301,7 +301,7 @@ public class Robot extends TimedRobot {
 				else {
 					CenterLeftSwitchScale.run(this);
 				}
-		
+			}
 			else {
 				if (secondCubeSelect == 1) {
 //					CenterRightSwitchHalf.run(this);
@@ -315,7 +315,6 @@ public class Robot extends TimedRobot {
 					
 				}
 			}
-
 			break;
 		case 2:		// Starts from right and controls scale
 			if (scaleLeft)
@@ -339,7 +338,6 @@ public class Robot extends TimedRobot {
 				ScaleScaleCombo.rightStart(this);
 			}
 			else ScaleScaleCombo.rightStart(this);;
-			
 			break;
 		case 5: //Starts from the left and stays on side
 			if (scaleLeft && switchLeft) ScaleScaleCombo.leftStart(this);
