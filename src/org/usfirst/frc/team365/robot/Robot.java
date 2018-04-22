@@ -64,6 +64,8 @@ public class Robot extends TimedRobot {
 
 	DigitalInput elevatorBottomLimitSwitch = new DigitalInput(6);
 	DigitalInput elevatorTopLimitSwitch = new DigitalInput(7);
+	DigitalInput rightTape = new DigitalInput(10);
+	DigitalInput leftTape = new DigitalInput(11);
 
 	//Joysticks
 	private Joystick driveStick = new Joystick(0);
@@ -72,6 +74,7 @@ public class Robot extends TimedRobot {
 	// Global Variables
 	int autoStep    = 0;
 	int autoRoutine = 0;
+	int secondCubeSelect = 1;
 	int autoLoopCounter = 0;
     	Timer  autoTimer    = new Timer();
     Timer grabTimer = new Timer();
@@ -241,6 +244,10 @@ public class Robot extends TimedRobot {
 		if (driveStick.getRawButton(11)) autoRoutine = 5;
 		if (driveStick.getRawButton(9)) autoRoutine = 6;
 		if (driveStick.getRawButton(7)) autoRoutine = 7;
+		
+		if (functionStick.getAButton()) secondCubeSelect = 1;
+		if(functionStick.getBButton()) secondCubeSelect = 2;
+		if (functionStick.getYButton()) secondCubeSelect = 3;
     	SmartDashboardUtil.dashboardPeriodic(this);
 	
 	}//yayhappyface

@@ -56,6 +56,8 @@ public class SmartDashboardUtil {
 		SmartDashboard.putNumber(   "elevatorOutput", ourselves.elevatorOutput                );
 		SmartDashboard.putString(    "shifterStatus", ourselves.shifterStatus                 );
 		SmartDashboard.putString(	"GameData:", ourselves.gameData							);
+		SmartDashboard.putBoolean("rightTape", ourselves.rightTape.get());
+		SmartDashboard.putBoolean("leftTape", ourselves.leftTape.get());
 		//navx
 		SmartDashboard.putNumber(              "Yaw", ourselves.navX.getYaw()                 );
 		SmartDashboard.putNumber(              "Pitch", ourselves.navX.getPitch()             );
@@ -66,6 +68,11 @@ public class SmartDashboardUtil {
 		//auto
 		SmartDashboard.putNumber(      "autoRoutine", ourselves.autoRoutine                   );
 		SmartDashboard.putNumber(         "autoStep", ourselves.autoStep                      );
+		
+		if (ourselves.secondCubeSelect == 1) SmartDashboard.putString("secondCube", "switch");
+		if (ourselves.secondCubeSelect == 2) SmartDashboard.putString("secondCube", "exchange");
+		if (ourselves.secondCubeSelect == 3) SmartDashboard.putString("secondCube", "scale");
+		
 		SmartDashboard.putNumber(        "AutoTimer", ourselves.autoTimer.get()               );
 		SmartDashboard.putBoolean("Top limit switch: ", ourselves.elevatorTopLimitSwitch.get());
 		SmartDashboard.putBoolean("Bottom limit switch", ourselves.elevatorBottomLimitSwitch.get());
