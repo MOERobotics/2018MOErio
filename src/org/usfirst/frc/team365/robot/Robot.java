@@ -369,6 +369,7 @@ public class Robot extends TimedRobot {
 		double yJoy = -driveStick.getY();
 		double xJoy = driveStick.getX();
 		if (shifter.get()) {
+			if(functionStick.getStickButton(Hand.kLeft)) climb(); //AutoClimb
 			if(-Math.abs(functionStick.getY(Hand.kLeft)) < -0.2 || (-Math.abs(functionStick.getY(Hand.kRight)) < -0.2))
 			{
 			
@@ -431,8 +432,6 @@ public class Robot extends TimedRobot {
 			functionStick.setRumble(RumbleType.kLeftRumble, 0);
 			functionStick.setRumble(RumbleType.kRightRumble, 0);
 		} 
-		//Auto Climb
-		if(driveStick.getRawButton(5)) climb();
 		SmartDashboardUtil.dashboardPeriodic(this);
 	}
 
