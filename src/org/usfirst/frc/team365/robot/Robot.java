@@ -64,8 +64,8 @@ public class Robot extends TimedRobot {
 
 	DigitalInput elevatorBottomLimitSwitch = new DigitalInput(6);
 	DigitalInput elevatorTopLimitSwitch = new DigitalInput(7);
-	DigitalInput rightTape = new DigitalInput(10);
-	DigitalInput leftTape = new DigitalInput(11);
+	DigitalInput rightTape = new DigitalInput(11);
+	DigitalInput leftTape = new DigitalInput(10);
 
 	//Joysticks
 	private Joystick driveStick = new Joystick(0);
@@ -290,13 +290,32 @@ public class Robot extends TimedRobot {
 		autoLoopCounter++;
 		switch (autoRoutine) {
 		case 1:		/* Starting at the center */
-			if (switchLeft)
-				LeftSwitch_Exchange.run(this);
-			else
-//				CenterRightSwitchHalf.run(this);
-//				CenterRightSwitchHalf.run2(this);
-				CenterRightSwitchHalf.vault(this);
-//				CenterRightSwitchHalf.vault2(this);
+			if (switchLeft) {
+				if (secondCubeSelect == 1) {
+//					CenterLeftGentleTurns.run(this);
+					CenterLeftMAR.run(this);
+				}
+				else if (secondCubeSelect == 2) {
+					LeftSwitch_Exchange.run(this);
+				}
+				else {
+					CenterLeftSwitchScale.run(this);
+				}
+		
+			else {
+				if (secondCubeSelect == 1) {
+//					CenterRightSwitchHalf.run(this);
+					CenterRightSwitchHalf.run2(this);
+				}
+				else if (secondCubeSelect == 2) {
+					CenterRightSwitchHalf.vault(this);
+//					CenterRightSwitchHalf.vault2(this);
+				}
+				else {
+					
+				}
+			}
+
 			break;
 		case 2:		// Starts from right and controls scale
 			if (scaleLeft)
