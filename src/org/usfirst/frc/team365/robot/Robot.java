@@ -369,15 +369,19 @@ public class Robot extends TimedRobot {
 		double yJoy = -driveStick.getY();
 		double xJoy = driveStick.getX();
 		if (shifter.get()) {
-			if(functionStick.getStickButton(Hand.kLeft)) climb(); //AutoClimb
-			if(-Math.abs(functionStick.getY(Hand.kLeft)) < -0.2 || (-Math.abs(functionStick.getY(Hand.kRight)) < -0.2))
-			{
-			
-			//Climbing using the Function Stick
-			driveRobot(-Math.abs(functionStick.getY(Hand.kLeft)), -Math.abs(functionStick.getY(Hand.kRight)));
+			if(functionStick.getStickButton(Hand.kLeft)) { 
+				climb(); //AutoClimb
 			}
 			else {
-				driveRobot(0,0);
+				if(-Math.abs(functionStick.getY(Hand.kLeft)) < -0.2 || (-Math.abs(functionStick.getY(Hand.kRight)) < -0.2))
+				{
+
+					//Climbing using the Function Stick
+					driveRobot(-Math.abs(functionStick.getY(Hand.kLeft)), -Math.abs(functionStick.getY(Hand.kRight)));
+				}
+				else {
+					driveRobot(0,0);
+				}
 			}
 			/*double left = yJoy + xJoy;
 			double right = yJoy - xJoy;
@@ -395,6 +399,7 @@ public class Robot extends TimedRobot {
 				driveRobot(left, right);
 			}
 		}
+		
 		//Camera
 /*		cameraToggle();
 		if(cam1On) server.setSource(cam1);
