@@ -17,10 +17,10 @@ public class Right_Scale_BackUp {
 			
 			break;
 		case 3:
-			AutoSimplify.autoPIDTurn(robot, -60);
+			AutoSimplify.autoPIDTurn(robot, -90);
 			break;
 		case 4:
-			AutoSimplify.autoPIDStraight(robot, 0.3*FEET, -60, 0.4);
+			AutoSimplify.autoPIDStraight(robot, 0.3*FEET, -90, 0.4);
 			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SCALE);
 			break;
 		case 5:
@@ -28,14 +28,14 @@ public class Right_Scale_BackUp {
 			AutoSimplify.launchCube(robot);
 			break;
 		case 6:
-			AutoSimplify.autoPIDStraight(robot, 5*FEET, -60, -0.3);
+			AutoSimplify.autoPIDStraight(robot, 2.5*FEET, -90, -0.3);
 			break;
 		case 7:
 			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 			break;
 		case 8:
 			AutoSimplify.autoPIDTurn(robot, 0);
-			
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 			break;
 		}
 	}

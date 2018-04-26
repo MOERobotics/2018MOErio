@@ -51,6 +51,8 @@ public class Robot extends TimedRobot {
            Solenoid shifter   = new       Solenoid(2);
            Solenoid cubeClaw  = new       Solenoid(3);
      DoubleSolenoid mouseTrap = new DoubleSolenoid(0,1);
+     Solenoid lightsL = new Solenoid(4);
+     Solenoid lightsR = new Solenoid(5);
 
 	// Servos
 	Servo flySwatter = new Servo(0);
@@ -245,6 +247,8 @@ public class Robot extends TimedRobot {
 		if (driveStick.getRawButton(11)) autoRoutine = 5;
 		if (driveStick.getRawButton(9)) autoRoutine = 6;
 		if (driveStick.getRawButton(7)) autoRoutine = 7;
+		if(driveStick.getRawButton(5)) autoRoutine = 8;
+		if (driveStick.getRawButton(3)) autoRoutine = 9;
 		
 		if (functionStick.getAButton()) secondCubeSelect = 1;
 		if(functionStick.getBButton()) secondCubeSelect = 2;
@@ -383,6 +387,17 @@ public class Robot extends TimedRobot {
 			else if (scaleLeft && switchLeft) GoStraightAutonomous.autoOnSideLeftSwitchScale(this);
 			else if (scaleLeft) ScaleScaleCombo.leftStart(this);
 			else FarScaleNoCube.leftStart(this);
+			break;
+		case 8: //Right start 
+			if(!scaleLeft) Right_Scale_BackUp.run(this);
+			else if (!switchLeft) GoStraightAutonomous.doubleSwitchRightOnly(this); 
+			else FarScaleNoCube.rightStart(this);
+			break;
+		case 9: //Left start 
+			if(scaleLeft) Left_Scale_BackUp.run(this);
+			else if (switchLeft) GoStraightAutonomous.doubleSwitchLeftOnly(this); //Change
+			else FarScaleNoCube.leftStart(this);
+			break;
 		}
 
 	}
@@ -399,6 +414,16 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		lightsR.setPulseDuration(.5);
+		lightsL.setPulseDuration(0.5);
+		if(driveStick.getRawButtonReleased(5)){
+			lightsR.startPulse();
+			lightsL.startPulse();
+		}
+		if(driveStick.getRawButton(7)){
+			lightsR.set(false);
+			lightsL.set(false);
+		}
 		double yJoy = -driveStick.getY();
 		double xJoy = driveStick.getX();
 		if (shifter.get()) {
@@ -422,7 +447,11 @@ public class Robot extends TimedRobot {
 		} else {
 			if (driveStick.getTrigger()) {
 				driveRobot(yJoy, yJoy);
-			} else if (functionStick.getPOV(0) >= 45 && functionStick.getPOV(0) <= 135 && !engagePTO) { // turn robot left
+			} 
+			else if (functionStick.getPOV(0) == 180){
+				driveRobot(-0.3, -0.3);
+			}
+			else if (functionStick.getPOV(0) >= 45 && functionStick.getPOV(0) <= 135 && !engagePTO) { // turn robot left
 				driveRobot(0.6, -0.6);
 			} else if (functionStick.getPOV(0) >= 225 && functionStick.getPOV(0) <= 315 && !engagePTO) {
 				driveRobot(-0.6, 0.6);
@@ -649,5 +678,10 @@ public class Robot extends TimedRobot {
 				driveRobot(-climbPower, -climbPower);
 			}
 		//}	
+	}
+	
+	public void lightsOn(){
+		lightsR.setPulseDuration(1);
+		lightsL.setPulseDuration(1);
 	}
 }
