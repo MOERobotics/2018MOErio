@@ -36,6 +36,26 @@ public class AutoSimplify{
 			us.rollRight.set(ControlMode.PercentOutput, 0.35);
 		}
 	}
+
+	static void launchExCube(Robot us) {
+
+		if (us.newStep) {
+			us.newStep = false;
+			us.autoTimer.reset();
+		}
+		else if (us.autoTimer.get() > 0.6) {
+			us.rollLeft.set(ControlMode.PercentOutput, 0);
+			us.rollRight.set(ControlMode.PercentOutput, 0);
+			us.autoStep++;
+			us.autoTimer.reset();
+			us.newStep = true;
+		}
+		else {    // rollers out
+			us.rollLeft.set(ControlMode.PercentOutput, 1);
+			us.rollRight.set(ControlMode.PercentOutput, 1);
+		}
+	}
+
 	
 static void dropCube(Robot us) {
 		

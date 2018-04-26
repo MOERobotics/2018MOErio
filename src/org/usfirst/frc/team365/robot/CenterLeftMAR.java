@@ -14,6 +14,7 @@ public class CenterLeftMAR {
 		case 1:
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.halfTurnLeft(us, -45, 0.8);
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			break;
 			
 		case 2:
@@ -35,6 +36,7 @@ public class CenterLeftMAR {
 			break;
 			
 		case 5:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.launchCube(us); 
 			break;
 			
@@ -68,6 +70,7 @@ public class CenterLeftMAR {
 		
 		case 11:
 			AutoSimplify.grabCube(us); 
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			break;
 			
 		case 12:
@@ -91,18 +94,22 @@ public class CenterLeftMAR {
 			break;
 			
 		case 16:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.launchCube(us); 
 			break;
 			
 		case 17:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.goStraight(us, 2 * FEET, -5, -0.5);
 			break;
 			
 		case 18:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.autoPIDTurn(us, -50);
 			break;
 			
 		case 19:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.goStraight(us, 0.5 * FEET, 0, -0.5);
 			if (us.encoderWrist.getRaw() < 1100) {
 				us.wrist.set(ControlMode.PercentOutput, 0);

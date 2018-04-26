@@ -58,6 +58,7 @@ public class SmartDashboardUtil {
 		SmartDashboard.putString(	"GameData:", ourselves.gameData							);
 		SmartDashboard.putBoolean("rightTape", ourselves.rightTape.get());
 		SmartDashboard.putBoolean("leftTape", ourselves.leftTape.get());
+		SmartDashboard.putBoolean("autoTape: ", ourselves.autoTape);
 		//navx
 		SmartDashboard.putNumber(              "Yaw", ourselves.navX.getYaw()                 );
 		SmartDashboard.putNumber(              "Pitch", ourselves.navX.getPitch()             );
@@ -69,9 +70,14 @@ public class SmartDashboardUtil {
 		SmartDashboard.putNumber(      "autoRoutine", ourselves.autoRoutine                   );
 		SmartDashboard.putNumber(         "autoStep", ourselves.autoStep                      );
 		
-		if (ourselves.secondCubeSelect == 1) SmartDashboard.putString("secondCube", "switch");
-		if (ourselves.secondCubeSelect == 2) SmartDashboard.putString("secondCube", "exchange");
-		if (ourselves.secondCubeSelect == 3) SmartDashboard.putString("secondCube", "scale");
+		if(ourselves.autoRoutine == 1){
+			if (ourselves.secondCubeSelect == 1) SmartDashboard.putString("secondCube", "switch");
+			if (ourselves.secondCubeSelect == 2) SmartDashboard.putString("secondCube", "exchange");
+			if (ourselves.secondCubeSelect == 3) SmartDashboard.putString("secondCube", "scaleReady");
+		}
+		else {
+			SmartDashboard.putString("secondCube", "N/A!");
+		}
 		
 		SmartDashboard.putNumber(        "AutoTimer", ourselves.autoTimer.get()               );
 		SmartDashboard.putBoolean("Top limit switch: ", ourselves.elevatorTopLimitSwitch.get());

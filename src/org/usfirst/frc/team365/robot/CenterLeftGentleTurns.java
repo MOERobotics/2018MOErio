@@ -14,6 +14,7 @@ public class CenterLeftGentleTurns{
 		switch(us.autoStep) {
 		
 		case 1:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.halfTurnLeft(us, -50, .8);
 			break;
@@ -74,6 +75,7 @@ public class CenterLeftGentleTurns{
 			break;
 		
 		case 11:
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.grabCube(us); 
 			break;
 			
@@ -113,6 +115,7 @@ public class CenterLeftGentleTurns{
 			break;
 			
 		case 17:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			//sets wrist back to level -- don't know if works
 			//AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH); (Alternative)
 			//AutoSimplify.launchCube(us); //Take this out if (Alternative)

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team365.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 public class CenterRightSwitchHalf {
 	public static final double INCHES = Robot.INCHES_TO_ENCTICKS;
 	public static final double FEET = 12 * INCHES;
@@ -7,6 +9,7 @@ public class CenterRightSwitchHalf {
 	static void run(Robot robot) {
 		switch (robot.autoStep) {
 		case 1:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(robot);
 			AutoSimplify.halfTurnRight(robot, 40, .8);
 			break;
@@ -26,7 +29,8 @@ public class CenterRightSwitchHalf {
 			AutoSimplify.goStraight(robot, 13 * INCHES, 0, .5);
 			break;
 		case 5:
-			//AutoSimplify.pause(robot, 1.0);
+			//AutoSimplify.parobote(robot, 1.0);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			AutoSimplify.launchCube(robot);
 			break;
 		case 6:
@@ -56,6 +60,7 @@ public class CenterRightSwitchHalf {
 			AutoSimplify.goStraight(robot, 16 * INCHES, 0, .5);
 			break;
 		case 11:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 			AutoSimplify.grabCube(robot);
 			break;
 		case 12:
@@ -75,10 +80,12 @@ public class CenterRightSwitchHalf {
 			AutoSimplify.goStraight(robot, 12 * INCHES, 0, .5);
 			break;
 		case 16:
-			//AutoSimplify.pause(robot, 1.0);
+			//AutoSimplify.parobote(robot, 1.0);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			AutoSimplify.launchCube(robot);
 			break;
 		case 17:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			robot.driveRobot(0.0,0.0);
 			break;
 		}
@@ -86,13 +93,14 @@ public class CenterRightSwitchHalf {
 	static void run2(Robot robot) {
 		switch (robot.autoStep) {
 		case 1:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(robot);
 			AutoSimplify.halfTurnRight(robot, 40, .8);
 			break;
 		case 2:
 			AutoSimplify.deployGrabber(robot);
 			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
-			AutoSimplify.goStraight(robot, 62 * INCHES, 40, .5);
+			AutoSimplify.goStraight(robot, 56 * INCHES, 40, .5);
 			break;
 		case 3:
 			AutoSimplify.deployGrabber(robot);
@@ -105,7 +113,8 @@ public class CenterRightSwitchHalf {
 			AutoSimplify.goStraight(robot, 13 * INCHES, 0, .5);
 			break;
 		case 5:
-			//AutoSimplify.pause(robot, 1.0);
+			//AutoSimplify.parobote(robot, 1.0);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			AutoSimplify.launchCube(robot);
 			break;
 		case 6:
@@ -127,10 +136,11 @@ public class CenterRightSwitchHalf {
 			break;
 		case 10:
 			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(robot, 23 * INCHES, 0, .5);//15
+			AutoSimplify.goStraight(robot, 20 * INCHES, 0, .5);//15
 			break;
 		case 11:
-			//AutoSimplify.pause(robot, 1.0);
+			//AutoSimplify.parobote(robot, 1.0);
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 			AutoSimplify.grabCube(robot);
 			break;
 		case 12:
@@ -152,29 +162,36 @@ public class CenterRightSwitchHalf {
 			AutoSimplify.goStraight(robot, 2 * INCHES, 0, .5);
 			break;
 		case 16:
-			//AutoSimplify.pause(robot, 1.0);
+			//AutoSimplify.parobote(robot, 1.0);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			AutoSimplify.launchCube(robot);
 			break;
 		case 17:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			AutoSimplify.goStraight(robot, 2 * FEET, 0, -.6);
 			break;
 		case 18:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			AutoSimplify.autoPIDTurn(robot, 50);
 			break;
 		case 19:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			AutoSimplify.goStraight(robot, 2 * FEET, 50, .6);
 			break;
 		case 20:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			AutoSimplify.halfTurnLeft(robot, 0, .6);
 			break;
 		case 21:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			robot.driveRobot(0, 0);
 			break;
 		}
 	}
 	static void vault(Robot robot) {
 		switch (robot.autoStep) {
-		case 1:
+/*		case 1:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(robot);
 			AutoSimplify.halfTurnRight(robot, 40, .8);
 			break;
@@ -194,7 +211,8 @@ public class CenterRightSwitchHalf {
 			AutoSimplify.goStraight(robot, 13 * INCHES, 0, .6);
 			break;
 		case 5:
-			//AutoSimplify.pause(robot, 1.0);
+			//AutoSimplify.parobote(robot, 1.0);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 			AutoSimplify.launchCube(robot);
 			break;
 		case 6:
@@ -217,12 +235,60 @@ public class CenterRightSwitchHalf {
 		case 10:
 			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 			AutoSimplify.goStraight(robot, 27 * INCHES, 0, .6);//15
+			break; */
+		case 1:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.deployGrabber(robot);
+			AutoSimplify.halfTurnRight(robot, 40, .8);
+			break;
+		case 2:
+			AutoSimplify.deployGrabber(robot);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.goStraight(robot, 56 * INCHES, 40, .5);
+			break;
+		case 3:
+			AutoSimplify.deployGrabber(robot);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.halfTurnLeft(robot, 0, .8);
+			break;
+		case 4:
+			AutoSimplify.deployGrabber(robot);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.goStraight(robot, 13 * INCHES, 0, .5);
+			break;
+		case 5:
+			//AutoSimplify.parobote(robot, 1.0);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.launchCube(robot);
+			break;
+		case 6:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.goStraight(robot, 1.5 * FEET, 0, -.5);//2.1
+			break;
+		case 7:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.halfTurnRight(robot, 65, -.8);
+			break;
+		case 8:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.goStraight(robot, 3.6 * FEET, 65, -.5);
+			break;
+		case 9:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.autoPIDTurn(robot, 0);
+			AutoSimplify.openGrabber(robot);
+			break;
+		case 10:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.goStraight(robot, 20 * INCHES, 0, .5);//15
 			break;
 		case 11:
-			//AutoSimplify.pause(robot, 1.0);
+			//AutoSimplify.parobote(robot, 1.0);
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 			AutoSimplify.grabCube(robot);
 			break;
 		case 12:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 			AutoSimplify.goStraight(robot,  14 * INCHES, 0, -.6);
 			break;
 		case 13:
@@ -231,7 +297,7 @@ public class CenterRightSwitchHalf {
 			break;
 		case 14:
 			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(robot, 26 * INCHES, -125, .6);
+			AutoSimplify.goStraight(robot, 24 * INCHES, -125, .6);
 			break;
 		case 15:
 			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
@@ -239,13 +305,14 @@ public class CenterRightSwitchHalf {
 			break;
 		case 16:
 			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
-			AutoSimplify.goStraight(robot, 4 * INCHES, 180, .6);
+			AutoSimplify.goStraight(robot, 1 * INCHES, 180, .4);
 			break;
 		case 17:
 			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
-			//AutoSimplify.launchCube(robot);
+			AutoSimplify.launchExCube(robot);
 			break;
 		case 18:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 			robot.driveRobot(0,0);
 			break;
 		}
@@ -272,7 +339,7 @@ public class CenterRightSwitchHalf {
 			AutoSimplify.goStraight(robot, 13 * INCHES, 0, .6);
 			break;
 		case 5:
-			//AutoSimplify.pause(robot, 1.0);
+			//AutoSimplify.parobote(robot, 1.0);
 			AutoSimplify.launchCube(robot);
 			break;
 		case 6:
@@ -297,7 +364,7 @@ public class CenterRightSwitchHalf {
 			AutoSimplify.goStraight(robot, 23 * INCHES, 0, .6);//15
 			break;
 		case 11:
-			//AutoSimplify.pause(robot, 1.0);
+			//AutoSimplify.parobote(robot, 1.0);
 			AutoSimplify.grabCube(robot);
 			break;
 		case 12:
@@ -319,7 +386,7 @@ public class CenterRightSwitchHalf {
 			AutoSimplify.goStraight(robot, 2 * INCHES, 0, .6);
 			break;
 		case 16:
-			//AutoSimplify.pause(robot, 1.0);
+			//AutoSimplify.parobote(robot, 1.0);
 			AutoSimplify.launchCube(robot);
 			break;
 		case 17:
@@ -345,7 +412,7 @@ public class CenterRightSwitchHalf {
 			break;
 		case 22:
 			AutoSimplify.lowerElevator(robot, 600);
-			//AutoSimplify.pause(robot, 1.0);
+			//AutoSimplify.parobote(robot, 1.0);
 			AutoSimplify.grabCube(robot);
 			break;
 		case 23:
@@ -368,6 +435,132 @@ public class CenterRightSwitchHalf {
 			//AutoSimplify.launchCube(robot);
 			break;
 		case 28:
+			robot.driveRobot(0,0);
+			break;
+		}
+	}
+	
+	static void centerSwitchAlmostScale(Robot robot){
+		int side = 1;
+		
+		if (robot.scaleLeft) 
+			side = -1; 
+		
+		switch (robot.autoStep) {
+/*		case 1:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.deployGrabber(robot);
+			AutoSimplify.halfTurnRight(robot, 40, .8);
+			break;
+		case 2:
+			AutoSimplify.deployGrabber(robot);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.goStraight(robot, 62 * INCHES, 40, .5);
+			break;
+		case 3:
+			AutoSimplify.deployGrabber(robot);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.halfTurnLeft(robot, 0, .8);
+			break;
+		case 4:
+			AutoSimplify.deployGrabber(robot);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.goStraight(robot, 13 * INCHES, 0, .5);
+			break;
+		case 5:
+			//AutoSimplify.parobote(robot, 1.0);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.launchCube(robot);
+			break;
+		case 6:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.goStraight(robot, 1.5 * FEET, 0, -.5);//2.1
+			break;
+		case 7:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.halfTurnRight(robot, 65, -.8);
+			break;
+		case 8:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.goStraight(robot, 3.6 * FEET, 65, -.5);
+			break;
+		case 9:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.autoPIDTurn(robot, 0);
+			AutoSimplify.openGrabber(robot);
+			break;
+		case 10:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.goStraight(robot, 23 * INCHES, 0, .5);//15
+			break; */
+		case 1:
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.deployGrabber(robot);
+			AutoSimplify.halfTurnRight(robot, 40, .8);
+			break;
+		case 2:
+			AutoSimplify.deployGrabber(robot);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.goStraight(robot, 56 * INCHES, 40, .5);
+			break;
+		case 3:
+			AutoSimplify.deployGrabber(robot);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.halfTurnLeft(robot, 0, .8);
+			break;
+		case 4:
+			AutoSimplify.deployGrabber(robot);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.goStraight(robot, 13 * INCHES, 0, .5);
+			break;
+		case 5:
+			//AutoSimplify.parobote(robot, 1.0);
+			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.launchCube(robot);
+			break;
+		case 6:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.goStraight(robot, 1.5 * FEET, 0, -.5);//2.1
+			break;
+		case 7:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.halfTurnRight(robot, 65, -.8);
+			break;
+		case 8:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.goStraight(robot, 3.6 * FEET, 65, -.5);
+			break;
+		case 9:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.autoPIDTurn(robot, 0);
+			AutoSimplify.openGrabber(robot);
+			break;
+		case 10:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.goStraight(robot, 20 * INCHES, 0, .5);//15
+			break;
+		case 11:
+			//AutoSimplify.parobote(robot, 1.0);
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.grabCube(robot);
+			break;
+		case 12:
+			AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+			AutoSimplify.autoPIDTurn(robot, 80 * side);
+			break;
+			
+		case 13:
+			AutoSimplify.lowerElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.goStraight(robot, 6 * FEET, 80 * side, 0.6); //check goStraight val here
+			break;
+
+		case 14:
+			AutoSimplify.lowerElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.goStraight(robot, 0.5 * FEET, 0, -0.5);
+			if (robot.encoderWrist.getRaw() < 1100) {
+				robot.wrist.set(ControlMode.PercentOutput, 0);
+			}
+			else robot.wrist.set(ControlMode.PercentOutput, 0.9); 
 			robot.driveRobot(0,0);
 			break;
 		}

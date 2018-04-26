@@ -17,6 +17,7 @@ public class LeftSwitch_Exchange {
 		
 			switch(robot.autoStep) {
 			case 1:
+				AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 				AutoSimplify.deployGrabber(robot);
 				AutoSimplify.halfTurnLeft(robot, -45, 0.8);
 				break;
@@ -40,6 +41,7 @@ public class LeftSwitch_Exchange {
 				break;
 				
 			case 5:
+				AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
 				AutoSimplify.launchCube(robot); 
 				break;
 				
@@ -72,6 +74,7 @@ public class LeftSwitch_Exchange {
 				break;
 			
 			case 11:
+				AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 				AutoSimplify.grabCube(robot); 
 				break;
 			
@@ -81,19 +84,24 @@ public class LeftSwitch_Exchange {
 				AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 				break;
 			case 13:
-				AutoSimplify.autoPIDStraight(robot, 2.3*FEET, -125, 0.4);
+				AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+				AutoSimplify.autoPIDStraight(robot, 2*FEET, -125, 0.4);
 				break;
 			case 14:
+				AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 				AutoSimplify.halfTurnLeft(robot, -170, 0.8);
 				break;
 			case 15:
+				AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 				AutoSimplify.autoPIDStraight(robot, 5*INCHES, -175, 0.3);
 				
 			break;
 			case 16:
-				AutoSimplify.launchCube(robot);
+				AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
+				AutoSimplify.launchExCube(robot);
 				break;
 			case 17:
+				AutoSimplify.lowerElevator(robot, robot.BOTTOM_HEIGHT);
 				robot.driveRobot(0,0);
 				break;
 				

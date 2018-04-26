@@ -17,6 +17,8 @@ public class CenterLeftSwitchScale {
 		switch(us.autoStep) {
 		
 		case 1:
+			
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.deployGrabber(us);
 			AutoSimplify.halfTurnLeft(us, -45, 0.8);
 			break;
@@ -40,6 +42,7 @@ public class CenterLeftSwitchScale {
 			break;
 			
 		case 5:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.launchCube(us); 
 			break;
 			
@@ -72,18 +75,22 @@ public class CenterLeftSwitchScale {
 			break;
 		
 		case 11:
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.grabCube(us); 
 			break;
 			
 		case 12:
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.autoPIDTurn(us, 80 * side);
 			break;
 			
 		case 13:
+			AutoSimplify.lowerElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.goStraight(us, 6 * FEET, 80 * side, 0.6); //check goStraight val here
 			break;
 
 		case 14:
+			AutoSimplify.lowerElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.goStraight(us, 0.5 * FEET, 0, -0.5);
 			if (us.encoderWrist.getRaw() < 1100) {
 				us.wrist.set(ControlMode.PercentOutput, 0);

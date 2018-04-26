@@ -87,6 +87,7 @@ public class Robot extends TimedRobot {
 	boolean engagePTO = false;
 	int pov = 0;
 	int POVReadOut = functionStick.getPOV(pov);
+	boolean autoTape = false;
 	// GameData Stuff
 	String  gameData = "";
 	boolean switchLeft;
@@ -266,6 +267,7 @@ public class Robot extends TimedRobot {
 		autoLoopCounter = 0;
 		autoStep = 1;
 		newStep = true;
+		autoTape = false;
 
 		navX.zeroYaw();
 		resetEncoders();
@@ -312,6 +314,7 @@ public class Robot extends TimedRobot {
 //					CenterRightSwitchHalf.vault2(this);
 				}
 				else {
+					CenterRightSwitchHalf.centerSwitchAlmostScale(this);
 					
 				}
 			}
@@ -320,7 +323,8 @@ public class Robot extends TimedRobot {
 			if (scaleLeft)
 				RightLeftScaleCube.rightStart(this);
 			else
-				Right_Scale_BackUp.run(this);;
+				//Right_Scale_BackUp.run(this);
+				ScaleScaleCombo.rightStart(this);
 			break;
 		case 3:  //starts from left and controls scale
 			if (scaleLeft)
@@ -362,20 +366,23 @@ public class Robot extends TimedRobot {
 			else RightLeftScaleCube.leftStart(this);
 			break; */
 		case 6: //Starts from the right and stays on side (Switch priority)
-			if (!switchLeft) 
+			if (!switchLeft && scaleLeft) 
 				GoStraightAutonomous.autoOnSideRightSwitchOnly(this);
 //				RightLeftScaleCube.rightStart(this);   // change me
-			else if (scaleLeft) 
-				RightLeftScaleCube.rightStart(this);
-			else{
+			else if (!scaleLeft && !switchLeft) 
+				GoStraightAutonomous.autoOnSideRightSwitchScale(this);
+			else if (!scaleLeft){
 				ScaleScaleCombo.rightStart(this);
 			}
-			
+			else{
+				FarScaleNoCube.rightStart(this);
+			}
 			break;
 		case 7: //Starts from the left and stays on side (Switch priority)
-			if (switchLeft) GoStraightAutonomous.autoOnSideLeftSwitchOnly(this);
+			if (switchLeft && !scaleLeft) GoStraightAutonomous.autoOnSideLeftSwitchOnly(this);
+			else if (scaleLeft && switchLeft) GoStraightAutonomous.autoOnSideLeftSwitchScale(this);
 			else if (scaleLeft) ScaleScaleCombo.leftStart(this);
-			else RightLeftScaleCube.leftStart(this);
+			else FarScaleNoCube.leftStart(this);
 		}
 
 	}

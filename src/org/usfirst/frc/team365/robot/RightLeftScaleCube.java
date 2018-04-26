@@ -47,6 +47,7 @@ public class RightLeftScaleCube {
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
 		case 6:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			AutoSimplify.launchCube(us);
 			break;
 		case 7:
@@ -67,14 +68,17 @@ public class RightLeftScaleCube {
 			AutoSimplify.goStraight(us, .75*FEET, 165, 0.4);
 			break;
 		case 11:
+			AutoSimplify.downElevatorStep(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.grabCube(us);
 			break;
 		case 12:
 			AutoSimplify.upElevatorStep(us, us.HEIGHT_FOR_SWITCH);
 			break;
 		case 13:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.autoPIDTurn(us, 0);
 			break;
+		
 		}
 	}
 	
@@ -117,6 +121,7 @@ public class RightLeftScaleCube {
 			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			break;
 		case 6:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SCALE);
 			AutoSimplify.launchCube(us);
 			break;
 		case 7:
@@ -137,12 +142,14 @@ public class RightLeftScaleCube {
 			AutoSimplify.goStraight(us, .75*FEET, -165, 0.4);
 			break;
 		case 11:
+			AutoSimplify.lowerElevator(us, us.BOTTOM_HEIGHT);
 			AutoSimplify.grabCube(us);
 			break;
 		case 12:
 			AutoSimplify.upElevatorStep(us, us.HEIGHT_FOR_SWITCH);
 			break;
 		case 13:
+			AutoSimplify.raiseElevator(us, us.HEIGHT_FOR_SWITCH);
 			AutoSimplify.autoPIDTurn(us, 0);
 			break;
 		}
