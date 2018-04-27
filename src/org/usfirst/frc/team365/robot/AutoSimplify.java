@@ -388,12 +388,12 @@ static void dropCube(Robot us) {
 //				us.rampUpPower = us.rampUpPower + 0.05;
 				if (power > 0) {
  
-						if (us.getEncoderMax() > ticks - 400) power = 0.35;
+						if (us.getEncoderMax() > ticks - 600) power = 0.35;
 					
 				}
 				else {
 
-						if (us.getEncoderMax() > ticks - 400) power = -0.35;
+						if (us.getEncoderMax() > ticks - 600) power = -0.35;
 				}
 				us.driveRobot(power + us.driveStraightCorrection.correctionValue,
 						power - us.driveStraightCorrection.correctionValue);

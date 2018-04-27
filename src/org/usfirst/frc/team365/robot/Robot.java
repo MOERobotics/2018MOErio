@@ -325,7 +325,8 @@ public class Robot extends TimedRobot {
 			break;
 		case 2:		// Starts from right and controls scale
 			if (scaleLeft)
-				RightLeftScaleCube.rightStart(this);
+				//RightLeftScaleCube.rightStart(this);
+				ScaleSwitchCombo.rightFarSideStart(this);
 			else
 				//Right_Scale_BackUp.run(this);
 				ScaleScaleCombo.rightStart(this);
@@ -334,23 +335,25 @@ public class Robot extends TimedRobot {
 			if (scaleLeft)
 				ScaleScaleCombo.leftStart(this);
 			else
-				RightLeftScaleCube.leftStart(this);
+				//RightLeftScaleCube.leftStart(this);
+				ScaleSwitchCombo.leftFarSideStart(this);
 			break;
 		case 4: //Starts from the right and stays on side
 			if (scaleLeft && switchLeft) 
 				FarScaleNoCube.rightStart(this);
 //				RightLeftScaleCube.rightStart(this);   // change me
 			else if (scaleLeft && !switchLeft) 
-				GoStraightAutonomous.autoOnSideRightSwitchOnly(this);
+				GoStraightAutonomous.doubleSwitchRightOnly(this);
+				//GoStraightAutonomous.autoOnSideRightSwitchOnly(this);
 			else if (!scaleLeft && switchLeft) {
 				ScaleScaleCombo.rightStart(this);
 			}
-			else ScaleScaleCombo.rightStart(this);;
+			else ScaleScaleCombo.rightStart(this);
 			break;
 		case 5: //Starts from the left and stays on side
 			if (scaleLeft && switchLeft) ScaleScaleCombo.leftStart(this);
 			else if (scaleLeft && !switchLeft) ScaleScaleCombo.leftStart(this);
-			else if (!scaleLeft && switchLeft) GoStraightAutonomous.autoOnSideLeftSwitchOnly(this);
+			else if (!scaleLeft && switchLeft) GoStraightAutonomous.doubleSwitchLeftOnly(this); //GoStraightAutonomous.autoOnSideLeftSwitchOnly(this);
 			else {
 				FarScaleNoCube.leftStart(this);
 //				RightLeftScaleCube.leftStart(this);   // change me
@@ -388,16 +391,22 @@ public class Robot extends TimedRobot {
 			else if (scaleLeft) ScaleScaleCombo.leftStart(this);
 			else FarScaleNoCube.leftStart(this);
 			break;
-		case 8: //Right start 
+		case 8: //Right start (stay on side making room with team)
 			if(!scaleLeft) Right_Scale_BackUp.run(this);
 			else if (!switchLeft) GoStraightAutonomous.doubleSwitchRightOnly(this); 
 			else FarScaleNoCube.rightStart(this);
-			break;
-		case 9: //Left start 
+			break; 
+/*			if(!scaleLeft)ScaleSwitchCombo.rightSameSideStart(this);
+			else ScaleSwitchCombo.rightFarSideStart(this);
+			break; */
+		case 9: //Left start (stay on side making room with team)
 			if(scaleLeft) Left_Scale_BackUp.run(this);
 			else if (switchLeft) GoStraightAutonomous.doubleSwitchLeftOnly(this); //Change
 			else FarScaleNoCube.leftStart(this);
-			break;
+			break; 
+/*			if(scaleLeft) ScaleSwitchCombo.leftSameSideStart(this);
+			else ScaleSwitchCombo.leftFarSideStart(this);
+			break;*/ 
 		}
 
 	}
@@ -491,7 +500,15 @@ public class Robot extends TimedRobot {
 			driveElevator((upperElevator * functionStick.getTriggerAxis(Hand.kRight)));
 		}
 		//Earthquake
-		if(DriverStation.getInstance().getMatchTime() <= 30 && DriverStation.getInstance().getMatchTime() >= 28){
+		//Pulses the vibration for last 5 seconds
+		if( (DriverStation.getInstance().getMatchTime() <= 30 && DriverStation.getInstance().getMatchTime() >= 28) ||
+			(DriverStation.getInstance().getMatchTime() <= 20 && DriverStation.getInstance().getMatchTime() >= 19) ||
+			(DriverStation.getInstance().getMatchTime() <= 10 && DriverStation.getInstance().getMatchTime() >= 9)  ||
+			(DriverStation.getInstance().getMatchTime() <= 5 && DriverStation.getInstance().getMatchTime() >= 4.5) || 
+			(DriverStation.getInstance().getMatchTime() <= 4 && DriverStation.getInstance().getMatchTime() >= 3.5) || 
+			(DriverStation.getInstance().getMatchTime() <= 3 && DriverStation.getInstance().getMatchTime() >= 2.5) ||
+			(DriverStation.getInstance().getMatchTime() <= 2 && DriverStation.getInstance().getMatchTime() >= 1.5) ||
+			(DriverStation.getInstance().getMatchTime() <= 1 && DriverStation.getInstance().getMatchTime() >= 0.1)){
 			functionStick.setRumble(RumbleType.kLeftRumble, 1);
 			functionStick.setRumble(RumbleType.kRightRumble, 1);
 		} 

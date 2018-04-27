@@ -9,7 +9,7 @@ public class ScaleScaleCombo {
 		switch(robot.autoStep) {
 
 		case 1:
-			AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+			AutoSimplify.raiseElevator(robot, 3000);
 			AutoSimplify.autoPIDStraight(robot, 15.75*FEET, 0, 0.7);
 			AutoSimplify.deployGrabber(robot);
 			//ROBOT GOES STRAIGHT
@@ -18,14 +18,14 @@ public class ScaleScaleCombo {
 
 		case 2:
 			AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
-			AutoSimplify.autoPIDTurn(robot, 27);
+			AutoSimplify.autoPIDTurn(robot, 25);
 			AutoSimplify.deployGrabber(robot);
 			//ROBOT TURNS AND GRABBER LOWERS
 			break;
 
 		case 3:
 			AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
-			AutoSimplify.goStraight(robot, 4.083*FEET, 27, 0.5);
+			AutoSimplify.goStraight(robot, 4.083*FEET, 25, 0.5);
 			robot.autoTape = false;
 			// ROBOT GOES STRAIGHT
 			break;
@@ -38,7 +38,7 @@ public class ScaleScaleCombo {
 			break;
 		case 5: 
 			AutoSimplify.lowerElevator(robot, robot.HEIGHT_ABOVE_CUBE);
-			AutoSimplify.goStraight(robot, 33*INCHES, 27, -0.4);
+			AutoSimplify.goStraight(robot, 33*INCHES, 25, -0.4);
 			//ELEVATOR DOWN AND MOVING BACKWARDS
 
 			break;
@@ -51,7 +51,7 @@ public class ScaleScaleCombo {
 		case 7:	
 			AutoSimplify.lowerElevator(robot, robot.HEIGHT_ABOVE_CUBE);
 			//AutoSimplify.openGrabber(robot);
-			AutoSimplify.goStraight(robot, 2.8*FEET, 90, 0.4);
+			AutoSimplify.goStraight(robot, 2.9*FEET, 90, 0.4);
 			//ROBOT GOES STRAIGHT
 			break;
 		case 8:
@@ -98,9 +98,8 @@ public class ScaleScaleCombo {
 
 		public static void rightStart(Robot robot) {
 			switch(robot.autoStep) {
-
 			case 1:
-				AutoSimplify.raiseElevator(robot, robot.HEIGHT_FOR_SWITCH);
+				AutoSimplify.raiseElevator(robot, 3000);
 				AutoSimplify.autoPIDStraight(robot, 15.75*FEET, 0, 0.7);
 				AutoSimplify.deployGrabber(robot);
 				//ROBOT GOES STRAIGHT
@@ -109,14 +108,14 @@ public class ScaleScaleCombo {
 
 			case 2:
 				AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
-				AutoSimplify.autoPIDTurn(robot, -27);
+				AutoSimplify.autoPIDTurn(robot, -25);
 				AutoSimplify.deployGrabber(robot);
 				//ROBOT TURNS AND GRABBER LOWERS
 				break;
 
 			case 3:
 				AutoSimplify.raiseElevator(robot,robot.HEIGHT_FOR_SCALE);
-				AutoSimplify.goStraight(robot, 4.083*FEET, -27, 0.5);
+				AutoSimplify.goStraight(robot, 4.083*FEET, -25, 0.5);
 				// ROBOT GOES STRAIGHT
 				break;
 
@@ -127,7 +126,7 @@ public class ScaleScaleCombo {
 				break;
 			case 5: 
 				AutoSimplify.lowerElevator(robot, robot.HEIGHT_ABOVE_CUBE);
-				AutoSimplify.goStraight(robot, 33*INCHES, -27, -0.4);
+				AutoSimplify.goStraight(robot, 33*INCHES, -25, -0.4);
 				//ELEVATOR DOWN AND MOVING BACKWARDS
 
 				break;
@@ -139,7 +138,7 @@ public class ScaleScaleCombo {
 			case 7:	
 				AutoSimplify.lowerElevator(robot, robot.HEIGHT_ABOVE_CUBE);
 				//AutoSimplify.openGrabber(robot);
-				AutoSimplify.goStraight(robot, 2.8*FEET, -90, 0.4);
+				AutoSimplify.goStraight(robot, 2.9*FEET, -90, 0.4);
 				//ROBOT GOES STRAIGHT
 				break;
 			case 8:
