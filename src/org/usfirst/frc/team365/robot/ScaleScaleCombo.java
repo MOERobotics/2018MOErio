@@ -51,7 +51,7 @@ public class ScaleScaleCombo {
 		case 7:	
 			AutoSimplify.lowerElevator(robot, robot.HEIGHT_ABOVE_CUBE);
 			//AutoSimplify.openGrabber(robot);
-			AutoSimplify.goStraight(robot, 2.9*FEET, 90, 0.4);
+			AutoSimplify.goStraight(robot, 2.5*FEET, 90, 0.4);
 			//ROBOT GOES STRAIGHT
 			break;
 		case 8:
@@ -138,7 +138,7 @@ public class ScaleScaleCombo {
 			case 7:	
 				AutoSimplify.lowerElevator(robot, robot.HEIGHT_ABOVE_CUBE);
 				//AutoSimplify.openGrabber(robot);
-				AutoSimplify.goStraight(robot, 2.9*FEET, -90, 0.4);
+				AutoSimplify.goStraight(robot, 2.5*FEET, -90, 0.4);
 				//ROBOT GOES STRAIGHT
 				break;
 			case 8:

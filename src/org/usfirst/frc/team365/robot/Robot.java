@@ -4,7 +4,7 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
+//Ahhh, it was fun time! 10 out of 10 would do again! - Arya 
 package org.usfirst.frc.team365.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -425,13 +425,22 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		lightsR.setPulseDuration(.5);
 		lightsL.setPulseDuration(0.5);
-		if(driveStick.getRawButtonReleased(5)){
-			lightsR.startPulse();
-			lightsL.startPulse();
+		if(functionStick.getX(Hand.kLeft) < -0.2){
+			lightsL.set(true);
 		}
-		if(driveStick.getRawButton(7)){
+		else if(functionStick.getX(Hand.kLeft) > 0.2){
+			lightsR.set(true);
+		}
+		else{
 			lightsR.set(false);
 			lightsL.set(false);
+		}
+		
+		if(functionStick.getY(Hand.kLeft) > .7){
+			if(autoTimer.hasPeriodPassed(.3)){
+				lightsR.set(!lightsR.get());
+				lightsL.set(!lightsL.get());
+			}
 		}
 		double yJoy = -driveStick.getY();
 		double xJoy = driveStick.getX();
