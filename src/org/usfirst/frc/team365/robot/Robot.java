@@ -485,7 +485,7 @@ public class Robot extends TimedRobot {
 		if(cam1On) server.setSource(cam1);
 		else server.setSource(cam2); */
 		//Shifting
-		if(functionStick.getStartButtonPressed()) shiftClimb();
+		//if(functionStick.getStartButtonPressed()) shiftClimb();
 		if(functionStick.getBackButtonPressed()) shiftDrive();
 		//Rollers DONE
 		if(functionStick.getAButton()) rollIn();
