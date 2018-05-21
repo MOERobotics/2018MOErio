@@ -444,6 +444,13 @@ public class Robot extends TimedRobot {
 		}
 		double yJoy = -driveStick.getY();
 		double xJoy = driveStick.getX();
+		
+		if(!driveStick.getRawButton(5)) {
+			yJoy *= 0.5;
+			xJoy *= 0.5;
+		}
+		
+		
 		if (shifter.get()) {
 			if(functionStick.getStickButton(Hand.kLeft)) { 
 				climb(); //AutoClimb
