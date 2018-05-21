@@ -473,9 +473,9 @@ public class Robot extends TimedRobot {
 				driveRobot(-0.3, -0.3);
 			}
 			else if (functionStick.getPOV(0) >= 45 && functionStick.getPOV(0) <= 135 && !engagePTO) { // turn robot left
-				driveRobot(0.6, -0.6);
+				driveRobot(0.5, -0.5);
 			} else if (functionStick.getPOV(0) >= 225 && functionStick.getPOV(0) <= 315 && !engagePTO) {
-				driveRobot(-0.6, 0.6);
+				driveRobot(-0.5, 0.5);
 			} else {
 				double left = yJoy + xJoy;
 				double right = yJoy - xJoy;
