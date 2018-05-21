@@ -466,6 +466,9 @@ public class Robot extends TimedRobot {
 			if (driveStick.getTrigger()) {
 				driveRobot(yJoy, yJoy);
 			} 
+			else if (functionStick.getPOV(0) == 0) {
+				driveRobot(0.3, 0.3);
+			}
 			else if (functionStick.getPOV(0) == 180){
 				driveRobot(-0.3, -0.3);
 			}
