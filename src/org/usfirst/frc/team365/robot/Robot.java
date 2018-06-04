@@ -585,7 +585,7 @@ public class Robot extends TimedRobot {
 		if(elevatorBottomLimitSwitch.get() && bottom) { //Drive positive
 			if(power < 0) power = 0;
 		}
-		else if(encoderElevator.getRaw() > 5500 && top) {//Drive negative
+		else if(encoderElevator.getRaw() > 6660 && top) {//Drive negative
 			if(power > 0) power = 0;
 		}
 		else if(power < backDrive && power > -0.005) {
