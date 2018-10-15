@@ -197,9 +197,11 @@ public class Robot extends TimedRobot {
 
 		// Uncomment to stream video from the camera.
 		// Documentation here on setting modes: https://wpilib.screenstepslive.com/s/currentCS/m/vision/l/669166-using-the-cameraserver-on-the-roborio
-/*		cam1 =CameraServer.getInstance().startAutomaticCapture(0);
+//		cam1 =CameraServer.getInstance().startAutomaticCapture(0);
+//		cam1.setWhiteBalanceAuto();
 		cam2 = CameraServer.getInstance().startAutomaticCapture(1);
-		server = CameraServer.getInstance().getServer(); */
+		cam2.setWhiteBalanceAuto();
+/*		server = CameraServer.getInstance().getServer(); */
 		CameraServer.getInstance().startAutomaticCapture();
 		
 		System.out.println("It'sa me, MOERio!");
@@ -482,7 +484,7 @@ public class Robot extends TimedRobot {
 		
 		//Camera
 /*		cameraToggle();
-		if(cam1On) server.setSource(cam1);
+		if(On) server.setSource(cam1);
 		else server.setSource(cam2); */
 		//Shifting
 		if(functionStick.getStartButtonPressed()) shiftClimb();
