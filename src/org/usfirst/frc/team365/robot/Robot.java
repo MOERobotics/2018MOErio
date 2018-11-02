@@ -465,8 +465,17 @@ public class Robot extends TimedRobot {
 			double right = yJoy - xJoy;
 			driveRobot(-Math.abs(left), -Math.abs(right));*/
 		} else {
-			if (driveStick.getTrigger()) {
+			if (driveStick.getRawButton(6)) { //drives straight 
 				driveRobot(yJoy, yJoy);
+			}
+			else if (driveStick.getRawButton(5)) { //drives at half power
+				driveRobotHalf(yJoy + xJoy, yJoy - xJoy);
+			} 
+			else if (driveStick.getRawButton(8)) { //drives straight - clone
+				driveRobot(yJoy, yJoy);
+			}
+			else if (driveStick.getRawButton(7)) { //drives at half power - clone
+				driveRobotHalf(yJoy + xJoy, yJoy - xJoy);
 			} 
 			else if (functionStick.getPOV(0) == 180){
 				driveRobot(-0.3, -0.3);
@@ -548,6 +557,15 @@ public class Robot extends TimedRobot {
 		driveLB.set(ControlMode.PercentOutput, leftPower);
 		driveRA.set(ControlMode.PercentOutput, rightPower);
 		driveRB.set(ControlMode.PercentOutput, rightPower);
+	}
+	
+	void driveRobotHalf(double leftPower, double rightPower) { //drives robot at half power
+		driveOutputLeft = leftPower;
+		driveOutputRight = rightPower;
+		driveLA.set(ControlMode.PercentOutput, leftPower/2);
+		driveLB.set(ControlMode.PercentOutput, leftPower/2);
+		driveRA.set(ControlMode.PercentOutput, rightPower/2);
+		driveRB.set(ControlMode.PercentOutput, rightPower/2);
 	}
 	
 	public void resetEncoders() {
